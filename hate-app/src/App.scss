@@ -1,1 +1,31 @@
 @import "./styles/navbar";
+
+input {
+  height: 40px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px #101113 solid;
+  background: none;
+  font-size: 1.5rem;
+  color: #787a80;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  width: 25%;
+  height: 45px;
+  border: none;
+  margin-left: 10px;
+  font-size: 25px;
+  background: #101113;
+  border-radius: 5px;
+  color: #787a80;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
