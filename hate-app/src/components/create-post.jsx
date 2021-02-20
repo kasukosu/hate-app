@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const CreatePost = () => {
-    
+    const url = 'http://localhost:5000/api/posts';
     const [blogpost, setBlogPost] = useState({
         message:"", author:""
     })
@@ -10,9 +10,9 @@ const CreatePost = () => {
     const addPost = (e) => {
         e.preventDefault();
         const post = {author:blogpost.author, message: blogpost.message}
-
+        console.log(post);
         if(post.message && post.message.length > 0){
-            axios.post('./api/posts', post)
+            axios.post(url, post)
                 .then(res=> {
                     if(res.data){
                         setBlogPost({message: ""})
@@ -49,8 +49,6 @@ const CreatePost = () => {
                 </div>
 
                 <button onClick={addPost} type="submit">Submit</button>
-                <p>{blogpost.message}</p>
-                <p>{blogpost.author}</p>
 
             </form>
         </section>

@@ -14,7 +14,7 @@ const PostSchema = new Schema({
   meta: {
     votes: Number
   },
-  id:
+  
 
 })
 

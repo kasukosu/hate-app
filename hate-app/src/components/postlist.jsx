@@ -24,10 +24,10 @@ const Postlist = () => {
     return ( 
         <section className="postfeed">
             {error && <div>{error}</div>}
-            {isPending && <div>Loading...</div>}
+            {isPending && <div className="loader">Loading...</div>}
             {data &&
                 data.map((item) => 
-                    <Post post={item} key={item.id}/>
+                    <Post post={item} key={item._id}/>
                 )
             }
         </section>

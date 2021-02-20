@@ -1,0 +1,24 @@
+.postfeed{
+    width: 500px;
+    margin: auto;
+    padding: 40px 20px;
+    border: 2px rgba(0, 0, 0, 0.76) solid;
+
+}
+
+.post-content{
+   
+    
+}
+
+.post{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    div{
+        color: white;
+    }
+    h4,p,h2,h1{
+        color: white;
+    }
+}
