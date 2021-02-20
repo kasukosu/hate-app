@@ -1,42 +1,33 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import useFetch from './useFetch';
+import Post from './post';
 const Postlist = () => {
+    const url = 'http://localhost:5000/api/posts';
     
-    const [postList, setPostList] = useState([]);
-
-    const getBlogPosts = () => {
-        axios.get('/api/posts')
-            .then(res => {
-                if(res.data){
-                    console.log(res.data);
-                    setPostList(res.data);
-                }
-            })
-    }
+    const {data, isPending, error}  = useFetch(url)
+    
     
     const deletePost = (id) => {
         axios.delete(`/api/posts/${id}`)
             .then(res => {
                 if(res.data){
-                    getBlogPosts();
+                    
                 }
             })
             .catch(err => console.log(err))
     }
 
-    useEffect(()=> {
-        getBlogPosts();
-    },[])
+    
 
 
     return ( 
         <section className="postfeed">
-            {
-                postList.map(item => 
-                    <div>
-                        {item.message} 
-                    
-                    </div>
+            {error && <div>{error}</div>}
+            {isPending && <div>Loading...</div>}
+            {data &&
+                data.map((item) => 
+                    <Post post={item} key={item.id}/>
                 )
             }
         </section>

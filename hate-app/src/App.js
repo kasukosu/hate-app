@@ -13,10 +13,10 @@ function App() {
         <div className="container">
           <nav className="navbar">
             <div className="logo">
-              <h2>Hatesome</h2>
+              <h1>Hatesome</h1>
             </div>
             <ul>
-              <li><Link to="/">Posts</Link></li>
+              <li><Link to="/">Home</Link></li>
               <li><Link to="/create">Create</Link></li>
             </ul>
               

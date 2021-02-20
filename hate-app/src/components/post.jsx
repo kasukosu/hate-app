@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 const Post = (props) => {
     
+    let data = props.item;
     
     return ( 
         <div className="post">
@@ -13,7 +14,7 @@ const Post = (props) => {
                     <h4 className="username"></h4>
                     <span className="timestamp"></span>
                 </div>
-                <div className="post-message"></div>
+                <div className="post-message">{data.message}</div>
                 <div className="action-bar">
 
                 </div>
@@ -23,4 +24,4 @@ const Post = (props) => {
     );
 }
  
-export default Postlist;
+export default Post;

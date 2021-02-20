@@ -7,11 +7,12 @@ const CreatePost = () => {
         message:"", author:""
     })
 
-    const addPost = () => {
-        const blogpost = {author:blogpost.author, message: blogpost.message}
+    const addPost = (e) => {
+        e.preventDefault();
+        const post = {author:blogpost.author, message: blogpost.message}
 
-        if(blogpost.message && blogpost.message > 0){
-            axios.post('./api/posts', blogpost)
+        if(post.message && post.message.length > 0){
+            axios.post('./api/posts', post)
                 .then(res=> {
                     if(res.data){
                         setBlogPost({message: ""})
@@ -23,19 +24,34 @@ const CreatePost = () => {
         }
     }
 
-    const handleChange = (e) => {
+    const changeHandler = (e) => {
+        const value = e.target.value;
+        
         setBlogPost({
-          message: e.target.value
-        })
+          ...blogpost,
+          [e.target.name]: value
+        });
     }
+   
 
     
     return ( 
         <section className="create-post">
-            <h1>create-post</h1>
-            <form onSubmit={this.onFormSubmit}>
-                <input type="text"/>
-                <button type="submit">Submit</button>
+            <h1>So...    what do you hate today?</h1>
+            <form onSubmit={addPost}>
+                <div className="input-box">
+                    <label htmlFor="author">Hatertag</label>
+                    <input type="text" name="author" required value={blogpost.author} onChange={changeHandler}/>
+                </div>
+                <div className="input-box">
+                    <label htmlFor="message">Message</label>
+                    <textarea type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
+                </div>
+
+                <button onClick={addPost} type="submit">Submit</button>
+                <p>{blogpost.message}</p>
+                <p>{blogpost.author}</p>
+
             </form>
         </section>
     );

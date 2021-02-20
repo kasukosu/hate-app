@@ -13,7 +13,9 @@ const PostSchema = new Schema({
   },
   meta: {
     votes: Number
-  }
+  },
+  id:
+
 })
 
 //create model for todo

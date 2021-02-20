@@ -1,6 +1,6 @@
 .navbar{
     display: flex;
-    background-color: lightgray;
+    background-color: transparent;
     justify-content: center;
     align-items: center;
     ul{
@@ -8,10 +8,12 @@
         flex-direction: row;
         list-style-type: none;
         li{
-            margin-right: 5px;
+            margin-right: 25px;
             
             a{
                 text-decoration: none;
+                color: white;
+                font-weight: 400;
             }
 
         }
