@@ -22,6 +22,57 @@
         color: white;
         margin: 0;
     }
+    .modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0, 0, 0, 0.253);
+        width: 100vw;
+        height: 100vh;
+        z-index: 3;
+        &.hide{
+            display: none;
+        }
+        .modal-main{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #363B59;
+            height: 400px;
+            width: 500px;
+            gap: 15px;
+            
+            .btn-group{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                button{
+                    padding: 8px 14px;
+                    border-radius: 8px;
+                    border: none;
+                    font-family: inherit;
+                    font-weight: 700;
+                    margin-right: 15px;
+                    &.confirm{
+                        background-color: #ED5E68;
+                        color: white;
+                    }
+    
+                    &.cancel{
+                        background-color: #8388A4;
+                        color: #2A2E47;
+                    }
+                }
+            }
+            
+        }
+    }
+
     .username{
         font-weight: 500;
 
@@ -71,8 +122,9 @@
                 flex-direction: column;
                 list-style-type: none;
                 background-color: black;
-                box-shadow: 0 0 10px white;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.253);
                 padding-left: 0;
+                padding: 5px;
                 li{
                     z-index: 3;
                     width: 100%;

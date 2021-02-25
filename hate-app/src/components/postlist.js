@@ -1,6 +1,4 @@
-import axios from 'axios';
 import React from 'react';
-import useFetch from './useFetch';
 import Post from './post';
 
 import {db} from "../firebase/firebaseConfig"; 
@@ -11,22 +9,6 @@ const Postlist = () => {
     const postsRef = db.collection('posts');
     const query = postsRef.orderBy('createdAt').limit(20);
     const [posts] = useCollectionData(query, {idField: 'id'});
-    // console.log(useCollectionData(query, {idField: 'id'}));
-
-    
-    const deletePost = (id) => {
-        axios.delete(`/api/posts/${id}`)
-            .then(res => {
-                if(res.data){
-                    
-                }
-            })
-            .catch(err => console.log(err))
-    }
-
-    
-
-
     return ( 
         <section className="postfeed">
             {/* {error && <div>{error}</div>}
@@ -37,7 +19,7 @@ const Postlist = () => {
                 )
             } */}
 
-            {posts && posts.map(post => <Post key={post.id} post={post}/>)}
+            {posts && posts.map(post => <Post key={post.id} post={post}/> )}
         </section>
         
     );
