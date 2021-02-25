@@ -1,24 +1,40 @@
 .postfeed{
+    display: flex;
+    flex-direction: column;
     width: 500px;
     margin: auto;
     padding: 40px 20px;
     border: 2px rgba(0, 0, 0, 0.76) solid;
-
-}
-
-.post-content{
-   
-    
+    gap: 20px;
 }
 
 .post{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    border: 2px rgba(0, 0, 0, 0.76) solid;
+    padding: 5px 10px;
+    
     div{
         color: white;
     }
     h4,p,h2,h1{
         color: white;
+        margin: 0;
     }
+    .username{
+        font-weight: 500;
+
+    }
+
+    .post-heading{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        img{
+            width: 25px;
+        }
+    }
+
 }
