@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import './App.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
+
+import './App.scss';
 import PostList from "./components/postlist";
 import EditPost from "./components/edit-post";
 import CreatePost from "./components/create-post";
 
-import {auth, firebase} from "./firebase/firebaseConfig"; 
-
+import {auth} from "./firebase/firebaseConfig"; 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+
 
 function App() {
 
@@ -29,35 +31,18 @@ const [user] = useAuthState(auth);
               <li><Link to="/create">Create</Link></li>
             </ul>
           </nav>
-          {user ?  <Route path="/" component={PostList}/>: <SignIn/>}
-          <Route path="/create" component={CreatePost}/>
-
-         <Route path="/edit/:id" component={EditPost}/> 
+          <Route path="/create" render={(user) =>( <CreatePost {...user} user={user} />)} /> 
+          <Route path="/" component={PostList}/>
+          <Route path="/edit/:id" component={EditPost}/> 
 
         </section>
 
-        <section className="signin">
-        </section>
+       
       </div>
     </Router>
   );
 }
 
-function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-}
-return ( 
 
-    <button onClick={signInWithGoogle}>Sign in with google</button>
- );
-}
-
-function SignOut() {
-  return auth.currentUser && ( 
-      <button onClick={() => auth.signOut()}>Sign out</button>
-  );
-}
 
 export default App;

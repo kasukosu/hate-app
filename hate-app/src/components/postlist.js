@@ -3,20 +3,15 @@ import React from 'react';
 import useFetch from './useFetch';
 import Post from './post';
 
-import {auth, firebase, db} from "../firebase/firebaseConfig"; 
-import { useAuthState } from 'react-firebase-hooks/auth';
+import {db} from "../firebase/firebaseConfig"; 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 
-const Postlist = () => {
-    const url = 'http://localhost:5000/api/posts';
-    
-    const {data, isPending, error}  = useFetch(url)
-    
+const Postlist = () => {    
     const postsRef = db.collection('posts');
-    const query = postsRef.orderBy('createdAt').limit(10);
+    const query = postsRef.orderBy('createdAt').limit(20);
     const [posts] = useCollectionData(query, {idField: 'id'});
-    console.log(useCollectionData(query, {idField: 'id'}));
+    // console.log(useCollectionData(query, {idField: 'id'}));
 
     
     const deletePost = (id) => {
