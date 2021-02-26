@@ -11,10 +11,10 @@
 .post{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    // gap: 20px;
     border: 2px rgba(0, 0, 0, 0.76) solid;
-    padding: 5px 10px;
-    
+    background-color: #0a0b11;
+
     div{
         color: white;
     }
@@ -30,7 +30,7 @@
         position: fixed;
         top: 0px;
         left: 0px;
-        background-color: rgba(0, 0, 0, 0.253);
+        background-color: rgba(0, 0, 0, 0.25);
         width: 100vw;
         height: 100vh;
         z-index: 3;
@@ -84,7 +84,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        padding: 10px 10px;
+        padding: 5px 10px;
+        border-bottom: rgb(49, 49, 49) 1px solid;
         .left{
             display: flex;
             gap: 10px;
@@ -99,21 +100,54 @@
         }
     }
     .post-content{
-        padding: 0px 10px 10px 10px;
+        .post-message{
+            padding: 10px;
+            min-height: 80px;
+        }
+        .action-bar{
+            height: 20px;
+            padding: 10px 10px;
+            border-top: rgb(49, 49, 49) 1px solid;
+            display: flex;
+            flex-direction: row;
+            .votes{
+                position: relative;
+                align-self: flex-end;
+                &.no{
+                    position: absolute;
+
+                    &::after{
+                        position: absolute;
+                        left: 10px;
+                        content: "😠";
+                    }
+                }
+                &.yes{
+                    &::after{
+                        position: absolute;
+                        left: 10px;
+                        content: "😡";
+                    }
+                }
+                
+                
+            }
+        }
     }
     .controls{
         align-self: flex-end;
         position: relative;
         .btn{
             cursor: pointer;
+            padding: 8px;
         }
         .control-dropdown{
             display: none;
             position: absolute;
             width: 300px;
 
-            left: -280px;
-            top: -10px;
+            left: -290px;
+            top: 5px;
             z-index: 1;
             ul{
                 display: flex;

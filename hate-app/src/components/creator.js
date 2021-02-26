@@ -5,7 +5,6 @@ import { auth, firebase, db } from '../firebase/firebaseConfig';
 const Creator = () => {
 
     const postsRef = db.collection('posts');
-    // const url = 'http://localhost:5000/api/posts';
     const [blogpost, setBlogPost] = useState({
         message:"", author:""
     })
@@ -21,7 +20,7 @@ const Creator = () => {
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             message: blogpost.message,
             hidden: false,
-            votes: 0,
+            votes: [{}],
             comments: [{}],
         })
 

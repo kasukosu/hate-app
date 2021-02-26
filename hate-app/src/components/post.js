@@ -1,17 +1,17 @@
 import React, { useEffect, useState }  from 'react';
-import { auth, db } from '../firebase/firebaseConfig';
+import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import Confirmation from './confirmation';
 
 const Post = (props) => {
-    const {uid, message, id, photoURL, displayName, createdAt} = props.post;
-    const [time, setTime] = useState();
+    const {author, message, id, photoURL, displayName, createdAt, votes} = props.post;
+    // const [time, setTime] = useState();
     const [show, setShow] = useState();
-    const showHideClassName = show ? "modal display-block" : "modal display-none";
+    const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
-
+    console.log(props);
     const showModal = () => {
         setShow({ show: true });
     };
@@ -21,40 +21,50 @@ const Post = (props) => {
     };
 
     let owner = 'reader';
-    if(user!=null){
-        owner = uid === auth.currentUser.uid ? 'owner' : 'reader';
+   
 
-    }
-    let today = new Date().getTime()
-    let diffSeconds = (today/1000 - createdAt.seconds);
+    useEffect(() =>{
+        if(user!=null){
+            owner = author === auth.currentUser.uid ? 'owner' : 'reader';
+    
+            if(votes.includes(user.uid)){
+                setVoted({voted: true, class:"votes yes"});
+            }else{
+                setVoted({voted: false, class:"votes no"});
 
-    useEffect(() => {
-        let tmptime = getTimestamp(diffSeconds);
-        setTime(tmptime);
-    });
-
-    const getTimestamp = (diffSeconds) => {
-
-        let diffMins = diffSeconds / 60; // minutes
-        let diffHrs = diffMins / 60; // hours
-        let diffDays = diffHrs / 24; // days
-
-        if(diffHrs >= 24){
-            diffDays = Math.floor(diffDays);
-            return diffDays +'d';
+            }
         }
-        else if(24>diffHrs && diffHrs>1){
-            diffHrs = Math.floor(diffHrs);
-            return diffHrs +'h';
+    },[votes]);
+
+
+    const getTimestamp = () => {
+        if(createdAt!=null){
+            let today = new Date().getTime()
+            let diffSeconds = (today/1000 - createdAt.seconds);
+            let diffMins = diffSeconds / 60; // minutes
+            let diffHrs = diffMins / 60; // hours
+            let diffDays = diffHrs / 24; // days
+
+            if(diffHrs >= 24){
+                diffDays = Math.floor(diffDays);
+                return diffDays +'d';
+            }
+            else if(24>diffHrs && diffHrs>1){
+                diffHrs = Math.floor(diffHrs);
+                return diffHrs +'h';
+            }
+            else if(diffMins>=1 && diffHrs<1){
+                diffMins = Math.floor(diffMins);
+                return diffMins +'min';
+            }
+            else{
+                diffSeconds = Math.floor(diffSeconds);
+                return diffSeconds + 's';
+            }
+        }else{
+            return "refresh";
         }
-        else if(diffMins>=1 && diffHrs<1){
-            diffMins = Math.floor(diffMins);
-            return diffMins +'min';
-        }
-        else{
-            diffSeconds = Math.floor(diffSeconds);
-            return diffSeconds + 's';
-        }
+        
     } 
 
     const toggleControls = (e) => {
@@ -69,30 +79,62 @@ const Post = (props) => {
 
     }
 
-    const confirmDeletePost = async(choice, id) => {
+    const confirmDeletePost = async(choice, id, uid) => {
         const postsRef = db.collection('posts');
-        console.log(id)
+        console.log(id);
         if(choice===true){
-            console.log(user);
-            if(uid === auth.currentUser.uid ){
-                await postsRef.doc("id").delete();
+            if(uid === user.uid ){
+                await postsRef.doc(id).delete();
+                setShow(false);
+
+            }
+            else{
+                console.log("No permission to delete post");
+                console.log(uid + " != " + user.uid);
+                setShow(false);
             }
 
-        // }else{
-
+        }else{
+            console.log(choice);
+            setShow(false);
         }
     }
 
+    const handleHates = async(id) => {
+        const postRef = db.collection('posts').doc(id);
+        if(user!=null){
+            const currentUser = user.uid;
+            if(!votes.includes(currentUser)){
+                await postRef.update(
+                    {
+                        votes : firebase.firestore.FieldValue.arrayUnion(currentUser) 
+                    }
+                );
+            }else{
+                await postRef.update(
+                    {
+                        votes : firebase.firestore.FieldValue.arrayRemove(currentUser) 
+                    }
+                );
+            }
+
+            
+        }else{
+            //show modal to login
+        }
+        
+
+    }
 
     return ( 
         
         <div className={`post ${owner}`} >
-            <Confirmation show={show} id={id} handleDelete={confirmDeletePost} />
+            <Confirmation show={show} id={id} uid={author} handleDelete={confirmDeletePost} />
             <div className="post-heading">
                 <div className="left">
                     <img src={photoURL}/>
                     <span className="username">{displayName}</span>
-                    <span className="timestamp">{getTimestamp(diffSeconds)}</span>
+                    <span className="timestamp">{getTimestamp()}</span>
                 </div>
                 <div className="controls">
                     <div className="btn" onClick={toggleControls}>
@@ -108,12 +150,15 @@ const Post = (props) => {
                     </div>
                 </div>
             </div>
-                <div className="post-content">
+            <div className="post-content">
                 
                     <div className="post-message"><p>{message}</p></div>
                     <div className="action-bar">
-
-                </div>
+                        <div>
+                            <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
+                        </div>
+                        
+                    </div>
             </div>
 
         </div>

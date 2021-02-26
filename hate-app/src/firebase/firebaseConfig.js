@@ -5,7 +5,7 @@ import 'firebase/analytics';
 
 // Initialize Firebase
 let config = {
-    apiKey: "AIzaSyA9mG7xdL1hRlxqaktyjEnDF2Xmz7sUPOk",
+  apiKey: "AIzaSyA9mG7xdL1hRlxqaktyjEnDF2Xmz7sUPOk",
   authDomain: "hatesome-app.firebaseapp.com",
   projectId: "hatesome-app",
   storageBucket: "hatesome-app.appspot.com",

@@ -4,7 +4,6 @@ import Post from './post';
 import {db} from "../firebase/firebaseConfig"; 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-
 const Postlist = () => {    
     const postsRef = db.collection('posts');
     const query = postsRef.orderBy('createdAt').limit(20);
