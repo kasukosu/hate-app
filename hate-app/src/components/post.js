@@ -7,11 +7,9 @@ import Confirmation from './confirmation';
 
 const Post = (props) => {
     const {author, message, id, photoURL, displayName, createdAt, votes} = props.post;
-    // const [time, setTime] = useState();
     const [show, setShow] = useState();
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
-    console.log(props);
     const showModal = () => {
         setShow({ show: true });
     };
@@ -141,12 +139,18 @@ const Post = (props) => {
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </div>
                     <div className="control-dropdown">
-                        <ul>
+                        {user ? <ul>
                             <li onClick={startDeletePost}>Remove post</li>
                             <li>Edit post</li>
                             <li>Share post</li>
                             <div onClick={toggleControls} className="layer"></div>
-                        </ul>
+                        </ul> :
+                        <ul>
+                            <li>Share post</li>
+                            <div onClick={toggleControls} className="layer"></div>
+                        </ul> 
+                        }
+                        
                     </div>
                 </div>
             </div>

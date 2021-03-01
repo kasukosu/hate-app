@@ -3,18 +3,20 @@
     flex-direction: column;
     width: 500px;
     margin: auto;
-    padding: 40px 20px;
-    border: 2px rgba(0, 0, 0, 0.76) solid;
-    gap: 20px;
+    padding: 8px 8px;
+    border: 2px rgba(0, 0, 0, 0.75) solid;
+    background-color: #121212;
+    gap: 8px;
 }
+
 
 .post{
     display: flex;
     flex-direction: column;
     // gap: 20px;
-    border: 2px rgba(0, 0, 0, 0.76) solid;
-    background-color: #0a0b11;
-
+    border: 2px rgba(0, 0, 0, 0.75) solid;
+    background-color: #1E1E1E;
+    padding: 5px;
     div{
         color: white;
     }
@@ -105,27 +107,32 @@
             min-height: 80px;
         }
         .action-bar{
-            height: 20px;
-            padding: 10px 10px;
+            height: 30px;
+            padding: 8px 10px;
             border-top: rgb(49, 49, 49) 1px solid;
             display: flex;
             flex-direction: row;
             .votes{
                 position: relative;
                 align-self: flex-end;
+                font-size: 20px;
                 &.no{
                     position: absolute;
 
                     &::after{
                         position: absolute;
-                        left: 10px;
+                        left: 20px;
+                        font-size: 20px;
+                        text-align: center;
+                        // padding: '5px;
                         content: "😠";
                     }
                 }
                 &.yes{
                     &::after{
                         position: absolute;
-                        left: 10px;
+                        left: 20px;
+                        font-size: 20px;
                         content: "😡";
                     }
                 }

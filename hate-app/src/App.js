@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
-
 import './App.scss';
 import PostList from "./components/postlist";
 import EditPost from "./components/edit-post";
 import CreatePost from "./components/create-post";
+import Profile from "./components/profile";
+import {SignOut, SignIn} from "./components/login/login"
 
 import {auth} from "./firebase/firebaseConfig"; 
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -28,12 +29,15 @@ const [user] = useAuthState(auth);
             </div>
             <ul>
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/create">Create</Link></li>
+              <li>{user ? <Link to="/create">Create</Link> : <SignIn/>}</li>
+              <li>{user ? <SignOut/>:""}</li>
+              <li>{user ? <Link to="/profile">Profile</Link>:""}</li>
             </ul>
           </nav>
           <Route path="/create" render={(user) =>( <CreatePost {...user} user={user} />)} /> 
           <Route path="/" component={PostList}/>
           <Route path="/edit/:id" component={EditPost}/> 
+          <Route path="/profile" render={(user) =>( <Profile  /> )} />
 
         </section>
 
