@@ -13,10 +13,8 @@
 .post{
     display: flex;
     flex-direction: column;
-    // gap: 20px;
     border: 2px rgba(0, 0, 0, 0.75) solid;
     background-color: #1E1E1E;
-    padding: 5px;
     div{
         color: white;
     }
@@ -100,6 +98,10 @@
         img{
             width: 25px;
         }
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
     }
     .post-content{
         .post-message{
@@ -107,11 +109,18 @@
             min-height: 80px;
         }
         .action-bar{
+            position: relative;
             height: 30px;
             padding: 8px 10px;
             border-top: rgb(49, 49, 49) 1px solid;
             display: flex;
             flex-direction: row;
+            .comment-btn{
+                position: absolute;
+                right: 10px;
+                bottom: 5px;
+                
+            }
             .votes{
                 position: relative;
                 align-self: flex-end;
@@ -125,6 +134,7 @@
                         font-size: 20px;
                         text-align: center;
                         // padding: '5px;
+                        cursor: pointer;
                         content: "😠";
                     }
                 }
@@ -133,6 +143,7 @@
                         position: absolute;
                         left: 20px;
                         font-size: 20px;
+                        cursor: pointer;
                         content: "😡";
                     }
                 }
@@ -144,10 +155,8 @@
     .controls{
         align-self: flex-end;
         position: relative;
-        .btn{
-            cursor: pointer;
-            padding: 8px;
-        }
+        
+
         .control-dropdown{
             display: none;
             position: absolute;
@@ -193,4 +202,16 @@
         
     }
     
+}
+
+.btn{
+    cursor: pointer;
+    padding: 8px;
+}
+
+#createcomment{
+    display: none;
+    &.open{
+        display: flex;
+    }
 }

@@ -1,7 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import React  from 'react';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import './App.scss';
 import PostList from "./components/postlist";
@@ -16,7 +14,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 function App() {
 
+
 const [user] = useAuthState(auth);
+
+
+
 
   return (
     <Router>
@@ -31,14 +33,15 @@ const [user] = useAuthState(auth);
               <li><Link to="/">Home</Link></li>
               <li>{user ? <Link to="/create">Create</Link> : <SignIn/>}</li>
               <li>{user ? <SignOut/>:""}</li>
-              <li>{user ? <Link to="/profile">Profile</Link>:""}</li>
+              <li>{user ? <Link to={`/profile/${user.uid}`}>Profile</Link>:""}</li>
             </ul>
           </nav>
-          <Route path="/create" render={(user) =>( <CreatePost {...user} user={user} />)} /> 
-          <Route path="/" component={PostList}/>
-          <Route path="/edit/:id" component={EditPost}/> 
-          <Route path="/profile" render={(user) =>( <Profile  /> )} />
-
+          <Switch>
+            <Route path="/create" render={(props) =>( <CreatePost {...props} user={user} />)} /> 
+            <Route exact path="/" component={PostList}/>
+            <Route path="/edit/:id" component={EditPost}/> 
+            <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} /> )} />
+          </Switch>
         </section>
 
        

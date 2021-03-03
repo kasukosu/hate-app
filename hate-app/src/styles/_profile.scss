@@ -1,0 +1,23 @@
+.profile-feed{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin: auto;
+    padding: 8px 8px;
+    border: 2px rgba(0, 0, 0, 0.75) solid;
+    background-color: #121212;
+    gap: 8px;
+    .profile-grid{
+        padding: 8px 8px;
+        display: flex;
+        flex-direction: column;
+        background-color: #1E1E1E;
+        grid-template-columns: 3fr 7fr;
+        color: white;
+        ul{
+            list-style-type: none;
+         
+            padding: 0;
+        }
+    }
+}

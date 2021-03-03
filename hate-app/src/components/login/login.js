@@ -68,8 +68,15 @@ function SignIn() {
   }
   
 function SignOut() {
+
+
+    const handleLogOut = () => {
+      auth.signOut();
+      document.location.href="/";
+
+    }
     return auth.currentUser && ( 
-        <button onClick={() => auth.signOut()}>Sign out</button>
+        <button onClick={handleLogOut}>Sign out</button>
     );
 }
 export {SignIn, SignOut};

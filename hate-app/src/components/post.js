@@ -2,14 +2,19 @@ import React, { useEffect, useState }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faCommentAlt, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import {  } from '@fortawesome/free-regular-svg-icons';
+
 import Confirmation from './confirmation';
+import CommentList from './commentlist';
 
 const Post = (props) => {
-    const {author, message, id, photoURL, displayName, createdAt, votes} = props.post;
+    const {author, message, id, photoURL, displayName, createdAt, votes, comments} = props.post;
     const [show, setShow] = useState();
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
+    const [isOwner, setIsOwner] = useState(false);
+
     const showModal = () => {
         setShow({ show: true });
     };
@@ -20,11 +25,11 @@ const Post = (props) => {
 
     let owner = 'reader';
    
-
     useEffect(() =>{
         if(user!=null){
             owner = author === auth.currentUser.uid ? 'owner' : 'reader';
-    
+            const isOwner = author === auth.currentUser.uid ? true : false;
+            setIsOwner(isOwner);
             if(votes.includes(user.uid)){
                 setVoted({voted: true, class:"votes yes"});
             }else{
@@ -33,7 +38,6 @@ const Post = (props) => {
             }
         }
     },[votes]);
-
 
     const getTimestamp = () => {
         if(createdAt!=null){
@@ -98,6 +102,13 @@ const Post = (props) => {
         }
     }
 
+    const showCommentCreator = (e) => {
+        let el = e.target.closest(".post-content");
+        let creator = el.querySelector("#createcomment");
+        creator.classList.toggle("open");
+
+    }
+
     const handleHates = async(id) => {
         const postRef = db.collection('posts').doc(id);
         if(user!=null){
@@ -115,13 +126,9 @@ const Post = (props) => {
                     }
                 );
             }
-
-            
         }else{
             //show modal to login
         }
-        
-
     }
 
     return ( 
@@ -131,7 +138,7 @@ const Post = (props) => {
             <div className="post-heading">
                 <div className="left">
                     <img src={photoURL}/>
-                    <span className="username">{displayName}</span>
+                    <span className="username"><a href={`/profile/${author}`}>{displayName}</a></span>
                     <span className="timestamp">{getTimestamp()}</span>
                 </div>
                 <div className="controls">
@@ -139,7 +146,7 @@ const Post = (props) => {
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </div>
                     <div className="control-dropdown">
-                        {user ? <ul>
+                        {isOwner ? <ul>
                             <li onClick={startDeletePost}>Remove post</li>
                             <li>Edit post</li>
                             <li>Share post</li>
@@ -161,8 +168,12 @@ const Post = (props) => {
                         <div>
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
+                        <div className="comment-btn btn" onClick={showCommentCreator}>
+                            <FontAwesomeIcon icon={faCommentAlt}/>
+                        </div>
                         
                     </div>
+                    <CommentList comments={comments} user={user} post_id={id} getTimestamp={getTimestamp}/>
             </div>
 
         </div>

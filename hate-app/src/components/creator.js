@@ -8,23 +8,27 @@ const Creator = () => {
     const [blogpost, setBlogPost] = useState({
         message:"", author:""
     })
+    
 
     const addPost = async(e) => {
         e.preventDefault();
-
-        const {uid, photoURL, displayName} = auth.currentUser;
-        await postsRef.add({
-            author: uid,
-            photoURL: photoURL,
-            displayName: displayName,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            message: blogpost.message,
-            hidden: false,
-            votes: [{}],
-            comments: [{}],
-        })
-
-        setBlogPost({message:""});
+        const user = auth.currentUser;
+        if(user!=null){
+            const {uid, photoURL, displayName} = user;
+            await postsRef.add({
+                author: uid,
+                photoURL: photoURL,
+                displayName: displayName,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                message: blogpost.message,
+                hidden: false,
+                votes: [{}],
+                comments: [{}],
+            })
+    
+            setBlogPost({message:""});
+        }
+        
     }
 
     const changeHandler = (e) => {
@@ -39,7 +43,7 @@ const Creator = () => {
     return ( 
         <section className="create-post">
             <h1>So...    what do you hate today?</h1>
-            <form onSubmit={addPost}>
+            <form className="creator" onSubmit={addPost}>
                 <div className="input-box">
                     <label htmlFor="message">Message</label>
                     <textarea type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
