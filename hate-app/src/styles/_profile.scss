@@ -14,10 +14,33 @@
         background-color: #1E1E1E;
         grid-template-columns: 3fr 7fr;
         color: white;
-        ul{
-            list-style-type: none;
-         
-            padding: 0;
+        gap: 10px;
+        .profile-info{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            ul{
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
         }
     }
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    
+}
+.settings-btn{
+    display: flex;
+    place-content: center center;
+    width: 150px;
+    border: #313131 2px solid;
+    text-align: center;
+    padding: 5px 0px;
+    
 }

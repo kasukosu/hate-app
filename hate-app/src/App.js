@@ -33,8 +33,11 @@ const [user] = useAuthState(auth);
               <li><Link to="/">Home</Link></li>
               <li>{user ? <Link to="/create">Create</Link> : <SignIn/>}</li>
               <li>{user ? <SignOut/>:""}</li>
-              <li>{user ? <Link to={`/profile/${user.uid}`}>Profile</Link>:""}</li>
+              {/* <li>{user ? <Link to={`/profile/${user.uid}`}>Profile</Link>:""}</li> */}
+
             </ul>
+            <li>{user ? <Link to={`/profile/${user.uid}`}><img src={user.photoURL} alt=""/></Link>:""}</li>
+
           </nav>
           <Switch>
             <Route path="/create" render={(props) =>( <CreatePost {...props} user={user} />)} /> 

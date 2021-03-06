@@ -19,9 +19,6 @@ const Profile = () => {
     const [userData, loading, error] = useDocumentDataOnce(uQuery, {idField: 'id'});
     const [posts] = useCollectionData(pQuery, {idField: 'id'});
     
-    console.log(userData);
-    
-        
     return ( 
             
             <>{ userData &&

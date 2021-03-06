@@ -7,6 +7,7 @@
         display: flex;
         flex-direction: row;
         list-style-type: none;
+        align-items: center;
         li{
             margin-right: 25px;
             
@@ -15,7 +16,7 @@
                 color: white;
                 font-weight: 400;
             }
-
+            
         }
         button{
             border: none;
@@ -26,5 +27,9 @@
             outline: none;
             cursor: pointer;
         }
+    }
+    img{
+        width: 40px;
+        padding: 10px 0px;
     }
 }

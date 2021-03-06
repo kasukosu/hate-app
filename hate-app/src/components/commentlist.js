@@ -10,6 +10,7 @@ const CommentList = (props) => {
     return ( 
 
         <>
+            <CreateComment {...props}/>
             {comments && comments.map(comment => <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/> )}
         </>
     );
@@ -20,7 +21,6 @@ export default CommentList;
 
 const Comment = (props) => {
     const {author, message, id, photoURL, displayName, votes, createdAt, post_id} = props.comment;
-    console.log(props.comment)
     const {user} = props; 
     const getTimestamp = props.getTimestamp;
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
@@ -48,7 +48,6 @@ const Comment = (props) => {
     }
     return ( 
         <>
-            <CreateComment {...props}/>
             <div className="comment-container">
                 <div className="comment-heading">
                     <div className="left">
@@ -63,7 +62,7 @@ const Comment = (props) => {
                     </div>
                     <div className="action-bar">
                         <div>
-                            {/* <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span> */}
+                            <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
                     </div>
                 </div>
