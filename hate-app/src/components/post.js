@@ -9,7 +9,7 @@ import Confirmation from './confirmation';
 import CommentList from './commentlist';
 
 const Post = (props) => {
-    const {author, message, id, photoURL, displayName, createdAt, votes, comments} = props.post;
+    const {author, message, id, photoURL, displayName, createdAt, votes, recentComments} = props.post;
     const [show, setShow] = useState();
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
@@ -173,7 +173,7 @@ const Post = (props) => {
                         </div>
                         
                     </div>
-                    <CommentList comments={comments} user={user} post_id={id} getTimestamp={getTimestamp}/>
+                    <CommentList comments={recentComments} user={user} post_id={id} getTimestamp={getTimestamp}/>
             </div>
 
         </div>
