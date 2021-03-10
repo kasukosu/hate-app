@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentAlt, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import {  } from '@fortawesome/free-regular-svg-icons';
-
+import {CSSTransition} from 'react-transition-group'
 import Confirmation from './confirmation';
 import CommentList from './commentlist';
 
@@ -14,17 +14,20 @@ const Post = (props) => {
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
     const [isOwner, setIsOwner] = useState(false);
-
+    const [open, setOpen] = useState(false);
+    const [activeMenu, setActiveMenu] = useState('main');
     const showModal = () => {
         setShow({ show: true });
     };
-    
+
+
+
     const hideModal = () => {
         setShow({ show: false });
     };
 
     let owner = 'reader';
-   
+
     useEffect(() =>{
         if(user!=null){
             owner = author === auth.currentUser.uid ? 'owner' : 'reader';
@@ -66,8 +69,8 @@ const Post = (props) => {
         }else{
             return "refresh";
         }
-        
-    } 
+
+    }
 
     const toggleControls = (e) => {
         let el = e.target.closest(".controls");
@@ -116,13 +119,13 @@ const Post = (props) => {
             if(!votes.includes(currentUser)){
                 await postRef.update(
                     {
-                        votes : firebase.firestore.FieldValue.arrayUnion(currentUser) 
+                        votes : firebase.firestore.FieldValue.arrayUnion(currentUser)
                     }
                 );
             }else{
                 await postRef.update(
                     {
-                        votes : firebase.firestore.FieldValue.arrayRemove(currentUser) 
+                        votes : firebase.firestore.FieldValue.arrayRemove(currentUser)
                     }
                 );
             }
@@ -131,8 +134,8 @@ const Post = (props) => {
         }
     }
 
-    return ( 
-        
+    return (
+
         <div className={`post ${owner}`} >
             <Confirmation show={show} id={id} uid={author} handleDelete={confirmDeletePost} />
             <div className="post-heading">
@@ -142,27 +145,35 @@ const Post = (props) => {
                     <span className="timestamp">{getTimestamp()}</span>
                 </div>
                 <div className="controls">
-                    <div className="btn" onClick={toggleControls}>
+                    <div className="btn" onClick={()=> setOpen(!open)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </div>
-                    <div className="control-dropdown">
-                        {isOwner ? <ul>
-                            <li onClick={startDeletePost}>Remove post</li>
-                            <li>Edit post</li>
-                            <li>Share post</li>
-                            <div onClick={toggleControls} className="layer"></div>
-                        </ul> :
-                        <ul>
-                            <li>Share post</li>
-                            <div onClick={toggleControls} className="layer"></div>
-                        </ul> 
-                        }
-                        
-                    </div>
+                    {open &&
+                        <div className="control-dropdown">
+                            <CSSTransition in={activeMenu==='main'} timeout={500} classNames="animate">
+
+                            {isOwner ? <ul>
+                                    <DropdownItem  onClick={startDeletePost}>Remove post</DropdownItem>
+                                    <DropdownItem>Edit post</DropdownItem>
+                                    <DropdownItem>Share post</DropdownItem>
+
+                                <div onClick={()=> setOpen(!open)} className="layer"></div>
+
+                            </ul> :
+                            <ul>
+                                <DropdownItem>Share post</DropdownItem>
+                                <div onClick={()=> setOpen(!open)} className="layer"></div>
+                            </ul>
+                            }
+                                </CSSTransition>
+
+                        </div>
+                    }
+
                 </div>
             </div>
             <div className="post-content">
-                
+
                     <div className="post-message"><p>{message}</p></div>
                     <div className="action-bar">
                         <div>
@@ -171,13 +182,27 @@ const Post = (props) => {
                         <div className="comment-btn btn" onClick={showCommentCreator}>
                             <FontAwesomeIcon icon={faCommentAlt}/>
                         </div>
-                        
+
                     </div>
-                    <CommentList comments={comments} user={user} post_id={id} getTimestamp={getTimestamp}/>
+                    <CommentList key={id} comments={comments} user={user} post_id={id} getTimestamp={getTimestamp}/>
             </div>
 
         </div>
     );
 }
- 
+
+const DropdownItem = (props) => {
+    return (
+        <a href="#" className="menu-item">
+            <span className="icon-button">{props.leftIcon}</span>
+            {props.children}
+            <span className="icon-right">{props.rightIcon}</span>
+
+        </a>
+
+    );
+}
+
+
 export default Post;
+

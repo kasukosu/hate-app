@@ -3,15 +3,18 @@ import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import CreateComment from './create-comment';
 
+
 const CommentList = (props) => {
     const {comments, user, post_id} = props;
     const getTimestamp = props.getTimestamp;
 
-    return ( 
+    return (
 
         <>
             <CreateComment {...props}/>
-            {comments && comments.map(comment => <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/> )}
+            {comments && comments.map(comment =>
+                <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/>
+            )}
         </>
     );
 }
@@ -21,7 +24,7 @@ export default CommentList;
 
 const Comment = (props) => {
     const {author, message, id, photoURL, displayName, votes, createdAt, post_id} = props.comment;
-    const {user} = props; 
+    const {user} = props;
     const getTimestamp = props.getTimestamp;
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
 
@@ -32,13 +35,13 @@ const Comment = (props) => {
             if(!votes.includes(currentUser)){
                 await postRef.update(
                     {
-                        votes : firebase.firestore.FieldValue.arrayUnion(currentUser) 
+                        votes : firebase.firestore.FieldValue.arrayUnion(currentUser)
                     }
                 );
             }else{
                 await postRef.update(
                     {
-                        votes : firebase.firestore.FieldValue.arrayRemove(currentUser) 
+                        votes : firebase.firestore.FieldValue.arrayRemove(currentUser)
                     }
                 );
             }
@@ -46,7 +49,7 @@ const Comment = (props) => {
             //show modal to login
         }
     }
-    return ( 
+    return (
         <>
             <div className="comment-container">
                 <div className="comment-heading">
@@ -67,8 +70,8 @@ const Comment = (props) => {
                     </div>
                 </div>
             </div>
-            
+
     </>
     );
 }
- 
+

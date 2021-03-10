@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useCollectionData, useDocumentDataOnce, useDocumentOnce } from 'react-firebase-hooks/firestore';
 import Post from './post';
 import ProfileInfo from './profileinfo';
-
+import {TransitionGroup, CSSTransition, Transition } from 'react-transition-group';
 
 const Profile = () => {
     const { id } = useParams();
@@ -18,23 +18,21 @@ const Profile = () => {
     const pQuery = postsRef.where("author", "==", id);
     const [userData, loading, error] = useDocumentDataOnce(uQuery, {idField: 'id'});
     const [posts] = useCollectionData(pQuery, {idField: 'id'});
-    
-    return ( 
-            
-            <>{ userData &&
-            <div className="profile-feed">
-                {userData && 
+
+    return (
+
+            <>
+                {userData &&
                     <ProfileInfo data={userData}/>
                 }
-                
+
                 <section className="">
                     {posts && posts.map(post => <Post key={post.id} post={post}/> )}
                 </section>
-                
-            </div>}
+
             </>
     );
-    
+
 }
- 
+
 export default Profile;

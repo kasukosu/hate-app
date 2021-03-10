@@ -9,7 +9,7 @@ const CommentCreator = (props) => {
     const [comment, setComment] = useState({
         message:"", author:""
     })
-    
+
 
     const addComment = async(e) => {
         e.preventDefault();
@@ -25,27 +25,26 @@ const CommentCreator = (props) => {
                     hidden: false,
                     votes: [{}],
                 })
-                
+
             })
-    
+
             setComment({message:""});
         }
-        
+
     }
 
     const changeHandler = (e) => {
         const value = e.target.value;
-        
+
         setComment({
           ...comment,
           [e.target.name]: value
         });
     }
-    
-    return ( 
+
+    return (
             <form id="createcomment" onSubmit={addComment}>
                 <div className="input-box">
-                    <label htmlFor="message">Comment</label>
                     <textarea type="text" name="message" required value={comment.message} onChange={changeHandler}/>
                 </div>
 
@@ -53,5 +52,5 @@ const CommentCreator = (props) => {
             </form>
     );
 }
- 
+
 export default CommentCreator;

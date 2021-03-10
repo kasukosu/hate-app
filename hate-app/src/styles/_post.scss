@@ -6,9 +6,25 @@
     padding: 8px 8px;
     border: 2px rgba(0, 0, 0, 0.75) solid;
     background-color: #121212;
-    gap: 8px;
+    gap: 20px;
 }
 
+.animate-enter{
+    position: absolute;
+    transform: translateX(110%);
+}
+.animate-enter-active{
+    transform: translateX(0%);
+    transition: all 200ms ease;
+}
+.animate-exit{
+    position: absolute;
+}
+.animate-exit-active{
+    transform: translateX(110%);
+    transition: all 200ms ease;
+
+}
 
 .post{
     display: flex;
@@ -46,7 +62,7 @@
             height: 400px;
             width: 500px;
             gap: 15px;
-            
+
             .btn-group{
                 display: flex;
                 flex-direction: row;
@@ -62,14 +78,14 @@
                         background-color: #ED5E68;
                         color: white;
                     }
-    
+
                     &.cancel{
                         background-color: #8388A4;
                         color: #2A2E47;
                     }
                 }
             }
-            
+
         }
     }
 
@@ -124,7 +140,7 @@
                 position: absolute;
                 right: 10px;
                 font-size: 16px;
-                
+
             }
             .votes{
                 position: relative;
@@ -153,18 +169,17 @@
                         content: "😡";
                     }
                 }
-                
-                
+
+
             }
         }
     }
     .controls{
         align-self: flex-end;
         position: relative;
-        
+
 
         .control-dropdown{
-            display: none;
             position: absolute;
             width: 260px;
 
@@ -180,13 +195,19 @@
                 background-color: black;
                 box-shadow: 0 0 10px rgba(255, 255, 255, 0.253);
                 padding-left: 0;
+                overflow: hidden;
 
-                li{
+                .menu-item{
                     z-index: 3;
                     width: 100%;
                     padding: 10px 10px;
                     border-bottom: 2px darkgray;
                     cursor: pointer;
+                    transition: background 300ms;
+                    overflow: hidden;
+                }
+                .menu-item:hover{
+                    background-color: darkgray;
                 }
                 .layer{
                     position: fixed;
@@ -195,19 +216,16 @@
                     left: 0px;
                     width: 100vw;
                     height: 100vh;
-                   
+
                 }
-                
+
             }
-            
-        }
-        .open{
-            display: block;
 
         }
-        
+
+
     }
-    
+
 }
 
 .btn{
@@ -242,9 +260,9 @@
                 width: 25px;
             }
         }
-        
+
         // justify-content: ;
-        
+
     }
     .comment-content{
         .comment-message{
@@ -253,8 +271,8 @@
         }
         .action-bar{
             height: 20px;
-            
+
         }
     }
-    
+
 }
