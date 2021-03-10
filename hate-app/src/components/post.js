@@ -7,6 +7,8 @@ import {  } from '@fortawesome/free-regular-svg-icons';
 import {CSSTransition} from 'react-transition-group'
 import Confirmation from './confirmation';
 import CommentList from './commentlist';
+import { motion }from 'framer-motion';
+
 
 const Post = (props) => {
     const {author, message, id, photoURL, displayName, createdAt, votes, comments} = props.post;
@@ -14,17 +16,9 @@ const Post = (props) => {
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
     const [isOwner, setIsOwner] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [activeMenu, setActiveMenu] = useState('main');
-    const showModal = () => {
-        setShow({ show: true });
-    };
-
-
-
-    const hideModal = () => {
-        setShow({ show: false });
-    };
+    const [openDropdown, setOpenDropdown] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [openNewComment, setOpenNewComment] = useState(false);
 
     let owner = 'reader';
 
@@ -72,15 +66,8 @@ const Post = (props) => {
 
     }
 
-    const toggleControls = (e) => {
-        let el = e.target.closest(".controls");
-        let dropdown = el.querySelector(".control-dropdown");
-        dropdown.classList.toggle("open");
-
-    }
     const startDeletePost = (e) => {
-        toggleControls(e);
-        showModal({show: "show"});
+        setOpenModal(true);
 
     }
 
@@ -90,27 +77,22 @@ const Post = (props) => {
         if(choice===true){
             if(uid === user.uid ){
                 await postsRef.doc(id).delete();
-                setShow(false);
+                setOpenModal(false);
 
             }
             else{
                 console.log("No permission to delete post");
                 console.log(uid + " != " + user.uid);
-                setShow(false);
+                setOpenModal(false);
             }
 
         }else{
             console.log(choice);
-            setShow(false);
+            setOpenModal(false);
         }
     }
 
-    const showCommentCreator = (e) => {
-        let el = e.target.closest(".post-content");
-        let creator = el.querySelector("#createcomment");
-        creator.classList.toggle("open");
 
-    }
 
     const handleHates = async(id) => {
         const postRef = db.collection('posts').doc(id);
@@ -136,8 +118,18 @@ const Post = (props) => {
 
     return (
 
-        <div className={`post ${owner}`} >
-            <Confirmation show={show} id={id} uid={author} handleDelete={confirmDeletePost} />
+        <motion.div
+            initial={{
+                y:-100,
+                opacity: 0.01
+            }}
+            animate={{
+                y:0,
+                opacity: 1
+            }}
+            transition={{delay:0.5}}
+        className={`post ${owner}`} >
+            {openModal && <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />}
             <div className="post-heading">
                 <div className="left">
                     <img src={photoURL}/>
@@ -145,29 +137,27 @@ const Post = (props) => {
                     <span className="timestamp">{getTimestamp()}</span>
                 </div>
                 <div className="controls">
-                    <div className="btn" onClick={()=> setOpen(!open)}>
+                    <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
-                    </div>
-                    {open &&
-                        <div className="control-dropdown">
-                            <CSSTransition in={activeMenu==='main'} timeout={500} classNames="animate">
+                    </motion.div>
+                    {openDropdown &&
+                        <motion.div initial={{x: 20, opacity:0.4}} animate={{x:0, opacity: 1}} transition={{duration:0.1}} className="control-dropdown">
 
                             {isOwner ? <ul>
-                                    <DropdownItem  onClick={startDeletePost}>Remove post</DropdownItem>
+                                    <DropdownItem  delete={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem>Edit post</DropdownItem>
                                     <DropdownItem>Share post</DropdownItem>
 
-                                <div onClick={()=> setOpen(!open)} className="layer"></div>
+                                <div onClick={()=> setOpenDropdown(!openDropdown)} className="layer"></div>
 
                             </ul> :
                             <ul>
                                 <DropdownItem>Share post</DropdownItem>
-                                <div onClick={()=> setOpen(!open)} className="layer"></div>
+                                <div onClick={()=> setOpenDropdown(!openDropdown)} className="layer"></div>
                             </ul>
                             }
-                                </CSSTransition>
 
-                        </div>
+                        </motion.div>
                     }
 
                 </div>
@@ -179,21 +169,21 @@ const Post = (props) => {
                         <div>
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
-                        <div className="comment-btn btn" onClick={showCommentCreator}>
+                        <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
                             <FontAwesomeIcon icon={faCommentAlt}/>
-                        </div>
+                        </motion.div>
 
                     </div>
-                    <CommentList key={id} comments={comments} user={user} post_id={id} getTimestamp={getTimestamp}/>
+                    <CommentList key={id} comments={comments} openNewComment={openNewComment} user={user} post_id={id} getTimestamp={getTimestamp}/>
             </div>
 
-        </div>
+        </motion.div>
     );
 }
 
 const DropdownItem = (props) => {
     return (
-        <a href="#" className="menu-item">
+        <a onClick={props.delete} href="#" className="menu-item">
             <span className="icon-button">{props.leftIcon}</span>
             {props.children}
             <span className="icon-right">{props.rightIcon}</span>

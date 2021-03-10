@@ -1,14 +1,12 @@
 import React  from 'react';
+import {motion} from 'framer-motion';
 
-const Confirmation = ({ handleDelete, show, children, id, uid }) => {
+const Confirmation = ({ handleDelete, children, id, uid }) => {
 
-    
-    const showHideClassName = show ? "modal" : "modal hide";
-    
 
-    return ( 
+    return (
 
-        <div className={showHideClassName}>
+        <motion.div initial={{opacity: 0.2}} animate={{opacity: 1}} className="modal">
             <section className="modal-main">
                 {children}
                 <h1>Delete selected post?</h1>
@@ -20,12 +18,12 @@ const Confirmation = ({ handleDelete, show, children, id, uid }) => {
                     <button className="confirm" type="button" onClick={() => handleDelete(true, id, uid)}>
                         Confirm
                     </button>
-                    
+
                 </div>
             </section>
-        </div>
+        </motion.div>
 
      );
 }
- 
+
 export default Confirmation;

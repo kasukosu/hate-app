@@ -11,7 +11,8 @@ const CommentList = (props) => {
     return (
 
         <>
-            <CreateComment {...props}/>
+            {props.openNewComment && <CreateComment {...props}/>}
+
             {comments && comments.map(comment =>
                 <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/>
             )}
@@ -56,7 +57,7 @@ const Comment = (props) => {
                     <div className="left">
                         <img src={photoURL}/>
                         <span className="username"><a href={`/profile/${author}`}>{displayName}</a></span>
-                        <span className="timestamp">{getTimestamp()}</span>
+                        {/* <span className="timestamp">{getTimestamp()}</span> */}
                     </div>
                 </div>
                 <div className="comment-content">
@@ -65,7 +66,7 @@ const Comment = (props) => {
                     </div>
                     <div className="action-bar">
                         <div>
-                            <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
+                            {/* <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span> */}
                         </div>
                     </div>
                 </div>

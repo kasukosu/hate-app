@@ -50,9 +50,7 @@
         width: 100vw;
         height: 100vh;
         z-index: 3;
-        &.hide{
-            display: none;
-        }
+
         .modal-main{
             display: flex;
             flex-direction: column;
@@ -129,33 +127,32 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            height: 20px;
+            justify-content: space-evenly;
+            height: 30px;
             padding: 8px 10px;
             border-top: rgb(49, 49, 49) 1px solid;
-            // border-bottom: rgb(49, 49, 49) 2px solid;
 
-            display: flex;
-            flex-direction: row;
             .comment-btn{
-                position: absolute;
+                position: relative;
                 right: 10px;
                 font-size: 16px;
+                padding: 8px 9px;
+                border-radius: 50%;
+                cursor: pointer;
 
             }
             .votes{
                 position: relative;
                 font-size: 20px;
+                width: 10px;
                 margin-left: 45px;
                 &.no{
                     // position: absolute;
-
-
                     &::before{
                         position: absolute;
                         right: 25px;
                         font-size: 18px;
                         text-align: center;
-                        // padding: '5px;
                         cursor: pointer;
                         content: "😠";
                     }
@@ -163,8 +160,9 @@
                 &.yes{
                     &::before{
                         position: absolute;
-                        right: 20px;
+                        right: 25px;
                         font-size: 18px;
+                        text-align: center;
                         cursor: pointer;
                         content: "😡";
                     }
@@ -182,8 +180,8 @@
         .control-dropdown{
             position: absolute;
             width: 260px;
-
-            left: -240px;
+            overflow: hidden;
+            left: -237px;
             top: 5px;
             z-index: 1;
             ul{
@@ -198,6 +196,7 @@
                 overflow: hidden;
 
                 .menu-item{
+                    display: block;
                     z-index: 3;
                     width: 100%;
                     padding: 10px 10px;
@@ -230,15 +229,11 @@
 
 .btn{
     cursor: pointer;
-    padding: 8px;
+    padding: 8px 14px;
+    border-radius: 50%;
 }
 
-#createcomment{
-    display: none;
-    &.open{
-        display: flex;
-    }
-}
+
 
 .comment-container{
 
