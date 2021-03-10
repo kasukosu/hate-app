@@ -2,12 +2,14 @@ import React, { useEffect, useState }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCommentAlt, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faCommentAlt, faEllipsisV, faUnderline } from '@fortawesome/free-solid-svg-icons';
 import {  } from '@fortawesome/free-regular-svg-icons';
 import Confirmation from './confirmation';
 import CommentList from './commentlist';
-import { motion }from 'framer-motion';
+import CreateComment from './create-comment';
 
+import { motion, AnimatePresence }from 'framer-motion';
+import {Link} from 'react-router-dom';
 
 const Post = (props) => {
     const {author, message, id, photoURL, displayName, createdAt, votes, recentComments} = props.post;
@@ -18,6 +20,8 @@ const Post = (props) => {
     const [openDropdown, setOpenDropdown] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openNewComment, setOpenNewComment] = useState(false);
+    const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
+    const [showComments, setShowComments] = useState(true);
 
     let owner = 'reader';
 
@@ -33,6 +37,7 @@ const Post = (props) => {
 
             }
         }
+
     },[votes]);
 
     const getTimestamp = () => {
@@ -126,7 +131,6 @@ const Post = (props) => {
                 y:0,
                 opacity: 1
             }}
-            transition={{delay:0.5}}
         className={`post ${owner}`} >
             {openModal && <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />}
             <div className="post-heading">
@@ -136,44 +140,56 @@ const Post = (props) => {
                     <span className="timestamp">{getTimestamp()}</span>
                 </div>
                 <div className="controls">
-                    <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
+                    <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </motion.div>
-                    {openDropdown &&
-                        <motion.div initial={{x: 20, opacity:0.4}} animate={{x:0, opacity: 1}} transition={{duration:0.1}} className="control-dropdown">
+
+
+                </div>
+            </div>
+            <AnimatePresence>
+
+                {openDropdown &&
+                        <motion.div initial={{y: -20, opacity:0}} animate={{y:0, opacity: 1}} transition={{duration:0.1}} exit={{y:-20, opacity: 0}} className="control-dropdown">
 
                             {isOwner ? <ul>
                                     <DropdownItem  delete={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem>Edit post</DropdownItem>
                                     <DropdownItem>Share post</DropdownItem>
 
-                                <div onClick={()=> setOpenDropdown(!openDropdown)} className="layer"></div>
 
                             </ul> :
                             <ul>
                                 <DropdownItem>Share post</DropdownItem>
-                                <div onClick={()=> setOpenDropdown(!openDropdown)} className="layer"></div>
                             </ul>
                             }
 
                         </motion.div>
                     }
+            </AnimatePresence>
 
-                </div>
-            </div>
             <div className="post-content">
-
-                    <div className="post-message"><p>{message}</p></div>
+                    <Link to={`/post/${id}`}>
+                        <div className="post-message"><p>{message}</p></div>
+                    </Link>
                     <div className="action-bar">
                         <div>
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
-                        <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
-                            <FontAwesomeIcon icon={faCommentAlt}/>
-                        </motion.div>
-
+                        {user ?
+                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
+                                <FontAwesomeIcon icon={faCommentAlt}/>
+                            </motion.div>
+                            :
+                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
+                                <FontAwesomeIcon icon={faCommentAlt}/>
+                            </motion.div>
+                        }
                     </div>
-                    <CommentList key={id} comments={comments} openNewComment={openNewComment} user={user} post_id={id} getTimestamp={getTimestamp}/>
+                    {openNewComment && <CreateComment {...props} comments={recentComments}  user={user} post_id={id}/>}
+                    { showRecentComments ?
+                        <CommentList key={id} comments={recentComments}  user={user} post_id={id} getTimestamp={getTimestamp}/> : null
+                    }
             </div>
 
         </motion.div>

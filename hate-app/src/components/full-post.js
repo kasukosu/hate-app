@@ -1,0 +1,40 @@
+import React from 'react';
+import Post from './post';
+import {db} from "../firebase/firebaseConfig";
+import { useCollectionData, useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import CommentList from './commentlist';
+import { useParams } from 'react-router-dom';
+import {motion} from 'framer-motion';
+
+const FullPost = (props) => {
+
+    const { id } = useParams()
+    const pRef = db.collection("posts").doc(id);
+    const pQuery = pRef;
+    const cRef = db.collection("posts").doc(id).collection("comments");
+    const cQuery = cRef.orderBy("createdAt", "desc").limit(150);
+
+    const [postData, pLoading, pError] = useDocumentDataOnce(pQuery, {idField: 'id'});
+    const [comments, cLoading, cError] = useCollectionData(cQuery, {idField: 'id'});
+
+    console.log(comments);
+
+
+    return (
+        <>
+            {postData &&
+                <motion.section  initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.2, delay: 0.3}} className="postfeed">
+                    {postData &&
+                        <Post showRecentComments={false} post={postData}/>
+                    }
+                    {comments &&
+                        <CommentList comments={comments}/>
+                    }
+
+                </motion.section>
+            }
+        </>
+    );
+}
+
+export default FullPost;

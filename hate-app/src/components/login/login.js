@@ -1,23 +1,26 @@
 import React from 'react';
-import {auth, firebase, db} from "../../firebase/firebaseConfig"; 
+import {auth, firebase, db} from "../../firebase/firebaseConfig";
 import { useAuthState, useCollectionData } from 'react-firebase-hooks/auth';
+import {motion} from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
-function SignIn() {
+function SignIn(props) {
 
   const signInWithGoogle = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
       .then((results=> {
-        let user = auth.currentUser;   
-     
+        let user = auth.currentUser;
+
         if(user!=null){
           if(!checkUserExist(user)){
             addUser();
           }
         }
       }));
-      
+
   }
 
   const addUser = async(e) => {
@@ -38,7 +41,7 @@ function SignIn() {
         comments: [{}],
         followers: [{}],
         follows: [{}],
-    })    
+    })
 
   }
 
@@ -59,14 +62,24 @@ function SignIn() {
         }
       });
     }
-    
+
   }
-  return ( 
-  
-      <button onClick={signInWithGoogle}>Sign in</button>
+  return (
+    <motion.div initial={{opacity: 0.2}} animate={{opacity: 1}} className="modal">
+      <section className="modal-main">
+          <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setShowSignIn(false)}>
+            <FontAwesomeIcon icon={faTimes}/>
+          </motion.div>
+          <h1>Login to hatesome!</h1>
+          <p>Login with your Google account</p>
+          <div className="btn-group">
+            <button className="login" onClick={signInWithGoogle}>Sign in</button>
+          </div>
+        </section>
+    </motion.div>
    );
   }
-  
+
 function SignOut() {
 
 
@@ -75,7 +88,7 @@ function SignOut() {
       document.location.href="/";
 
     }
-    return auth.currentUser && ( 
+    return auth.currentUser && (
         <button onClick={handleLogOut}>Sign out</button>
     );
 }

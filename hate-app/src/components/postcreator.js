@@ -8,7 +8,7 @@ const PostCreator = () => {
     const [blogpost, setBlogPost] = useState({
         message:"", author:""
     })
-    
+
 
     const addPost = async(e) => {
         e.preventDefault();
@@ -23,26 +23,25 @@ const PostCreator = () => {
                 message: blogpost.message,
                 hidden: false,
                 votes: [{}],
-                recentComments: [{}],
                 commentCount: 0,
                 lastActivity: firebase.firestore.FieldValue.serverTimestamp(),
             })
-    
+
             setBlogPost({message:""});
         }
-        
+
     }
 
     const changeHandler = (e) => {
         const value = e.target.value;
-        
+
         setBlogPost({
           ...blogpost,
           [e.target.name]: value
         });
     }
-    
-    return ( 
+
+    return (
         <section className="create-post">
             <h1>So...    what do you hate today?</h1>
             <form className="creator" onSubmit={addPost}>
@@ -56,5 +55,5 @@ const PostCreator = () => {
         </section>
     );
 }
- 
+
 export default PostCreator;

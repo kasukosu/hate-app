@@ -3,9 +3,9 @@
     flex-direction: column;
     width: 500px;
     margin: auto;
-    padding: 8px 8px;
-    border: 2px rgba(0, 0, 0, 0.75) solid;
-    background-color: #121212;
+    padding: 20px;
+    // border: 2px 685486 solid;
+    background-color: #212121;
     gap: 20px;
 }
 
@@ -26,66 +26,128 @@
 
 }
 
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+
+    .modal-main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #363B59;
+        height: 400px;
+        width: 500px;
+        gap: 15px;
+        position: relative;
+        .close-btn{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            border-radius: 50px;
+        }
+        .btn-group{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            button{
+                padding: 8px 14px;
+                border-radius: 8px;
+                border: none;
+                font-family: inherit;
+                font-weight: 700;
+                margin-right: 15px;
+                &.confirm{
+                    background-color: #ED5E68;
+                    color: #f5f5f5;
+                }
+
+                &.cancel{
+                    background-color: #8388A4;
+                    color: #2A2E47;
+                }
+                &.login{
+                    background-color: rgb(4,174,79);
+                    color: #2A2E47;
+                }
+            }
+        }
+
+    }
+}
+.action-bar{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 30px;
+    padding: 8px 10px;
+    border-top: rgb(49, 49, 49) 1px solid;
+
+    .comment-btn{
+        position: relative;
+        right: 10px;
+        font-size: 16px;
+        padding: 8px 9px;
+        border-radius: 50%;
+        cursor: pointer;
+
+    }
+    .votes{
+        position: relative;
+        font-size: 20px;
+        width: 10px;
+        margin-left: 45px;
+        &.no{
+            // position: absolute;
+            &::before{
+                position: absolute;
+                right: 25px;
+                font-size: 18px;
+                text-align: center;
+                cursor: pointer;
+                content: "😠";
+            }
+        }
+        &.yes{
+            &::before{
+                position: absolute;
+                right: 25px;
+                font-size: 18px;
+                text-align: center;
+                cursor: pointer;
+                content: "😡";
+            }
+        }
+
+
+    }
+}
 .post{
     display: flex;
     flex-direction: column;
     border: 2px rgba(0, 0, 0, 0.75) solid;
     background-color: #1E1E1E;
     div{
-        color: white;
+        color: #CFCFCF;
     }
     h4,p,h2,h1{
-        color: white;
+        color: #CFCFCF;
         margin: 0;
     }
-    .modal {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        background-color: rgba(0, 0, 0, 0.25);
-        width: 100vw;
-        height: 100vh;
-        z-index: 3;
 
-        .modal-main{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #363B59;
-            height: 400px;
-            width: 500px;
-            gap: 15px;
-
-            .btn-group{
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                button{
-                    padding: 8px 14px;
-                    border-radius: 8px;
-                    border: none;
-                    font-family: inherit;
-                    font-weight: 700;
-                    margin-right: 15px;
-                    &.confirm{
-                        background-color: #ED5E68;
-                        color: white;
-                    }
-
-                    &.cancel{
-                        background-color: #8388A4;
-                        color: #2A2E47;
-                    }
-                }
-            }
-
-        }
-    }
 
     .username{
         font-weight: 500;
@@ -100,6 +162,7 @@
         gap: 10px;
         padding: 5px 10px;
         border-bottom: rgb(49, 49, 49) 1px solid;
+        overflow: hidden;
         .left{
             display: flex;
             gap: 10px;
@@ -122,108 +185,64 @@
             padding: 10px;
             min-height: 80px;
         }
-        .action-bar{
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-evenly;
-            height: 30px;
-            padding: 8px 10px;
-            border-top: rgb(49, 49, 49) 1px solid;
 
-            .comment-btn{
-                position: relative;
-                right: 10px;
-                font-size: 16px;
-                padding: 8px 9px;
-                border-radius: 50%;
-                cursor: pointer;
-
-            }
-            .votes{
-                position: relative;
-                font-size: 20px;
-                width: 10px;
-                margin-left: 45px;
-                &.no{
-                    // position: absolute;
-                    &::before{
-                        position: absolute;
-                        right: 25px;
-                        font-size: 18px;
-                        text-align: center;
-                        cursor: pointer;
-                        content: "😠";
-                    }
-                }
-                &.yes{
-                    &::before{
-                        position: absolute;
-                        right: 25px;
-                        font-size: 18px;
-                        text-align: center;
-                        cursor: pointer;
-                        content: "😡";
-                    }
-                }
-
-
-            }
-        }
     }
     .controls{
         align-self: flex-end;
         position: relative;
 
 
-        .control-dropdown{
-            position: absolute;
-            width: 260px;
+
+
+    }
+    .control-dropdown{
+        position: relative;
+        max-width: 500px;
+        width: 100%;
+        overflow: hidden;
+        bottom: 0px;
+        // left: 70%;
+        transform: translate(50%, -50%);
+        z-index: 1;
+        ul{
+            display: flex;
+            margin: 0;
+            width: 100%;
+            flex-direction: column;
+            list-style-type: none;
+            background-color: #2E2E2E;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.253);
+            padding-left: 0;
             overflow: hidden;
-            left: -237px;
-            top: 5px;
-            z-index: 1;
-            ul{
-                display: flex;
-                margin: 0;
+
+            .menu-item{
+                display: block;
+                z-index: 3;
                 width: 100%;
-                flex-direction: column;
-                list-style-type: none;
-                background-color: black;
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.253);
-                padding-left: 0;
+                padding: 10px 10px;
+                border-bottom: 2px darkgray;
+                cursor: pointer;
+                transition: background 300ms;
                 overflow: hidden;
-
-                .menu-item{
-                    display: block;
-                    z-index: 3;
-                    width: 100%;
-                    padding: 10px 10px;
-                    border-bottom: 2px darkgray;
-                    cursor: pointer;
-                    transition: background 300ms;
-                    overflow: hidden;
-                }
-                .menu-item:hover{
-                    background-color: darkgray;
-                }
-                .layer{
-                    position: fixed;
-                    z-index: 2;
-                    top: 50px;
-                    left: 0px;
-                    width: 100vw;
-                    height: 100vh;
-
-                }
+                color: #CFCFCF;
+            }
+            .menu-item:hover{
+                background-color: #474747 ;
+            }
+            .layer{
+                position: fixed;
+                z-index: 2;
+                top: 50px;
+                left: 0px;
+                width: 100vw;
+                height: 100vh;
 
             }
 
         }
 
-
     }
+
 
 }
 
@@ -236,7 +255,8 @@
 
 
 .comment-container{
-
+    background-color: #1E1E1E;
+    color: #f5f5f5;
     .comment-heading{
         border-top: rgb(49, 49, 49) 1px solid;
         // border-bottom: rgb(49, 49, 49) 1px solid;
