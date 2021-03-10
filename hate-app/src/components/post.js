@@ -4,14 +4,13 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentAlt, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import {  } from '@fortawesome/free-regular-svg-icons';
-import {CSSTransition} from 'react-transition-group'
 import Confirmation from './confirmation';
 import CommentList from './commentlist';
 import { motion }from 'framer-motion';
 
 
 const Post = (props) => {
-    const {author, message, id, photoURL, displayName, createdAt, votes, comments} = props.post;
+    const {author, message, id, photoURL, displayName, createdAt, votes, recentComments} = props.post;
     const [show, setShow] = useState();
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);

@@ -5,7 +5,7 @@ import {motion} from 'framer-motion';
 const CommentCreator = (props) => {
 
     const {post_id} = props;
-    const postsRef = db.collection('posts').doc(post_id);
+    const postsRef = db.collection('posts').doc(post_id).collection('comments');
     const [comment, setComment] = useState({
         message:"", author:""
     })
@@ -16,16 +16,15 @@ const CommentCreator = (props) => {
         const user = auth.currentUser;
         if(user!=null){
             const {uid, photoURL, displayName} = user;
-            await postsRef.update({
-                comments: firebase.firestore.FieldValue.arrayUnion({
-                    author: uid,
-                    photoURL: photoURL,
-                    displayName: displayName,
-                    message: comment.message,
-                    hidden: false,
-                    votes: [{}],
-                })
-
+            await postsRef.add({
+                author: uid,
+                post_id: post_id,
+                photoURL: photoURL,
+                displayName: displayName,
+                message: comment.message,
+                hidden: false,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                votes: [{}],
             })
 
             setComment({message:""});

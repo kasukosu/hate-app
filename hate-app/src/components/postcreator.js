@@ -2,7 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import { auth, firebase, db } from '../firebase/firebaseConfig';
 
-const Creator = () => {
+const PostCreator = () => {
 
     const postsRef = db.collection('posts');
     const [blogpost, setBlogPost] = useState({
@@ -23,7 +23,9 @@ const Creator = () => {
                 message: blogpost.message,
                 hidden: false,
                 votes: [{}],
-                comments: [{}],
+                recentComments: [{}],
+                commentCount: 0,
+                lastActivity: firebase.firestore.FieldValue.serverTimestamp(),
             })
     
             setBlogPost({message:""});
@@ -55,4 +57,4 @@ const Creator = () => {
     );
 }
  
-export default Creator;
+export default PostCreator;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Creator from './creator';
+import Creator from './postcreator';
 import {SignIn} from './login/login';
 const CreatePost = (props) => {
     const user = props.user;
