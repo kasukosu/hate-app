@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 import { auth, firebase, db } from '../firebase/firebaseConfig';
-
+import {motion} from 'framer-motion';
 const PostCreator = () => {
 
     const postsRef = db.collection('posts');
@@ -43,14 +43,12 @@ const PostCreator = () => {
 
     return (
         <section className="create-post">
-            <h1>So...    what do you hate today?</h1>
             <form className="creator" onSubmit={addPost}>
                 <div className="input-box">
-                    <label htmlFor="message">Message</label>
-                    <textarea type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
+                    <textarea placeholder="What do you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
                 </div>
 
-                <button onClick={addPost} type="submit">Submit</button>
+                <motion.button whileHover={{backgroundColor: 'rgb(104,84,134)'}} transition={{duration:0.1}} onClick={addPost} type="submit">Submit</motion.button>
             </form>
         </section>
     );

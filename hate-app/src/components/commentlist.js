@@ -1,7 +1,7 @@
 import React, { useEffect, useState }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
-
+import {motion} from 'framer-motion';
 
 const CommentList = (props) => {
     const {comments, user, post_id} = props;
@@ -56,13 +56,13 @@ const Comment = (props) => {
         <>
 
             <div className="comment-container">
-                <div className="comment-heading">
+                <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
                     <div className="left">
                         <img src={photoURL}/>
                         <span className="username"><a href={`/profile/${author}`}>{displayName}</a></span>
                         {/* <span className="timestamp">{getTimestamp()}</span> */}
                     </div>
-                </div>
+                </motion.div>
                 <div className="comment-content">
                     <div className="comment-message">
                         <p>{message}</p>

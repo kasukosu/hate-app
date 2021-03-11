@@ -5,7 +5,7 @@ import { auth, firebase, db } from '../firebase/firebaseConfig';
 import {motion} from 'framer-motion';
 
 const CreateComment = (props) => {
-    const {user, post_id} = props;
+    const {post_id} = props;
 
     return (
         <>
@@ -39,6 +39,7 @@ const CommentCreator = (props) => {
                 votes: [{}],
             })
 
+
             setComment({message:""});
         }
 
@@ -54,13 +55,15 @@ const CommentCreator = (props) => {
     }
 
     return (
-            <motion.form initial={{height:0}} animate={{height:220}} transition={{type:'spring', duration: 0.3}} id="createcomment" onSubmit={addComment}>
+        <section className="create-comment">
+            <motion.form  id="createcomment" onSubmit={addComment}>
                 <div className="input-box">
-                    <textarea type="text" name="message" required value={comment.message} onChange={changeHandler}/>
+                    <textarea placeholder="I hate this so much.." type="text" name="message" required value={comment.message} onChange={changeHandler}/>
                 </div>
                 <input type="submit" style={{display: 'none'}}/>
                 <button onClick={addComment} type="submit">Submit</button>
             </motion.form>
+        </section>
     );
 }
 

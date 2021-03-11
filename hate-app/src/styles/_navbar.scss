@@ -1,6 +1,6 @@
 .navbar{
     display: flex;
-    background-color: #121212;
+    background-color: rgba(66, 69, 84, 0.7);
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
@@ -10,6 +10,7 @@
         list-style-type: none;
         align-items: center;
         li{
+
             margin-right: 25px;
             color: #f2f2f2;
             cursor: pointer;

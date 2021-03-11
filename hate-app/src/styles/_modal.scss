@@ -1,0 +1,136 @@
+.modal-grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    form{
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        gap: 10px;
+        .input-box{
+            display: flex;
+            flex-direction: column;
+            padding: 0px 0px;
+            label{
+              display: block;
+              padding: 10px 15px;
+            }
+          }
+          input,textarea{
+            padding: 10px 15px;
+            font-size: 16px;
+            font-family: inherit;
+            border:none;
+            border-radius: 4px;
+            background-color: rgba(35, 36, 42, 1);
+            border-top: rgb(49, 49, 49) 1px solid;
+            border-bottom: rgb(49, 49, 49) 1px solid;
+
+
+            color: white;
+            resize: none;
+            &:focus{
+              outline:none;
+            }
+          }
+          textarea{
+            height: 160px;
+            padding: 15px;
+
+          }
+          button{
+            padding: 5px 0px;
+            border:none;
+            border-radius: 4px;
+            font-weight: 400;
+            cursor: pointer;
+            color: white;
+            width: 100px;
+            align-self: center;
+            transition: all ease 0.2s;
+            font-family: inherit;
+          }
+          label{
+            font-weight: 400;
+            color: white;
+          }
+    }
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+
+    .modal-main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #363B59;
+        height: 400px;
+        width: 500px;
+        gap: 15px;
+        position: relative;
+        border-radius: 10px;
+        z-index: 4;
+        .close-btn{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            border-radius: 50px;
+            color: #f2f2f2;
+        }
+        .btn-group{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            button{
+                padding: 8px 14px;
+                border-radius: 8px;
+                border: none;
+                font-family: inherit;
+                font-weight: 700;
+                margin-right: 15px;
+                &.confirm{
+                    background-color: rgb(237, 94, 104);
+                    color: #f5f5f5;
+                }
+                &.save{
+                    background-color: #8388A4;
+                    color: #2A2E47;
+                }
+                &.discard{
+                    background-color: rgba(35, 36, 42, 1);
+                    color: #f5f5f5;
+
+                }
+                &.cancel{
+                    background-color: #8388A4;
+                    color: #2A2E47;
+                }
+                &.login{
+                    background-color: rgb(4,174,79);
+                    color: #2A2E47;
+                }
+                &.green{
+                    background-color: rgb(4,174,79);
+                    color: #2A2E47;
+                }
+
+            }
+        }
+
+    }
+}

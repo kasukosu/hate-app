@@ -23,6 +23,8 @@ const Post = (props) => {
     const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
     const [showComments, setShowComments] = useState(true);
 
+
+
     let owner = 'reader';
 
     useEffect(() =>{
@@ -133,30 +135,31 @@ const Post = (props) => {
             }}
         className={`post ${owner}`} >
             {openModal && <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />}
-            <div className="post-heading">
+            <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
                 <div className="left">
-                    <img src={photoURL}/>
-                    <span className="username"><a href={`/profile/${author}`}>{displayName}</a></span>
+
+                    <Link className="align-center" to={`/profile/${author}`}>
+                        <img src={photoURL}/>
+                        <span className="username">{displayName}</span>
+                    </Link>
+
                     <span className="timestamp">{getTimestamp()}</span>
                 </div>
                 <div className="controls">
                     <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </motion.div>
-
-
                 </div>
-            </div>
+            </motion.div>
             <AnimatePresence>
 
                 {openDropdown &&
-                        <motion.div initial={{y: -20, opacity:0}} animate={{y:0, opacity: 1}} transition={{duration:0.1}} exit={{y:-20, opacity: 0}} className="control-dropdown">
+                        <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
 
                             {isOwner ? <ul>
                                     <DropdownItem  delete={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem>Edit post</DropdownItem>
                                     <DropdownItem>Share post</DropdownItem>
-
 
                             </ul> :
                             <ul>
@@ -170,23 +173,30 @@ const Post = (props) => {
 
             <div className="post-content">
                     <Link to={`/post/${id}`}>
-                        <div className="post-message"><p>{message}</p></div>
+                        <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-message"><p>{message}</p></motion.div>
                     </Link>
                     <div className="action-bar">
                         <div>
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
                         {user ?
-                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
+                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                             </motion.div>
                             :
-                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'darkslateblue', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
+                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                             </motion.div>
                         }
                     </div>
-                    {openNewComment && <CreateComment {...props} comments={recentComments}  user={user} post_id={id}/>}
+                    <AnimatePresence>
+                        {openNewComment &&
+                            <motion.div initial={{height:0}} animate={{height:240}} transition={{duration: 0.1}} exit={{height: 0}}>
+                                <CreateComment {...props} comments={recentComments}  user={user} post_id={id}/>
+                            </motion.div>
+                        }
+                    </AnimatePresence>
+
                     { showRecentComments ?
                         <CommentList key={id} comments={recentComments}  user={user} post_id={id} getTimestamp={getTimestamp}/> : null
                     }
@@ -198,12 +208,12 @@ const Post = (props) => {
 
 const DropdownItem = (props) => {
     return (
-        <a onClick={props.delete} href="#" className="menu-item">
+        <motion.a whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{duration:0.1}} onClick={props.delete} href="#" className="menu-item">
             <span className="icon-button">{props.leftIcon}</span>
             {props.children}
             <span className="icon-right">{props.rightIcon}</span>
 
-        </a>
+        </motion.a>
 
     );
 }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
-
+import {motion} from 'framer-motion';
 const ProfileInfo = (props) => {
     console.log(props);
     const {data} = props;
@@ -15,10 +15,10 @@ const ProfileInfo = (props) => {
             setIsOwner(isOwner);
         }
     },[]);
-   
 
-    return ( 
-                
+
+    return (
+
                 <div className="profile-grid">
                     <div className="profile-image">
                         <img src={data.photoURL} alt="Photo"/>
@@ -26,23 +26,20 @@ const ProfileInfo = (props) => {
                     <div className="profile-info">
                         <ul>
                             <li>{data.displayName}</li>
-                            <li>Name tag</li>
 
                         </ul>
                        {isOwner ? <div>
-                            <a href="">
-                                <div className="settings-btn">
-                                    Modify profile
-                                </div>
-                            </a>
-                        </div>: null} 
+                            <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={()=>{props.setShowEditProfile(true)}} className="settings-btn">
+                                Modify
+                            </motion.div>
+                        </div>: null}
                     </div>
                     <div className="bio-text">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate dolorem quidem veritatis? Minima nam inventore quae tenetur! Vitae atque distinctio pariatur delectus error cum ullam quia laborum, corporis, nulla eveniet.</p>
+                        <p>{data.bio}</p>
                     </div>
                 </div>
 
      );
 }
- 
+
 export default ProfileInfo;

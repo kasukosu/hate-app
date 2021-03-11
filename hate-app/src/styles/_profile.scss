@@ -1,33 +1,31 @@
-.profile-feed{
+
+.profile-grid{
+    padding: 15px 15px;
     display: flex;
     flex-direction: column;
-    width: 500px;
-    margin: auto;
-    padding: 8px 8px;
-    border: 2px rgba(0, 0, 0, 0.75) solid;
-    background-color: #121212;
-    gap: 8px;
-    .profile-grid{
-        padding: 8px 8px;
+    box-shadow: rgb(29, 30, 34) 0 0 14px;
+    background-color: rgba(35, 36, 42, 1);
+    border-radius: 10px;
+    color: white;
+    gap: 10px;
+    .profile-info{
         display: flex;
-        flex-direction: column;
-        background-color: #1E1E1E;
-        grid-template-columns: 3fr 7fr;
-        color: white;
-        gap: 10px;
-        .profile-info{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
-            ul{
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-weight: 300;
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
         }
     }
+    .bio-text{
+        font-weight: 200;
+
+    }
 }
+
 
 a{
     text-decoration: none;
@@ -38,9 +36,13 @@ a{
 .settings-btn{
     display: flex;
     place-content: center center;
-    width: 150px;
-    border: #313131 2px solid;
+    width: 120px;
+    font-size: 14px;
+    border-radius: 10px;
     text-align: center;
+    background-color: rgb(55, 57, 70);
     padding: 5px 0px;
+    font-weight: 500;
+    cursor: pointer;
 
 }

@@ -1,28 +1,35 @@
-.create-post{
-    // margin-bottom: 8px;
-}
 
-form{
+.create-post{
+  form{
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 10px 10px;
-    background-color: #121212;
-
+    box-shadow: rgb(29, 30, 34) 0 0 14px;
+    background-color: rgba(35, 36, 42, 1);
+    border-radius: 10px;
+    padding: 10px 0px;
     &.creator{
       width: 500px;
     }
     .input-box{
       display: flex;
       flex-direction: column;
-      
+      padding: 0px 0px;
+      label{
+        display: block;
+        padding: 10px 15px;
+      }
     }
     input,textarea{
       margin: 8px 0px;
-      padding: 5px 5px;
+      padding: 5px 0px;
       border:none;
       border-radius: 4px;
-      background-color: #1E1E1E;
+      background-color: rgba(35, 36, 42, 1);
+      border-top: rgb(49, 49, 49) 1px solid;
+      border-bottom: rgb(49, 49, 49) 1px solid;
+
+
       color: white;
       resize: none;
       &:focus{
@@ -31,32 +38,100 @@ form{
     }
     textarea{
       height: 160px;
-      
+      padding: 15px;
+      font-size: 18px;
+      font-family: inherit;
+
+
     }
     input:focus, textarea:focus{
       transition: all 0.2s;
     }
-  
+
     button{
       padding: 5px 0px;
       border:none;
       border-radius: 4px;
+      font-weight: 400;
       cursor: pointer;
       color: white;
-      background-color: #1E1E1E;
+      background-color: rgb(55, 57, 70);
       width: 100px;
       align-self: center;
       transition: all ease 0.2s;
-      &:hover{
-        background-color: #424242;
-
-      }
+      font-family: inherit;
     }
     label{
       font-weight: 400;
       color: white;
     }
-    
+
+  }
+}
+.create-comment{
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgba(35, 36, 42, 1);
+    border-radius: 10px;
+    padding-bottom: 10px;
+    &.creator{
+      width: 500px;
+    }
+    .input-box{
+      display: flex;
+      flex-direction: column;
+      padding: 0px 0px;
+      label{
+        display: block;
+        padding: 10px 15px;
+      }
+    }
+    input,textarea{
+      padding: 5px 0px;
+      border:none;
+      border-radius: 4px;
+      background-color: rgba(35, 36, 42, 1);
+      border-top: rgb(49, 49, 49) 1px solid;
+      border-bottom: rgb(49, 49, 49) 1px solid;
+
+
+      color: white;
+      resize: none;
+      &:focus{
+        outline:none;
+      }
+    }
+    textarea{
+      height: 160px;
+      padding: 15px;
+      font-size: 18px;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus{
+      transition: all 0.2s;
+    }
+
+    button{
+      padding: 5px 0px;
+      border:none;
+      border-radius: 4px;
+      font-weight: 400;
+      cursor: pointer;
+      color: white;
+      background-color: rgb(55, 57, 70);
+      width: 100px;
+      align-self: center;
+      transition: all ease 0.2s;
+      font-family: inherit;
+    }
+    label{
+      font-weight: 400;
+      color: white;
+    }
+
+  }
 }
 
 

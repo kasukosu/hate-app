@@ -1,4 +1,5 @@
 @import "./styles/navbar";
+@import "./styles/modal";
 @import "./styles/post";
 @import "./styles/creator";
 @import "./styles/profile";
@@ -9,13 +10,13 @@ body{
 .App {
   font-family: 'Raleway', sans-serif;
   // background-image: radial-gradient(circle, #0e0e11, #0c0b0d, #090709, #050304, #000000);
-  background-color: #1E1E1E;
+  background-color: #1B1C22;
   padding-bottom: 40px;
   min-height: 100vh;
 }
 
 .create-post{
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;

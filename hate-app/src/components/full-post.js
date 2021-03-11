@@ -6,6 +6,8 @@ import CommentList from './commentlist';
 import { useParams } from 'react-router-dom';
 import {motion} from 'framer-motion';
 
+
+
 const FullPost = (props) => {
 
     const { id } = useParams()
@@ -17,15 +19,41 @@ const FullPost = (props) => {
     const [postData, pLoading, pError] = useDocumentDataOnce(pQuery, {idField: 'id'});
     const [comments, cLoading, cError] = useCollectionData(cQuery, {idField: 'id'});
 
-    console.log(comments);
+    const containerVariants = {
+        hidden:{
+            y: -50,
+            opacity: 0,
+        },
+        visible:{
+            y: 0,
+            opacity: 1,
+            transition:{
+                duration: 0.2,
+            }
+        },
+        exit:{
+            y: 50,
+            opacity: 0,
+            transition: {
+                ease: 'easeInOut',
+            }
+        },
 
+
+
+    }
 
     return (
         <>
             {postData &&
-                <motion.section  initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.2, delay: 0.3}} className="postfeed">
+                <motion.section
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="feed">
                     {postData &&
-                        <Post showRecentComments={false} post={postData}/>
+                        <Post setShowSignIn={props.setShowSignIn} showRecentComments={false} post={postData}/>
                     }
                     {comments &&
                         <CommentList comments={comments}/>

@@ -5,9 +5,9 @@ const CreatePost = (props) => {
     const user = props.user;
     return (
         <div>
-            {user ? <Creator/> : <SignIn/>}
+            <Creator/>
         </div>
     );
 }
- 
+
 export default CreatePost;
