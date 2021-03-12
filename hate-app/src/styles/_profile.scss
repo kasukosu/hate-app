@@ -1,6 +1,6 @@
 
 .profile-grid{
-    padding: 15px 15px;
+    padding: 15px 0px;
     display: flex;
     flex-direction: column;
     box-shadow: rgb(29, 30, 34) 0 0 14px;
@@ -8,12 +8,15 @@
     border-radius: 10px;
     color: white;
     gap: 10px;
+    max-width: 500px;
+    width: 95%;
     .profile-info{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-start;
         font-weight: 300;
+        padding: 10px 15px;
         ul{
             list-style-type: none;
             margin: 0;
@@ -22,10 +25,33 @@
     }
     .bio-text{
         font-weight: 200;
+        padding: 0px 15px;
 
     }
 }
+.profile-top{
+    display: flex;
+    flex-direction: row;
+    min-height: 105px;
+    padding: 0px 15px;
+    .profile-top-grid{
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        align-items: flex-start;
+        grid-template-areas: 'left-top right-top' 'left-bot right-bot';
+        .settings-btn{
+            grid-area: right-top;
+            justify-self: right;
+        }
 
+    }
+    img{
+        width: 100px;
+        border-radius: 10px;
+    }
+}
 
 a{
     text-decoration: none;
@@ -36,7 +62,7 @@ a{
 .settings-btn{
     display: flex;
     place-content: center center;
-    width: 120px;
+    width: 80px;
     font-size: 14px;
     border-radius: 10px;
     text-align: center;

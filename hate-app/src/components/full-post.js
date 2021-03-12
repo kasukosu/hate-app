@@ -16,8 +16,8 @@ const FullPost = (props) => {
     const cRef = db.collection("posts").doc(id).collection("comments");
     const cQuery = cRef.orderBy("createdAt", "desc").limit(150);
 
-    const [postData, pLoading, pError] = useDocumentDataOnce(pQuery, {idField: 'id'});
-    const [comments, cLoading, cError] = useCollectionData(cQuery, {idField: 'id'});
+    const [postData ] = useDocumentDataOnce(pQuery, {idField: 'id'});
+    const [comments] = useCollectionData(cQuery, {idField: 'id'});
 
     const containerVariants = {
         hidden:{

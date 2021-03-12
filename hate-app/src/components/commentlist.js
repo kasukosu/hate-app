@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useState }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {motion} from 'framer-motion';
@@ -24,9 +24,7 @@ const Comment = (props) => {
     const {author, message, id, photoURL, displayName, votes, createdAt, post_id} = props.comment;
     console.log(votes);
     const [user] = useAuthState(auth);
-    const getTimestamp = props.getTimestamp;
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
-    const [isOwner, setIsOwner] = useState(false);
 
     const handleHates = async(id) => {
         const cRef = db.collection('posts').doc(post_id).collection("comments").doc(id);
@@ -58,7 +56,7 @@ const Comment = (props) => {
             <div className="comment-container">
                 <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
                     <div className="left">
-                        <img src={photoURL}/>
+                        <img src={photoURL} alt="Profile Pic"/>
                         <span className="username"><a href={`/profile/${author}`}>{displayName}</a></span>
                         {/* <span className="timestamp">{getTimestamp()}</span> */}
                     </div>

@@ -34,7 +34,7 @@ const inputContainerVariants = {
         height: 0,
     },
     visible:{
-        height: 260,
+        height: 160,
         transition:{
             duration:0.2,
 
