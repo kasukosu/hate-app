@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { auth, db } from '../firebase/firebaseConfig';
 // import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
-import { useCollectionData, useDocumentDataOnce, useDocumentOnce } from 'react-firebase-hooks/firestore';
-import Post from './post';
-import ProfileInfo from './profileinfo';
+import { useCollectionData, useDocumentDataOnce, useDocumentOnce, useDocumentData } from 'react-firebase-hooks/firestore';
+import ProfileInfo from './profile-info';
+import ProfileTabs from './profile-tabs';
 import EditProfile from './edit-profile';
 import {motion, AnimatePresence } from 'framer-motion';
 const containerVariants = {
@@ -54,12 +54,9 @@ const modalVariants = {
 
 const Profile = () => {
     const { id } = useParams();
-    const postsRef = db.collection('posts');
     const userRef = db.collection('users');
     const uQuery = userRef.doc(id);
-    const pQuery = postsRef.where("author", "==", id);
-    const [userData, loading, error] = useDocumentDataOnce(uQuery, {idField: 'id'});
-    const [posts] = useCollectionData(pQuery, {idField: 'id'});
+    const [userData] = useDocumentData(uQuery, {idField: 'id'});
     const [showEditProfile, setShowEditProfile] = useState(false);
 
     return (
@@ -75,7 +72,7 @@ const Profile = () => {
                 {userData &&
                     <ProfileInfo setShowEditProfile={setShowEditProfile} data={userData}/>
                 }
-                    {posts && posts.map(post => <Post key={post.id} post={post}/> )}
+                <ProfileTabs userData={userData}></ProfileTabs>
             </motion.div>
 
     );

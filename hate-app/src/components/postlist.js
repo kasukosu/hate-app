@@ -54,6 +54,7 @@ const Postlist = (props) => {
     const postsRef = db.collection('posts');
     const query = postsRef.orderBy('createdAt','desc').limit(20);
     const [posts] = useCollectionData(query, {idField: 'id'});
+    
     console.log(props)
     return (
         <>

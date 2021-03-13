@@ -13,20 +13,18 @@ function SignIn(props) {
       auth.signInWithPopup(provider)
       .then((results=> {
         let user = auth.currentUser;
-
         if(user!=null){
           if(!checkUserExist(user)){
             addUser();
           }
         }
       }));
-
   }
 
   const addUser = async(e) => {
     const userRef = db.collection('users');
     const {uid, photoURL, displayName} = auth.currentUser;
-
+    console.log("Adding new user")
     await userRef.doc(uid).set({
         user_id: uid,
         photoURL: photoURL,
@@ -42,22 +40,21 @@ function SignIn(props) {
         followers: [{}],
         follows: [{}],
     })
-
   }
 
-  const checkUserExist = (user) => {
+  const checkUserExist = async(user) => {
     if(user.uid != null){
-
       const userRef = db.collection('users').doc(user.uid);
-      userRef.get().then((user) => {
+      await userRef.get().then((user) => {
         if(user.exists){
           //continue if user already exists
+          console.log("User Exists:", user.data());
           return true;
 
         }
         else{
-
           //create profile ifit doesnt exist
+          console.log("User doesn't exist:", user.data());
           return false;
         }
       });

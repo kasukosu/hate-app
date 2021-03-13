@@ -1,0 +1,67 @@
+input[type=radio]{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.tab-selector{
+    display: flex;
+    max-width: 500px;
+    justify-content: space-around;
+    width: 95%;
+    height: 35px;
+}
+.tab-container{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    
+}
+.span-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+}
+.tab-btn{
+    display: block;
+    width: 100%;
+    background-color: #23242a;
+    color: #f2f2f2;
+    font-weight: 500;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+    &.left{
+        border-radius: 10px 0px 0px 10px;
+        border-right: rgb(49, 49, 49) 1px solid;
+    }
+    &.right{
+        border-radius: 0px 10px 10px 0px;
+        border-left: rgb(49, 49, 49) 1px solid;
+
+
+    }
+    &:hover{
+        background-color: rgba(78, 81, 94, 0.3);
+    }
+}
+
+[type="radio"]:checked + .tab-btn {
+    background-color: rgb(78, 81, 94);
+}
+
