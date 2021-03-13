@@ -17,6 +17,8 @@ const [user] = useAuthState(auth);
 const [showSignIn, setShowSignIn] = useState(false);
 const [showCreateNewPost, setShowCreateNewPost] = useState(false);
 
+
+
 const location = useLocation();
 
   return (
@@ -24,16 +26,24 @@ const location = useLocation();
 
         <section className="container">
           <nav className="navbar">
-            <div className="logo">
-              <Link to="/"><h1>Hatesome</h1></Link>
-            </div>
+            
             <ul>
+              <li className="logo">
+                <Link to="/"><h1>Hatesome</h1></Link>
+              </li>
               {user ? null : <li onClick={()=>setShowSignIn(true)}>SignIn</li>}
-              {user ? <li onClick={()=>setShowCreateNewPost(true)}>Add new</li> : null}
+              {user ? <Link to="/"><li onClick={()=>setShowCreateNewPost(true)}>Add new</li></Link> : null}
               <li>{user ? <SignOut/>:""}</li>
-
+              {user && 
+              <Link to={`/profile/${user.uid}`}>
+                <li>
+                  <img src={user.photoURL} alt="Profile Pic"/>
+                </li>
+              </Link> 
+            }
             </ul>
-
+            
+            
 
           </nav>
           {showSignIn && <SignIn setShowSignIn={setShowSignIn}/>}

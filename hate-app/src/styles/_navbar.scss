@@ -9,9 +9,13 @@
         flex-direction: row;
         list-style-type: none;
         align-items: center;
+        justify-content: space-around;
+        padding: 0;
+        max-width: 500px;
+        width: 95%;
+        margin: 0;
         li{
 
-            margin-right: 25px;
             color: #f2f2f2;
             cursor: pointer;
             a{

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import {motion, AnimatePresence} from 'framer-motion';
-
 const imageVariants = {
     hidden: {
         opacity: 0,
@@ -25,7 +24,6 @@ const ProfileInfo = (props) => {
         followsProfile: false,
         class: "follow no",
     })
-    console.log(data)
     useEffect(() =>{
         if(user!=null){
             const isOwner = data.user_id === auth.currentUser.uid ? true : false;
@@ -37,15 +35,14 @@ const ProfileInfo = (props) => {
 
             }
         }
-        setImageLoaded(true);
     },[]);
 
 
-    const handleFollow = async(e) => {
+    const handleFollow = async(target_id) => {
         console.log(user.uid)
         if(user!=null){
             const currentUser = user.uid;
-            const targetRef = db.collection('users').doc(data.user_id);
+            const targetRef = db.collection('users').doc(target_id);
             const currentRef = db.collection('users').doc(currentUser);
             if(!followed.followsProfile){
                 //Add id to target users followers list
@@ -57,7 +54,7 @@ const ProfileInfo = (props) => {
                 //Add id to currentusers following list
                 await currentRef.update(
                     {
-                        follows : firebase.firestore.FieldValue.arrayUnion(data.user_id)
+                        follows : firebase.firestore.FieldValue.arrayUnion(target_id)
                     }
                 );
                 hasFollowed({followsProfile: true, class:"follow yes"});
@@ -72,7 +69,7 @@ const ProfileInfo = (props) => {
                 //Remove id from currentusers following list
                 await currentRef.update(
                     {
-                        follows : firebase.firestore.FieldValue.arrayRemove(data.user_id)
+                        follows : firebase.firestore.FieldValue.arrayRemove(target_id)
                     }
                 );
                 hasFollowed({followsProfile: false, class:"follow no"});
@@ -85,12 +82,8 @@ const ProfileInfo = (props) => {
 
                 <div className="profile-grid">
                     <div className="profile-top">
-                        <AnimatePresence>
-                            {imageLoaded &&
                                 <motion.img variants={imageVariants} initial="hidden" animate="visible" src={data.photoURL} alt="Photo"/>
-                            }
-
-                        </AnimatePresence>
+                
                         <div className="profile-top-grid">
 
                             {isOwner ?
@@ -98,7 +91,7 @@ const ProfileInfo = (props) => {
                                     Modify
                                 </motion.div>
                                 :
-                                <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={handleFollow} className="settings-btn">
+                                <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={() => {handleFollow(data.user_id)}} className="settings-btn">
                                     Follow
                                 </motion.div>
                             }

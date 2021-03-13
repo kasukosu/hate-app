@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { auth, db } from '../firebase/firebaseConfig';
-// import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
-import { useCollectionData, useDocumentDataOnce, useDocumentOnce, useDocumentData } from 'react-firebase-hooks/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 import ProfileInfo from './profile-info';
 import ProfileTabs from './profile-tabs';
 import EditProfile from './edit-profile';
@@ -12,19 +11,20 @@ const containerVariants = {
     hidden: {
         opacity: 0,
         scale:0.9,
+        y: -50,
 
     },
     visible:{
         opacity:1,
         scale:1,
-
+        y: 0,
         transition:{
             delay: 0.2,
             duration:0.3,
         }
     },
     exit:{
-        y: -50,
+        y: 40,
         scale: 0.8,
         opacity: 0,
         transition:{

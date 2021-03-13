@@ -7,12 +7,11 @@ import {  } from '@fortawesome/free-regular-svg-icons';
 import Confirmation from './confirmation';
 import CommentList from './commentlist';
 import CreateComment from './create-comment';
-
 import { motion, AnimatePresence }from 'framer-motion';
 import {Link} from 'react-router-dom';
 
 const Post = (props) => {
-    const {author, message, id, photoURL, displayName, createdAt, votes, recentComments} = props.post;
+    const {author, message, id, photoURL, displayName, createdAt, votes, recentComments, commentCount} = props.post;
     const [show, setShow] = useState();
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
@@ -180,11 +179,14 @@ const Post = (props) => {
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
                         {user ?
-                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
+                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
+                                <span className="count">{commentCount ? commentCount : 0 }</span>
+
                             </motion.div>
+                            
                             :
-                            <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
+                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                             </motion.div>
                         }

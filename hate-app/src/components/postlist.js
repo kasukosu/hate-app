@@ -8,18 +8,20 @@ import CreatePost from "./create-post";
 const containerVariants = {
     hidden: {
         opacity: 0,
+        y: -50,
         scale:0.9,
     },
     visible:{
         opacity:1,
         scale:1,
+        y: 0,
         transition:{
             delay: 0.2,
             duration:0.3,
         }
     },
     exit:{
-        y: -50,
+        y: 40,
         scale: 0.8,
         opacity: 0,
         transition:{
@@ -54,7 +56,7 @@ const Postlist = (props) => {
     const postsRef = db.collection('posts');
     const query = postsRef.orderBy('createdAt','desc').limit(20);
     const [posts] = useCollectionData(query, {idField: 'id'});
-    
+
     console.log(props)
     return (
         <>
