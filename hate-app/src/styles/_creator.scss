@@ -1,5 +1,7 @@
 
 .create-post{
+  max-width: 500px;
+  width: 95%;
   form{
     display: flex;
     flex-direction: column;
@@ -9,8 +11,7 @@
     border-radius: 10px;
     padding: 10px 0px;
     &.creator{
-      max-width: 500px;
-      width: 95%;
+      width: 100%;
     }
     .input-box{
       display: flex;

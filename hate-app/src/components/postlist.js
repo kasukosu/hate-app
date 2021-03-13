@@ -60,14 +60,14 @@ const Postlist = (props) => {
     console.log(props)
     return (
         <>
-            {props.showCreateNewPost &&
-                <motion.div variants={inputContainerVariants} initial="hidden" animate="visible" exit="exit">
-                    <CreatePost/>
+            {/* {props.showCreateNewPost &&
+                <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit">
                 </motion.div>
-            }
+            } */}
 
             {posts &&
                 <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="feed">
+                    <CreatePost/>
                     {posts && posts.map(post =>
                         <Post key={post.id} setShowSignIn={props.setShowSignIn} showRecentComments={false} post={post}/>
                     )}

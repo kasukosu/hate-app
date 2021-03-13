@@ -15,7 +15,7 @@ function App() {
 
 const [user] = useAuthState(auth);
 const [showSignIn, setShowSignIn] = useState(false);
-const [showCreateNewPost, setShowCreateNewPost] = useState(false);
+const [showCreateNewPost, setShowCreateNewPost] = useState(true);
 
 
 
