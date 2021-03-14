@@ -1,10 +1,12 @@
 .feed{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 100%;
     margin: auto;
-    gap: 20px;
+    grid-gap: 20px;
 }
 .profile-image{
     img{
@@ -85,6 +87,8 @@
 
 }
 .post{
+    align-self: center;
+    justify-self: center;
     display: flex;
     flex-direction: column;
     box-shadow: rgb(29, 30, 34) 0 0 14px;
