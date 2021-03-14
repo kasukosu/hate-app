@@ -99,9 +99,10 @@
 }
 
 .follower-list{
+    align-self: center;
+    justify-self: center;
     display: flex;
     flex-direction: column;
-    gap: 6px;
     max-width: 500px;
     width: 95%;
 
@@ -113,6 +114,7 @@
         background-color: rgba(35, 36, 42, 1);
         justify-content: center;
         border-radius: 8px;
+        margin-bottom: 6px;
         .settings-btn{
             color: #f2f2f2;
         }

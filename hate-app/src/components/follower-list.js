@@ -32,7 +32,7 @@ const FollowerList = (props) => {
     return ( 
 
         <motion.div className="follower-list">
-            {props.userData.followers ? props.userData.followers.map(follower =>
+            {props.userData.followers && props.userData.followers.length>0 ? props.userData.followers.map(follower =>
                 <Follower key={follower} follower={follower} />
             ) : 
             <h2>No followers 😢</h2>}
@@ -45,16 +45,17 @@ const FollowerList = (props) => {
 
 const Follower = (props) => {
 
-    console.log(props.follower)
+    const followerId = props.follower;
+    console.log(props);
+    console.log(followerId);
     const userRef = db.collection('users');
-    const uQuery = userRef.doc(props.follower);
-    const [userData, error, loading] = useDocumentData(uQuery, {idField: 'id'});
+    const uQuery = userRef.doc(followerId);
+    const [userData] = useDocumentData(uQuery, {idField: 'id'});
     const [user] = useAuthState(auth);
     const [followed, hasFollowed] = useState({
         followsProfile: false,
         class: "follow no",
     })
-    console.log(user);
     // const followed = useFollowHook(user.user_id)
     useEffect(() =>{
         if(userData!=null){
@@ -66,7 +67,7 @@ const Follower = (props) => {
             }
         }
 
-    },[]);
+    },[userData]);
 
 
     const handleFollow = async(target_id) => {
@@ -113,7 +114,6 @@ const Follower = (props) => {
             }
         }
     }
-    console.log(props.follower)
     return(
         <>
             <AnimatePresence>

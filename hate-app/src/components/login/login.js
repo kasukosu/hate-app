@@ -49,12 +49,12 @@ function SignIn(props) {
         bio: "",
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         private: false,
-        posts: [{}],
-        votes: [{}],
-        shares: [{}],
-        comments: [{}],
-        followers: [{}],
-        follows: [{}],
+        posts: [],
+        votes: [],
+        shares: [],
+        comments: [],
+        followers: [],
+        follows: [],
     })
 
   }
