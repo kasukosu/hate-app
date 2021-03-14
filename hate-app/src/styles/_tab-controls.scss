@@ -7,6 +7,8 @@ input[type=radio]{
 }
 
 .tab-selector{
+    align-self: center;
+    justify-self: center;
     display: flex;
     max-width: 500px;
     justify-content: space-around;
@@ -14,6 +16,8 @@ input[type=radio]{
     height: 35px;
 }
 .tab-container{
+    align-self: center;
+    justify-self: center;
     display: flex;
     position: relative;
     justify-content: center;

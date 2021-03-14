@@ -56,26 +56,24 @@ const location = useLocation();
             <AnimatePresence>
               {user ?
 
-                <motion.ul variants="navVariants" initial="hidden" animate="visible">
-                  <li className="logo">
+                <motion.div variants="navVariants" initial="hidden" animate="visible" className="nav-grid">
+                  <div className="logo">
                     <Link to="/"><h1>Hatesome</h1></Link>
-                  </li>
-                  {user ? <Link to="/" onClick={()=>setShowCreateNewPost(true)}>Add new</Link> : null}
-                  {user ?<li><SignOut/></li> : null}
+                  </div>
+                  {user ?<div><SignOut/></div> : null}
                   {photoURL && 
                   <Link to={`/profile/${user.uid}`}>
                       <img src={photoURL} alt="Profile Pic"/>
                   </Link> 
                 }
-                </motion.ul> : null
+                </motion.div> : null
               }
               {user ? null :
-                <motion.ul variants="navVariants" initial="hidden" animate="visible">
-                    <li className="logo">
+                <motion.div variants="navVariants" initial="hidden" animate="visible" className="nav-grid">
+                    <div className="logo">
                       <Link to="/"><h1>Hatesome</h1></Link>
-                    </li>
-                    <li onClick={()=>setShowSignIn(true)}>SignIn</li>
-                </motion.ul>
+                    </div>
+                </motion.div>
               }
             </AnimatePresence>
           </nav>
@@ -88,7 +86,7 @@ const location = useLocation();
             <Switch location={location} key={location.pathname}>
               <Route exact path="/" render={(props) => ( <PostList {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
               <Route path="/post/:id" render={(props) => ( <FullPost {...props} setShowSignIn={setShowSignIn} />)} />
-              <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} /> )} />
+              <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} setShowSignIn={setShowSignIn} /> )} />
             </Switch>
           </AnimatePresence>
         </section>

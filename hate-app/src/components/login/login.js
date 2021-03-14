@@ -1,10 +1,8 @@
 import React from 'react';
 import {auth, firebase, db} from "../../firebase/firebaseConfig";
-import { useAuthState, useCollectionData } from 'react-firebase-hooks/auth';
-import {AnimatePresence, motion} from 'framer-motion';
+import { motion} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { fa } from '@fortawesome/free-solid-svg-icons';
 
 function SignIn(props) {
 
@@ -14,10 +12,27 @@ function SignIn(props) {
       .then((results=> {
         let user = auth.currentUser;
         if(user!=null){
-          if(!checkUserExist(user)){
-            addUser();
-          }
-          props.setShowSignIn(false)
+          
+          checkUserExist(user).then((user) => {
+            if(user.exists){
+              //continue if user already exists
+              console.log("User Exists:", user.data());
+              props.setShowSignIn(false)
+              return;
+    
+            }
+            else{
+              //create profile ifit doesnt exist
+              console.log("User doesn't exist:", user.data());
+              addUser().then((event)=>{
+                window.location.reload();
+                props.setShowSignIn(false)
+                
+              });
+              return;
+            }
+          })
+          console.log(user);
         }
       }));
   }
@@ -41,27 +56,14 @@ function SignIn(props) {
         followers: [{}],
         follows: [{}],
     })
+
   }
 
   const checkUserExist = async(user) => {
-    if(user.uid != null){
       const userRef = db.collection('users').doc(user.uid);
-      await userRef.get().then((user) => {
-        if(user.exists){
-          //continue if user already exists
-          console.log("User Exists:", user.data());
-          return true;
-
-        }
-        else{
-          //create profile ifit doesnt exist
-          console.log("User doesn't exist:", user.data());
-          return false;
-        }
-      });
-    }
-
+      return await userRef.get();
   }
+
   return (
       <motion.div initial={{y: -40, opacity: 0}} animate={{ y: 0, opacity: 1}} exit={{opacity: 0}} className="modal">
         <section className="modal-main">

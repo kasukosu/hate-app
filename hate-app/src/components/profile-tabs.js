@@ -74,7 +74,7 @@ const TabItem = (props) => {
 
             return(
                 <>
-                    {props.posts ? props.posts.map(post => <Post key={post.id} post={post}/> ):null}
+                    {props.posts ? props.posts.map(post => <Post key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> ):null}
                 </>
 
             )
@@ -83,7 +83,7 @@ const TabItem = (props) => {
             console.log(props.hatedPosts)
             return(
                 <>
-                    {props.hatedPosts ? props.hatedPosts.map(post => <Post key={post.id} post={post}/> ): <h2>You dont hate on anything 🌼</h2>}
+                    {props.hatedPosts ? props.hatedPosts.map(post => <Post key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> ): <h2>You dont hate on anything 🌼</h2>}
                 </>
 
 

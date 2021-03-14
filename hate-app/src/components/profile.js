@@ -53,7 +53,7 @@ const modalVariants = {
     }
 }
 
-const Profile = () => {
+const Profile = (props) => {
     const { id } = useParams();
     const userRef = db.collection('users');
     const uQuery = userRef.doc(id);
@@ -89,7 +89,7 @@ const Profile = () => {
                 {userData &&
                     <ProfileInfo postCount={postCount} setShowEditProfile={setShowEditProfile} data={userData}/>
                 }
-                {posts && hatedPosts && userData ? <ProfileTabs posts={posts} hatedPosts={hatedPosts} userData={userData}></ProfileTabs> : null}
+                {posts && hatedPosts && userData ? <ProfileTabs posts={posts} setShowSignIn={props.setShowSignIn} hatedPosts={hatedPosts} userData={userData}></ProfileTabs> : null}
             </motion.div>
 
     );

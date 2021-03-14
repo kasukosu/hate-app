@@ -1,11 +1,13 @@
 .navbar{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     height: 60px;
     min-height: 60px;
-    ul{
+    .nav-grid{
+        justify-self: center;
         display: flex;
         flex-direction: row;
         list-style-type: none;
@@ -19,33 +21,28 @@
         background-color: rgba(66, 69, 84, 0.7);
         padding: 8px 0px;
         min-height: 40px;
-        li{
-
-            color: #f2f2f2;
-            cursor: pointer;
-            
-
-        }
-        a{
-            display: flex;
-            text-decoration: none;
-            color: #f2f2f2;
-            font-weight: 400;
-        }
-        button{
-            border: none;
-            background-color: transparent;
-            color: white;
-            font-family: inherit;
-            font-size: inherit;
-            outline: none;
-            cursor: pointer;
-        }
+    }
+    
+    a{
+        display: flex;
+        text-decoration: none;
+        color: #f2f2f2;
+        font-weight: 400;
+    }
+    button{
+        border: none;
+        background-color: transparent;
+        color: white;
+        font-family: inherit;
+        font-size: inherit;
+        outline: none;
+        cursor: pointer;
     }
     img{
         width: 40px;
         border-radius: 10px;
         box-shadow: rgba(29, 30, 34, 0.6) 0 0 16px;
-
+    
     }
 }
+
