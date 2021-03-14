@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { auth, db } from '../firebase/firebaseConfig';
 import { useParams } from 'react-router-dom';
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useCollectionData, useDocumentData, useDocumentOnce } from 'react-firebase-hooks/firestore';
+
 import ProfileInfo from './profile-info';
 import ProfileTabs from './profile-tabs';
 import EditProfile from './edit-profile';
@@ -58,6 +59,22 @@ const Profile = () => {
     const uQuery = userRef.doc(id);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
     const [showEditProfile, setShowEditProfile] = useState(false);
+    const postsRef = db.collection('posts');
+    const pQuery = postsRef.where("author", "==", id);
+    const [posts] = useCollectionData(pQuery, {idField: 'id'});
+    const hQuery = postsRef.where("votes", "array-contains", id);
+    const [hatedPosts] = useCollectionData(hQuery, {idField: 'id'});
+    const [postCount, setPostCount] = useState();
+
+    useEffect(() =>{
+        console.log(posts)
+        if(posts){
+            let count = posts.length;
+            setPostCount(count)
+        }
+        
+    },[posts]);
+
 
     return (
 
@@ -70,9 +87,9 @@ const Profile = () => {
                     }
                 </AnimatePresence>
                 {userData &&
-                    <ProfileInfo setShowEditProfile={setShowEditProfile} data={userData}/>
+                    <ProfileInfo postCount={postCount} setShowEditProfile={setShowEditProfile} data={userData}/>
                 }
-                <ProfileTabs userData={userData}></ProfileTabs>
+                {posts && hatedPosts && userData ? <ProfileTabs posts={posts} hatedPosts={hatedPosts} userData={userData}></ProfileTabs> : null}
             </motion.div>
 
     );

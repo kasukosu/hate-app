@@ -6,11 +6,11 @@ const CreatePost = (props) => {
     const [blogpost, setBlogPost] = useState({
         message:"", author:""
     })
+    const user = auth.currentUser;
 
 
     const addPost = async(e) => {
         e.preventDefault();
-        const user = auth.currentUser;
         if(user!=null){
             const {uid, photoURL, displayName} = user;
             await postsRef.add({
@@ -41,12 +41,20 @@ const CreatePost = (props) => {
 
     return (
         <section className="create-post">
+            {user ? null : 
+                    <div onClick={()=>{props.setShowSignIn(true)}} className="loginFirst">
+                        <p>😈 Login to start hating! 😈</p>
+                        <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.1}} className="login" type="submit">Login</motion.button>
+
+                    </div>
+                }
             <form className="creator" onSubmit={addPost}>
+                
                 <div className="input-box">
                     <textarea placeholder="What do you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
                 </div>
 
-                <motion.button whileHover={{backgroundColor: 'rgb(104,84,134)'}} transition={{duration:0.1}} onClick={addPost} type="submit">Submit</motion.button>
+                <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} type="submit" className="save">Save</motion.button>
             </form>
         </section>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import Post from './post';
 import {db} from "../firebase/firebaseConfig";
 import { useCollectionData, useDocumentDataOnce } from 'react-firebase-hooks/firestore';
-import CommentList from './commentlist';
+import CommentList from './comment-list';
 import { useParams } from 'react-router-dom';
 import {motion} from 'framer-motion';
 

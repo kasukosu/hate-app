@@ -67,7 +67,7 @@ const Postlist = (props) => {
 
             {posts &&
                 <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="feed">
-                    <CreatePost/>
+                    <CreatePost setShowSignIn={props.setShowSignIn}/>
                     {posts && posts.map(post =>
                         <Post key={post.id} setShowSignIn={props.setShowSignIn} showRecentComments={false} post={post}/>
                     )}

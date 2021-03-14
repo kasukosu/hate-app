@@ -1,7 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV, faArrowLeft, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import {motion, AnimatePresence} from 'framer-motion';
+
+import DropdownItem from './dropdown-item';
+
+
+
 const imageVariants = {
     hidden: {
         opacity: 0,
@@ -19,6 +27,7 @@ const ProfileInfo = (props) => {
     const {followers} = props.data.followers;
     const [isOwner, setIsOwner] = useState(false);
     const [user] = useAuthState(auth);
+    const [openDropdown, setOpenDropdown] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [followed, hasFollowed] = useState({
         followsProfile: false,
@@ -36,10 +45,7 @@ const ProfileInfo = (props) => {
             }
         }
     },[]);
-
-
     const handleFollow = async(target_id) => {
-        console.log(user.uid)
         if(user!=null){
             const currentUser = user.uid;
             const targetRef = db.collection('users').doc(target_id);
@@ -81,29 +87,64 @@ const ProfileInfo = (props) => {
     return (
 
                 <div className="profile-grid">
+                    <div className="profile-heading">
+                        <Link to="/">
+                            <motion.div whileHover={{ backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" >
+                                <FontAwesomeIcon icon={faArrowLeft}/>
+                            </motion.div>
+                        </Link>
+                        <p>{data.displayName}</p>
+                        <motion.div whileHover={{ backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
+                            <FontAwesomeIcon icon={faEllipsisH}/>
+                        </motion.div>
+
+                    </div>
+                    <AnimatePresence>
+
+                        {openDropdown &&
+                            <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
+                                {isOwner ? <ul>
+                                        <DropdownItem>Lorem ipsum</DropdownItem>
+                                        <DropdownItem>Lorem ipsum</DropdownItem>
+                                        <DropdownItem>Lorem ipsum</DropdownItem>
+                                </ul> :
+                                <ul>
+                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
+                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
+                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
+
+                                </ul>
+                                }
+                            </motion.div>
+                        }
+                    </AnimatePresence>
+
                     <div className="profile-top">
-                                <motion.img variants={imageVariants} initial="hidden" animate="visible" src={data.photoURL} alt="Photo"/>
-                
+                            <motion.img whileHover={{}} src={data.photoURL} alt="Photo"/>
                         <div className="profile-top-grid">
+                            
+                            <div className="profile-stats">
+                                <p><span className="count">{props.postCount}</span> Posts</p>
+                                <p><span className="count">{data.followers.length}</span> Followers</p>
+                                <p><span className="count">{data.follows.length}</span> Following</p>
+
+                            </div>
 
                             {isOwner ?
                                 <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={()=>{props.setShowEditProfile(true)}} className="settings-btn">
                                     Modify
                                 </motion.div>
-                                :
+                                : null }
+                                
+                            {user && !isOwner ? 
                                 <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={() => {handleFollow(data.user_id)}} className="settings-btn">
                                     Follow
-                                </motion.div>
-                            }
+                                </motion.div> 
+                                : null }    
+                            
                         </div>
                     </div>
-                    <div className="profile-info">
-                        <ul>
-                            <li>{data.displayName}</li>
-
-                        </ul>
-
-                    </div>
+                    
                     <div className="bio-text">
                         <p>{data.bio}</p>
                     </div>

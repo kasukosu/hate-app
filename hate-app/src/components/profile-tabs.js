@@ -2,30 +2,23 @@ import React, {useState, useEffect} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import {motion, AnimatePresence} from 'framer-motion';
-import { useParams } from 'react-router-dom';
-import { useCollectionData, useDocumentDataOnce, useDocumentOnce } from 'react-firebase-hooks/firestore';
 
 import Post from './post';
 import FollowerList from './follower-list';
 
-const ProfileTabs = (props) => {
-    const { id } = useParams();
-    const postsRef = db.collection('posts');
-    const pQuery = postsRef.where("author", "==", id);
-    const hQuery = postsRef.where("votes", "array-contains", id);
 
+
+const ProfileTabs = (props) => {
+    console.log(props);
+    const {posts, hatedPosts} = props;
     const [currentTab, setCurrentTab] = useState('posts')
-    const [posts] = useCollectionData(pQuery, {idField: 'id'});
-    const [hatedPosts] = useCollectionData(hQuery, {idField: 'id'});
+    
 
     const handleTabChange = (e) => {
         setCurrentTab(
             e.target.value
 
         )
-        
-
-        console.log(currentTab);
     }
 
     return ( 
@@ -45,24 +38,44 @@ const ProfileTabs = (props) => {
                 </label>
                 
             </div>
-                <TabItem {...props} hatedPosts={hatedPosts} posts={posts} currentTab={currentTab}/>
-            
+            <AnimatePresence>
+               {props.posts && props.hatedPosts ? 
+                    <TabItem {...props} hatedPosts={hatedPosts} posts={posts} currentTab={currentTab}></TabItem>
+                 : null }   
+            </AnimatePresence>
         </>
     );
 }
  
+const postVariants = {
+    hidden:{
+        x: -80,
+        opacity: 0,
+    },
+    visible:{
+        x: 0,
+        opacity: 1,
+        transition:{
+            duration: 0.3
+        }
+    },
+    exit:{
+        x: 100,
+        opacity: 0,
+    }
+
+}
 const TabItem = (props) => {
 
-    
+    console.log(props)
     switch(props.currentTab) {
         case 'posts':
             console.log(props.posts)
 
             return(
-                <div className="feed">
-                    <h1>My posts</h1>
+                <>
                     {props.posts ? props.posts.map(post => <Post key={post.id} post={post}/> ):null}
-                </div>
+                </>
 
             )
 
@@ -70,12 +83,9 @@ const TabItem = (props) => {
             console.log(props.hatedPosts)
             return(
                 <>
-                    <div className="feed">
-                        <h1>Hated posts</h1>
-                        {props.hatedPosts ? props.hatedPosts.map(post => <Post key={post.id} post={post}/> ): <h2>You dont hate on anything 🌼</h2>}
-                    </div>
-
+                    {props.hatedPosts ? props.hatedPosts.map(post => <Post key={post.id} post={post}/> ): <h2>You dont hate on anything 🌼</h2>}
                 </>
+
 
             )
         case 'followers':

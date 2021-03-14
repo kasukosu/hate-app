@@ -1,6 +1,6 @@
 
 .profile-grid{
-    padding: 15px 0px;
+    padding: 10px 0px;
     display: flex;
     flex-direction: column;
     box-shadow: rgb(29, 30, 34) 0 0 14px;
@@ -16,7 +16,7 @@
         justify-content: space-between;
         align-items: flex-start;
         font-weight: 300;
-        padding: 10px 15px;
+        // padding: 10px 0px;
         ul{
             list-style-type: none;
             margin: 0;
@@ -24,8 +24,9 @@
         }
     }
     .bio-text{
-        font-weight: 200;
-        padding: 0px 15px;
+        font-weight: 400;
+        font-size: 14px;
+        padding: 10px 15px;
 
     }
 }
@@ -34,25 +35,52 @@
     flex-direction: row;
     min-height: 105px;
     padding: 0px 15px;
+    gap: 20px;
     .profile-top-grid{
         display: grid;
-        width: 100%;
+        width: 90%;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
+        grid-auto-rows: 50%;
         align-items: flex-start;
-        grid-template-areas: 'left-top right-top' 'left-bot right-bot';
+        justify-content: center;
+        grid-template-areas: 'left-top right-top' 'bot bot';
+        align-items: center;
+
         .settings-btn{
             grid-area: right-top;
             justify-self: right;
         }
-
+        .profile-stats{
+            grid-area: bot;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+            
+            p{
+                margin: 0;
+                font-size: 14px;
+            }
+        }
     }
     img{
         width: 100px;
+        height: 100px;
         border-radius: 10px;
+        box-shadow: rgba(29, 30, 34, 0.6) 0 0 16px;
+
     }
 }
 
+.profile-heading{
+    display: flex;
+    flex-direction: row;
+    padding: 0px 15px;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
 
 .settings-btn{
     display: flex;
@@ -69,6 +97,9 @@
 }
 
 .follower-list{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     max-width: 500px;
     width: 95%;
 
@@ -85,7 +116,7 @@
         }
         .item-container{
             width: 95%;
-            padding: 5px 15px;
+            padding: 8px 15px;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -102,6 +133,7 @@
                 color: #f2f2f2;
             }
             img{
+                border-radius: 6px;
                 width: 30px;
             }
         }

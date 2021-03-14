@@ -102,7 +102,9 @@
     width: 100vw;
     height: 100vh;
     z-index: 3;
-
+    p{
+        color: #f2f2f2;
+    }
     .modal-main{
 
         display: flex;
@@ -130,12 +132,13 @@
             justify-content: center;
 
             button{
-                padding: 8px 14px;
+                padding: 10px 14px;
                 border-radius: 8px;
                 border: none;
                 font-family: inherit;
                 font-weight: 700;
                 margin-right: 15px;
+                cursor: pointer;
                 &.confirm{
                     background-color: rgb(237, 94, 104);
                     color: #f5f5f5;
@@ -154,7 +157,7 @@
                     color: #2A2E47;
                 }
                 &.login{
-                    background-color: rgb(4,174,79);
+                    background-color: #8388A4;
                     color: #2A2E47;
                 }
                 &.green{

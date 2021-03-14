@@ -4,7 +4,7 @@ import { useAuthState, useCollectionData } from 'react-firebase-hooks/auth';
 import {AnimatePresence, motion} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-
+import { fa } from '@fortawesome/free-solid-svg-icons';
 
 function SignIn(props) {
 
@@ -17,6 +17,7 @@ function SignIn(props) {
           if(!checkUserExist(user)){
             addUser();
           }
+          props.setShowSignIn(false)
         }
       }));
   }
@@ -62,20 +63,18 @@ function SignIn(props) {
 
   }
   return (
-    <AnimatePresence>
-      <motion.div onClick={()=> props.setShowSignIn(false)} initial={{y: -40, opacity: 0}} animate={{ y: 0, opacity: 1}} exit={{opacity: 0}} className="modal">
+      <motion.div initial={{y: -40, opacity: 0}} animate={{ y: 0, opacity: 1}} exit={{opacity: 0}} className="modal">
         <section className="modal-main">
             <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setShowSignIn(false)}>
               <FontAwesomeIcon icon={faTimes}/>
             </motion.div>
             <h1>Login to hatesome!</h1>
-            <p>Login with your Google account</p>
+            <p>Login with your Google account to start hating!</p>
             <div className="btn-group">
-              <button className="login" onClick={signInWithGoogle}>Sign in</button>
+              <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.1}} className="login" type="submit"  onClick={signInWithGoogle}>Sign in</motion.button>
             </div>
           </section>
       </motion.div>
-    </AnimatePresence>
    );
   }
 

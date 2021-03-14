@@ -2,6 +2,8 @@ import React, { useState }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {motion} from 'framer-motion';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { getTimestamp } from './functions/utility';
 
 const CommentList = (props) => {
     const {comments, user, post_id} = props;
@@ -25,6 +27,10 @@ const Comment = (props) => {
     console.log(votes);
     const [user] = useAuthState(auth);
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
+
+    const userRef = db.collection('users');
+    const uQuery = userRef.doc(author);
+    const [userData] = useDocumentData(uQuery, {idField: 'id'});
 
     const handleHates = async(id) => {
         const cRef = db.collection('posts').doc(post_id).collection("comments").doc(id);
@@ -54,13 +60,16 @@ const Comment = (props) => {
         <>
 
             <div className="comment-container">
-                <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
-                    <div className="left">
-                        <img src={photoURL} alt="Profile Pic"/>
-                        <span className="username"><a href={`/profile/${author}`}>{displayName}</a></span>
-                        {/* <span className="timestamp">{getTimestamp()}</span> */}
-                    </div>
-                </motion.div>
+                {userData && 
+                    <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
+                        <div className="left">
+                            <img src={userData.photoURL} alt="Profile Pic"/>
+                            <span className="username"><a href={`/profile/${author}`}>{userData.displayName}</a></span>
+                            <span className="timestamp">{getTimestamp(createdAt)}</span>
+                        </div>
+                    </motion.div> 
+                }
+                
                 <div className="comment-content">
                     <div className="comment-message">
                         <p>{message}</p>

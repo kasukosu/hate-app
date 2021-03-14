@@ -2,10 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // max-width: 500px;
     width: 100%;
     margin: auto;
-    padding-top: 20px;
     gap: 20px;
 }
 .profile-image{
@@ -122,7 +120,8 @@
             }
         }
         img{
-            width: 25px;
+            width: 35px;
+            height: 35px;
             border-radius: 3px;
         }
         a{
@@ -146,66 +145,24 @@
     .controls{
         align-self: flex-end;
         position: relative;
-
-
-
-
     }
-    .control-dropdown{
-        position: relative;
-        max-width: 500px;
-        width: 100%;
-        overflow: hidden;
-        bottom: 0px;
-        // left: 70%;
-        // transform: translate(50%, -50%);
-        z-index: 1;
-        ul{
-            display: flex;
-            margin: 0;
-            width: 100%;
-            flex-direction: column;
-            list-style-type: none;
-            background-color: rgba(35, 36, 42, 1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.253);
-            padding-left: 0;
-            overflow: hidden;
-            border-top: rgb(49, 49, 49) 1px solid;
-            border-bottom: rgb(49, 49, 49) 2px solid;
-            .menu-item{
-                display: block;
-                z-index: 3;
-                width: 100%;
-                padding: 10px 10px;
-                border-bottom: 2px darkgray;
-                cursor: pointer;
-                transition: background 300ms;
-                overflow: hidden;
-                color: #CFCFCF;
-
-            }
-
-            .layer{
-                position: fixed;
-                z-index: 2;
-                top: 50px;
-                left: 0px;
-                width: 100vw;
-                height: 100vh;
-
-            }
-
-        }
-
-    }
-
 
 }
 
 .btn{
-    cursor: pointer;
-    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: auto;
     border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    // padding: 8px 15px;
+    .svg-inline--fa{
+        // height: 12px;
+    }
 }
 
 
@@ -239,6 +196,8 @@
             }
             img{
                 width: 25px;
+                box-shadow: rgba(29, 30, 34, 0.6) 0 0 16px;
+
             }
         }
 

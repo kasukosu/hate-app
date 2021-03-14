@@ -1,0 +1,51 @@
+.control-dropdown{
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+    bottom: 0px;
+    // left: 70%;
+    // transform: translate(50%, -50%);
+    z-index: 1;
+    ul{
+        display: flex;
+        margin: 0;
+        width: 100%;
+        flex-direction: column;
+        list-style-type: none;
+        background-color: rgba(35, 36, 42, 1);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.253);
+        padding-left: 0;
+        overflow: hidden;
+        border-top: rgb(49, 49, 49) 1px solid;
+        border-bottom: rgb(49, 49, 49) 2px solid;
+        .menu-item{
+            display: block;
+            z-index: 3;
+            width: 100%;
+            padding: 10px 0px;
+            border-bottom: 2px darkgray;
+            cursor: pointer;
+            transition: background 300ms;
+            overflow: hidden;
+            color: #CFCFCF;
+            font-size: 14px;
+            text-align: right;
+            span{
+                margin-right: 25px;
+            }
+        }
+
+        .layer{
+            position: fixed;
+            z-index: 2;
+            top: 50px;
+            left: 0px;
+            width: 100vw;
+            height: 100vh;
+
+        }
+
+    }
+
+}

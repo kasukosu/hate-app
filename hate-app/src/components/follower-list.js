@@ -3,8 +3,29 @@ import {Link} from 'react-router-dom';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import {motion} from 'framer-motion';
+import {motion, AnimatePresence} from 'framer-motion';
 import useFollowHook from './functions/useFollowHook';
+
+
+const itemVariants = {
+    hidden:{
+        x: -40,
+        opacity: 0,
+    },
+    visible:{
+        x: 0,
+        opacity: 1,
+        transition:{
+            delay: 0.1,
+            duration: 0.2
+        }
+    },
+    exit:{
+        x: -40,
+        opacity:0,
+    }
+
+}
 const FollowerList = (props) => {
     console.log(props);
     console.log(props.userData.followers);    
@@ -20,6 +41,7 @@ const FollowerList = (props) => {
      );
 }
  
+
 
 const Follower = (props) => {
 
@@ -48,7 +70,6 @@ const Follower = (props) => {
 
 
     const handleFollow = async(target_id) => {
-        console.log(user.uid)
         if(user!=null){
             if(user.uid !== target_id){
 
@@ -95,21 +116,23 @@ const Follower = (props) => {
     console.log(props.follower)
     return(
         <>
-            {userData && 
-                <div className="list-item">
-                    <div className="item-container">
-                        <Link to={`/profile/${userData.user_id}`}>
-                            <div className="userInfo">
-                                <img src={userData.photoURL} alt="Profile Pic"/>
-                                <p>{userData.displayName}</p>
-                            </div>                        
-                        </Link>
-                        <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={() => {handleFollow(props.follower)}} className="settings-btn">
-                            Follow
-                        </motion.div>
-                    </div>
-                </div>
-            }
+            <AnimatePresence>
+                {userData && 
+                    <motion.div variants={itemVariants} initial="hidden" animate="visible" exit="exit" className="list-item" whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.5)'}} transition={{type:'Tween', duration:0.25}}>
+                        <div className="item-container">
+                            <Link to={`/profile/${userData.user_id}`}>
+                                <div className="userInfo">
+                                    <img src={userData.photoURL} alt="Profile Pic"/>
+                                    <p>{userData.displayName}</p>
+                                </div>                        
+                            </Link>
+                            <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={() => {handleFollow(props.follower)}} className="settings-btn">
+                                Follow
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                }
+            </AnimatePresence>
         </>
     )
 }

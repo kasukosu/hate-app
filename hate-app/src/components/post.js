@@ -3,16 +3,40 @@ import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentAlt, faEllipsisV, faUnderline } from '@fortawesome/free-solid-svg-icons';
-import {  } from '@fortawesome/free-regular-svg-icons';
-import Confirmation from './confirmation';
-import CommentList from './commentlist';
-import CreateComment from './create-comment';
 import { motion, AnimatePresence }from 'framer-motion';
 import {Link} from 'react-router-dom';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { getTimestamp } from './functions/utility';
+
+import Confirmation from './confirmation';
+import CommentList from './comment-list';
+import CreateComment from './create-comment';
+import DropdownItem from './dropdown-item';
+
+const postVariants = {
+    hidden:{
+        y: 0,
+        opacity: 0,
+        scale: 0.9,
+    },
+    visible:{
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        transition:{
+            duration: 0.2
+        }
+    },
+    exit:{
+        y: 100,
+        scale: 0.8,
+        opacity: 0,
+    }
+
+}
 
 const Post = (props) => {
     const {author, message, id, photoURL, displayName, createdAt, votes, recentComments, commentCount} = props.post;
-    const [show, setShow] = useState();
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
     const [isOwner, setIsOwner] = useState(false);
@@ -22,7 +46,9 @@ const Post = (props) => {
     const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
     const [showComments, setShowComments] = useState(true);
 
-
+    const userRef = db.collection('users');
+    const uQuery = userRef.doc(author);
+    const [userData] = useDocumentData(uQuery, {idField: 'id'});
 
     let owner = 'reader';
 
@@ -40,36 +66,6 @@ const Post = (props) => {
         }
 
     },[votes]);
-
-    const getTimestamp = () => {
-        if(createdAt!=null){
-            let today = new Date().getTime()
-            let diffSeconds = (today/1000 - createdAt.seconds);
-            let diffMins = diffSeconds / 60; // minutes
-            let diffHrs = diffMins / 60; // hours
-            let diffDays = diffHrs / 24; // days
-
-            if(diffHrs >= 24){
-                diffDays = Math.floor(diffDays);
-                return diffDays +'d';
-            }
-            else if(24>diffHrs && diffHrs>1){
-                diffHrs = Math.floor(diffHrs);
-                return diffHrs +'h';
-            }
-            else if(diffMins>=1 && diffHrs<1){
-                diffMins = Math.floor(diffMins);
-                return diffMins +'min';
-            }
-            else{
-                diffSeconds = Math.floor(diffSeconds);
-                return diffSeconds + 's';
-            }
-        }else{
-            return "refresh";
-        }
-
-    }
 
     const startDeletePost = (e) => {
         setOpenModal(true);
@@ -121,35 +117,33 @@ const Post = (props) => {
         }
     }
 
-    return (
 
-        <motion.div
-            initial={{
-                y:-100,
-                opacity: 0.01
-            }}
-            animate={{
-                y:0,
-                opacity: 1
-            }}
-        className={`post ${owner}`} >
+    return (
+        <>
+        {userData && 
+            <motion.div
+            variants={postVariants}
+            initial="hidden"
+            animate="visible"
+            className={`post ${owner}`} >
             {openModal && <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />}
-            <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
+            {userData && <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
                 <div className="left">
 
                     <Link className="align-center" to={`/profile/${author}`}>
-                        <img src={photoURL}/>
-                        <span className="username">{displayName}</span>
+                        <img src={userData.photoURL}/>
+                        <span className="username">{userData.displayName}</span>
                     </Link>
 
-                    <span className="timestamp">{getTimestamp()}</span>
+                    <span className="timestamp">{getTimestamp(createdAt)}</span>
                 </div>
                 <div className="controls">
-                    <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
+                    <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </motion.div>
                 </div>
-            </motion.div>
+            </motion.div> }
+            
             <AnimatePresence>
 
                 {openDropdown &&
@@ -200,25 +194,16 @@ const Post = (props) => {
                     </AnimatePresence>
 
                     { showRecentComments ?
-                        <CommentList key={id} comments={recentComments}  user={user} post_id={id} getTimestamp={getTimestamp}/> : null
+                        <CommentList key={id} comments={recentComments}  user={user} post_id={id} /> : null
                     }
             </div>
 
         </motion.div>
+        }
+        </>
     );
 }
 
-const DropdownItem = (props) => {
-    return (
-        <motion.a whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{duration:0.1}} onClick={props.delete} href="#" className="menu-item">
-            <span className="icon-button">{props.leftIcon}</span>
-            {props.children}
-            <span className="icon-right">{props.rightIcon}</span>
-
-        </motion.a>
-
-    );
-}
 
 
 export default Post;
