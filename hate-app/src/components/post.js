@@ -7,12 +7,11 @@ import { motion, AnimatePresence }from 'framer-motion';
 import {Link} from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getTimestamp } from './functions/utility';
-
 import Confirmation from './confirmation';
 import CommentList from './comment-list';
 import CreateComment from './create-comment';
 import DropdownItem from './dropdown-item';
-
+import DropdownSpan from './dropdown-span';
 const postVariants = {
     hidden:{
         y: 0,
@@ -49,6 +48,7 @@ const Post = (props) => {
     const uQuery = userRef.doc(author);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
 
+    
 
 
     let owner = 'reader';
@@ -68,11 +68,7 @@ const Post = (props) => {
 
     },[votes]);
 
-    const copyToClipboard = (id) => {
-        let url = document.getElementById("copy-id") ;
-        navigator.clipboard.writeText(url);
-
-    }
+    
 
     const startDeletePost = (e) => {
         setOpenModal(true);
@@ -100,7 +96,10 @@ const Post = (props) => {
         }
     }
 
-
+    const handleOpenNewComment = () => {
+        setOpenNewComment(!openNewComment);
+        // setShowRecentComments(!showRecentComments);
+    }
 
     const handleHates = async(id) => {
         const postRef = db.collection('posts').doc(id);
@@ -159,11 +158,11 @@ const Post = (props) => {
                             {isOwner ? <ul>
                                     <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem>Edit post</DropdownItem>
-                                    <DropdownItem onClick={() => {copyToClipboard(id)}}>Share post</DropdownItem>
+                                    <DropdownSpan id={id} className="menu-item">Share post</DropdownSpan>
 
                             </ul> :
                             <ul>
-                                <DropdownItem onClick={copyToClipboard}>Share post</DropdownItem>
+                                    <DropdownSpan id={id} className="menu-item">Share post</DropdownSpan>
                             </ul>
                             }
 
@@ -180,7 +179,7 @@ const Post = (props) => {
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
                         {user ?
-                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> setOpenNewComment(!openNewComment)}>
+                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> handleOpenNewComment()}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                                 <span className="count">{commentCount ? commentCount : 0 }</span>
 
@@ -194,13 +193,14 @@ const Post = (props) => {
                     </div>
                     <AnimatePresence>
                         {openNewComment &&
-                            <motion.div initial={{height:0}} animate={{height:240}} transition={{duration: 0.1}} exit={{height: 0}}>
+                            <motion.div initial={{height:0}} animate={{height:'auto'}} transition={{duration: 0.1}} exit={{height: 0}}>
                                 <CreateComment {...props} comments={recentComments}  user={user} post_id={id}/>
                             </motion.div>
                         }
                     </AnimatePresence>
 
                     { showRecentComments ?
+                        
                         <CommentList key={id} comments={recentComments}  user={user} post_id={id} /> : null
                     }
             </div>

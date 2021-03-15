@@ -1,5 +1,5 @@
 .control-dropdown{
-    position: relative;
+    // position: relative;
     max-width: 500px;
     width: 100%;
     overflow: hidden;
@@ -31,8 +31,11 @@
             color: #CFCFCF;
             font-size: 14px;
             text-align: right;
+            // margin-right: 25px;
+
             span{
-                margin-right: 25px;
+                margin-right: 15px;
+
             }
         }
 

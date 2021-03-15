@@ -9,6 +9,7 @@ import { auth, db } from './firebase/firebaseConfig';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import {motion, AnimatePresence} from 'framer-motion';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {Toast} from './popup-toast';
 
 const navVariants = {
   hidden : {
@@ -81,7 +82,7 @@ const location = useLocation();
           <AnimatePresence>
             {showSignIn && <SignIn setShowSignIn={setShowSignIn}/>}
           </AnimatePresence>
-
+              
           <AnimatePresence>
             <Switch location={location} key={location.pathname}>
               <Route exact path="/" render={(props) => ( <PostList {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />

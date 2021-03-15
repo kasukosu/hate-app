@@ -207,3 +207,26 @@
     padding: 20px 0px;
     height: 550px;
 }
+
+.toast{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    text-align: center;
+    left: 0;
+    z-index: 15;
+    width: 100%;
+    bottom: 40px;
+    
+    .message{
+        width: 180px;
+        border-radius: 15px;
+        background-color: #2A2E47;
+        padding: 18px;
+        font-weight: 600;
+        span{
+            margin-right: 0 !important;
+        }
+    }
+}
