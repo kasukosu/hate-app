@@ -121,6 +121,10 @@
         position: relative;
         border-radius: 10px;
         z-index: 4;
+        &.cropper{
+            position: absolute;
+            z-index: 5;
+        }
         .close-btn{
             display: flex;
             align-items: center;
@@ -176,4 +180,30 @@
         }
 
     }
+}
+.cropper-container{
+    height: 100%;
+    width: 95%;
+    max-height: 450px;
+    max-width: 450px;
+    position: relative;
+}
+.control-container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+    grid-gap: 10px;
+    align-items: center;
+    .slidecontainer{
+        width: 250px;
+        input{
+            width: 100%;
+        }
+    }
+}
+.cropper{
+    padding: 20px 0px;
+    height: 550px;
 }

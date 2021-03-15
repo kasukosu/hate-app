@@ -45,10 +45,11 @@ const Post = (props) => {
     const [openNewComment, setOpenNewComment] = useState(false);
     const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
     const [showComments, setShowComments] = useState(true);
-
     const userRef = db.collection('users');
     const uQuery = userRef.doc(author);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
+
+
 
     let owner = 'reader';
 
@@ -66,6 +67,12 @@ const Post = (props) => {
         }
 
     },[votes]);
+
+    const copyToClipboard = (id) => {
+        let url = document.getElementById("copy-id") ;
+        navigator.clipboard.writeText(url);
+
+    }
 
     const startDeletePost = (e) => {
         setOpenModal(true);
@@ -120,7 +127,7 @@ const Post = (props) => {
 
     return (
         <>
-        {userData && 
+        {userData &&
             <motion.div
             variants={postVariants}
             initial="hidden"
@@ -129,7 +136,7 @@ const Post = (props) => {
             {openModal && <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />}
             {userData && <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
                 <div className="left">
-
+                    <span className="copy-id">{window.location.hostname +`/post/${id}`}</span>
                     <Link className="align-center" to={`/profile/${author}`}>
                         <img src={userData.photoURL}/>
                         <span className="username">{userData.displayName}</span>
@@ -143,20 +150,20 @@ const Post = (props) => {
                     </motion.div>
                 </div>
             </motion.div> }
-            
+
             <AnimatePresence>
 
                 {openDropdown &&
                         <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
 
                             {isOwner ? <ul>
-                                    <DropdownItem  delete={startDeletePost}>Remove post</DropdownItem>
+                                    <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem>Edit post</DropdownItem>
-                                    <DropdownItem>Share post</DropdownItem>
+                                    <DropdownItem onClick={() => {copyToClipboard(id)}}>Share post</DropdownItem>
 
                             </ul> :
                             <ul>
-                                <DropdownItem>Share post</DropdownItem>
+                                <DropdownItem onClick={copyToClipboard}>Share post</DropdownItem>
                             </ul>
                             }
 
@@ -178,7 +185,7 @@ const Post = (props) => {
                                 <span className="count">{commentCount ? commentCount : 0 }</span>
 
                             </motion.div>
-                            
+
                             :
                             <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>

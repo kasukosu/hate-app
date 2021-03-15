@@ -58,10 +58,14 @@
             flex-direction: row;
             justify-content: space-around;
             width: 100%;
-            
+
             p{
                 margin: 0;
                 font-size: 14px;
+                .count{
+                    font-size: 18px;
+                    font-weight: 600;
+                }
             }
         }
     }
@@ -105,7 +109,9 @@
     flex-direction: column;
     max-width: 500px;
     width: 95%;
-
+    h2{
+        text-align: center;
+    }
     .list-item{
         width: 100%;
         display: flex;
@@ -141,6 +147,6 @@
                 width: 30px;
             }
         }
-        
+
     }
 }

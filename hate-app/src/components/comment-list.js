@@ -8,7 +8,6 @@ import { getTimestamp } from './functions/utility';
 const CommentList = (props) => {
     const {comments, user, post_id} = props;
     const getTimestamp = props.getTimestamp;
-    console.log("went here");
 
     return (
         <>
@@ -60,16 +59,16 @@ const Comment = (props) => {
         <>
 
             <div className="comment-container">
-                {userData && 
+                {userData &&
                     <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
                         <div className="left">
                             <img src={userData.photoURL} alt="Profile Pic"/>
                             <span className="username"><a href={`/profile/${author}`}>{userData.displayName}</a></span>
                             <span className="timestamp">{getTimestamp(createdAt)}</span>
                         </div>
-                    </motion.div> 
+                    </motion.div>
                 }
-                
+
                 <div className="comment-content">
                     <div className="comment-message">
                         <p>{message}</p>
