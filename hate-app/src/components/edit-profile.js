@@ -57,7 +57,11 @@ const EditProfile = (props) => {
             else{
                let getPhotoUrl = new Promise((resolve, reject) => {
                     console.log(croppedImage);
-                    const uploadTask = storage.ref(`/photos/${uid}/${croppedImage.name}`).putString(croppedImage, "data_url");
+                    const metadata = {
+                        name: "profile_pic",
+                        contentType: "image/jpeg",
+                    }
+                    const uploadTask = storage.ref(`/photos/${uid}/${croppedImage.name}`).putString(croppedImage, "data_url", metadata);
                     uploadTask.on("state_changed", console.log, console.error, () => {
                         storage
                             .ref(`photos/${uid}/${croppedImage.name}`)

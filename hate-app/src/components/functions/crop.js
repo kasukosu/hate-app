@@ -61,12 +61,12 @@ export default async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
 	return canvas;
 }
 
-export const getCroppedFile = async (imageSrc, crop) => {
+export const getCroppedFile = async (imageSrc, crop, rotation = 0) => {
 	if (!crop || !imageSrc) {
 		return;
 	}
 
-	return await getCroppedImg(imageSrc, crop);
+	return await getCroppedImg(imageSrc, crop, rotation);
 
 
 };
