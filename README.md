@@ -1,4 +1,4 @@
-# hate-app
+# Hatesome
 Social media for hating on stuff
 
 
