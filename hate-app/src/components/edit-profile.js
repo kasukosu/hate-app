@@ -1,10 +1,11 @@
 import React  from 'react';
-import {motion} from 'framer-motion';
+import {motion, AnimatePresence} from 'framer-motion';
 import { useState } from 'react';
 import { auth, firebase, db, storage } from '../firebase/firebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ImageEditor from './edit-image';
+
 const innerVariants = {
     hidden: {
         scale: 0.9,
@@ -116,15 +117,14 @@ const EditProfile = (props) => {
     }
     return (
         <>
-        {image && <ImageEditor setPreview={setPreview} setCroppedImage={setCroppedImage} setImage={setImage} image={image}/>}
-
+        <AnimatePresence>
+            {image && <ImageEditor setPreview={setPreview} setCroppedImage={setCroppedImage} setImage={setImage} image={image}/>}
+        </AnimatePresence>
             <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal-main">
                 <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setShowEditProfile(false)}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </motion.div>
                 <div className="modal-grid">
-
-
                     <form action="">
                     <div className="profile-image"  onClick={triggerImageFilePopup}>
                         <img src={preview} alt="Photo"/>

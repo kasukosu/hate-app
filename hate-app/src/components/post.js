@@ -16,7 +16,23 @@ import DropdownSpan from './dropdown-span';
 
 import { ToastContext } from './ToastContext';
 
+const modalVariants = {
+    hidden: {
+        opacity: 0,
 
+    },
+    visible:{
+        opacity:1,
+        y: 0,
+    },
+    exit:{
+        opacity: 0,
+        transition:{
+            duration:0.25,
+            ease: 'easeInOut',
+        }
+    }
+  }
 const postVariants = {
     hidden:{
         y: 0,
@@ -149,7 +165,15 @@ const Post = (props) => {
             initial="hidden"
             animate="visible"
             className={`post ${owner}`} >
-            {openModal && <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />}
+            <AnimatePresence>
+                {openModal &&
+                    <motion.div variants={modalVariants} initial="hidden" animate="visible" exit="exit" className="modal" >
+                        <Confirmation id={id} uid={author} handleDelete={confirmDeletePost} />
+                    </motion.div>
+                }
+
+
+            </AnimatePresence>
             {userData && <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
                 <div className="left">
                     <span className="copy-id">{window.location.hostname +`/post/${id}`}</span>
