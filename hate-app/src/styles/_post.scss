@@ -172,7 +172,12 @@
     }
 }
 
-
+.comment-feed{
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    grid-gap: 10px;
+}
 
 .comment-container{
     align-self: center;
@@ -193,18 +198,27 @@
 
     .comment-heading{
         border-radius: 8px 8px 0px 0px;
-        padding: 10px 10px;
+        padding: 6px 10px;
         .left{
             display: flex;
             flex-direction: row;
             align-items: center;
             gap: 10px;
+            grid-gap: 10px;
+            .username{
+                font-size: 12px;
+            }
+            .timestamp{
+                font-weight: 200;
+                font-size: 14px;
+            }
             a{
                 text-decoration: none;
                 color: inherit;
             }
             img{
                 width: 25px;
+                border-radius: 4px;
                 box-shadow: rgba(29, 30, 34, 0.6) 0 0 16px;
 
             }
@@ -215,9 +229,9 @@
     }
     .comment-content{
         border-top: rgb(49, 49, 49) 1px solid;
-
+        font-size: 16px;
         .comment-message{
-            padding: 15px;
+            padding: 10px 15px;
             min-height: 20px;
 
         }

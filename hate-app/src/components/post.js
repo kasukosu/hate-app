@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState, useContext }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,8 +10,13 @@ import { getTimestamp } from './functions/utility';
 import Confirmation from './confirmation';
 import CommentList from './comment-list';
 import CreateComment from './create-comment';
+import PostEditor from './post-editor';
 import DropdownItem from './dropdown-item';
 import DropdownSpan from './dropdown-span';
+
+import { ToastContext } from './ToastContext';
+
+
 const postVariants = {
     hidden:{
         y: 0,
@@ -44,11 +49,15 @@ const Post = (props) => {
     const [openNewComment, setOpenNewComment] = useState(false);
     const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
     const [showComments, setShowComments] = useState(true);
+    const [showPostEditor, setShowPostEditor] = useState(false);
+
     const userRef = db.collection('users');
     const uQuery = userRef.doc(author);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
 
-    
+    const {newPostValue} = useContext(ToastContext);
+    const [newPostData, setNewPostData] = newPostValue;
+
 
 
     let owner = 'reader';
@@ -68,7 +77,7 @@ const Post = (props) => {
 
     },[votes]);
 
-    
+
 
     const startDeletePost = (e) => {
         setOpenModal(true);
@@ -101,6 +110,14 @@ const Post = (props) => {
         // setShowRecentComments(!showRecentComments);
     }
 
+    const handleEditPost = () => {
+        setNewPostData({
+
+            post: props.post,
+
+        })
+    }
+
     const handleHates = async(id) => {
         const postRef = db.collection('posts').doc(id);
         if(user!=null){
@@ -126,7 +143,7 @@ const Post = (props) => {
 
     return (
         <>
-        {userData &&
+        {userData && props.post ?
             <motion.div
             variants={postVariants}
             initial="hidden"
@@ -151,18 +168,20 @@ const Post = (props) => {
             </motion.div> }
 
             <AnimatePresence>
-
                 {openDropdown &&
-                        <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
-
+                        <motion.div initial={{height: 0, opacity:0}}
+                        animate={{height: 'auto', opacity: 1}}
+                        transition={{duration:0.1}}
+                        exit={{height: 0, opacity: 0}}
+                        className="control-dropdown">
                             {isOwner ? <ul>
                                     <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
-                                    <DropdownItem>Edit post</DropdownItem>
-                                    <DropdownSpan id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownItem onClick={handleEditPost} >Edit post</DropdownItem>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
 
                             </ul> :
                             <ul>
-                                    <DropdownSpan id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
                             </ul>
                             }
 
@@ -182,7 +201,6 @@ const Post = (props) => {
                             <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> handleOpenNewComment()}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                                 <span className="count">{commentCount ? commentCount : 0 }</span>
-
                             </motion.div>
 
                             :
@@ -200,13 +218,15 @@ const Post = (props) => {
                     </AnimatePresence>
 
                     { showRecentComments ?
-                        
+
                         <CommentList key={id} comments={recentComments}  user={user} post_id={id} /> : null
                     }
             </div>
 
         </motion.div>
-        }
+        : null}
+        { showPostEditor && <PostEditor setShowPostEditor={setShowPostEditor} post={props.post}/>}
+
         </>
     );
 }

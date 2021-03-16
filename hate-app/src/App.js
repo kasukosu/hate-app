@@ -9,14 +9,37 @@ import { auth, db } from './firebase/firebaseConfig';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import {motion, AnimatePresence} from 'framer-motion';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {Toast} from './popup-toast';
+import Toast from './components/toast';
+import { ToastContext } from './components/ToastContext';
+import PostEditor from './components/post-editor';
+
 
 const navVariants = {
   hidden : {
     opacity: 0,
+    height: 0,
   },
   visible : {
     opacity: 1,
+    height: 40,
+  }
+}
+
+const modalVariants = {
+  hidden: {
+      opacity: 0,
+
+  },
+  visible:{
+      opacity:1,
+      y: 0,
+  },
+  exit:{
+      opacity: 0,
+      transition:{
+          duration:0.25,
+          ease: 'easeInOut',
+      }
   }
 }
 
@@ -27,23 +50,29 @@ function App() {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showCreateNewPost, setShowCreateNewPost] = useState(true);
   const [photoURL, setPhotoURL] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+  const [newPostData, setNewPostData] = useState(null);
 
+  console.log(newPostData)
   useEffect(() =>{
     if(user){
       const userRef = db.collection('users');
       userRef.doc(user.uid).get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
-            setPhotoURL(doc.data().photoURL); 
+            setPhotoURL(doc.data().photoURL);
 
         } else {
             // doc.data() will be undefined in this case
-            console.log("No such document!");
+            setPhotoURL("Not logged in");
         };
-        
+        setShowNav(true)
+
     })
   }
-    
+  console.log("hello")
+
+
   },[user]);
 
 
@@ -55,42 +84,55 @@ const location = useLocation();
         <section className="container">
           <nav className="navbar">
             <AnimatePresence>
-              {user ?
+              {user && photoURL && showNav ?
 
-                <motion.div variants="navVariants" initial="hidden" animate="visible" className="nav-grid">
+                <motion.div variants={navVariants} initial="hidden" animate="visible" className="nav-grid">
+
+                  {user ?<div><SignOut/></div> : null}
                   <div className="logo">
                     <Link to="/"><h1>Hatesome</h1></Link>
                   </div>
-                  {user ?<div><SignOut/></div> : null}
-                  {photoURL && 
+                  {photoURL &&
                   <Link to={`/profile/${user.uid}`}>
                       <img src={photoURL} alt="Profile Pic"/>
-                  </Link> 
+                  </Link>
                 }
-                </motion.div> : null
-              }
-              {user ? null :
-                <motion.div variants="navVariants" initial="hidden" animate="visible" className="nav-grid">
-                    <div className="logo">
-                      <Link to="/"><h1>Hatesome</h1></Link>
-                    </div>
+                </motion.div> :
+                <motion.div variants={navVariants} initial="hidden" animate="visible" className="nav-grid">
+                  <div className="logo">
+                    <Link to="/"><h1>Hatesome</h1></Link>
+                  </div>
                 </motion.div>
               }
+
             </AnimatePresence>
           </nav>
 
           <AnimatePresence>
             {showSignIn && <SignIn setShowSignIn={setShowSignIn}/>}
           </AnimatePresence>
-              
-          <AnimatePresence>
-            <Switch location={location} key={location.pathname}>
-              <Route exact path="/" render={(props) => ( <PostList {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
-              <Route path="/post/:id" render={(props) => ( <FullPost {...props} setShowSignIn={setShowSignIn} />)} />
-              <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} setShowSignIn={setShowSignIn} /> )} />
-            </Switch>
-          </AnimatePresence>
+          <ToastContext.Provider value={{ toastValue :[showToast, setShowToast], newPostValue: [newPostData, setNewPostData] }}>
+            <AnimatePresence>
+              <Switch location={location} key={location.pathname}>
+                  <Route exact path="/" render={(props) => ( <PostList {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
+                  <Route path="/post/:id" render={(props) => ( <FullPost {...props} setShowSignIn={setShowSignIn} />)} />
+                  <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} setShowSignIn={setShowSignIn} /> )} />
+              </Switch>
+            </AnimatePresence>
+          </ToastContext.Provider>
+
         </section>
+        <AnimatePresence>
+          {showToast.show ? <Toast message={showToast.message}/>:null}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {newPostData &&
+            <motion.div variants={modalVariants} initial="hidden" animate="visible" exit="exit" className="modal" >
+              <PostEditor setNewPostData={setNewPostData} postData={newPostData} />
+            </motion.div>
+          }
+        </AnimatePresence>
 
       </div>
   );

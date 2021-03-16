@@ -1,10 +1,10 @@
 import React from 'react';
 import Post from './post';
 import {db} from "../firebase/firebaseConfig";
-import { useCollectionData, useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
 import CommentList from './comment-list';
 import { useParams } from 'react-router-dom';
-import {motion} from 'framer-motion';
+import {motion, AnimatePresence} from 'framer-motion';
 
 
 
@@ -16,7 +16,7 @@ const FullPost = (props) => {
     const cRef = db.collection("posts").doc(id).collection("comments");
     const cQuery = cRef.orderBy("createdAt", "desc").limit(150);
 
-    const [postData ] = useDocumentDataOnce(pQuery, {idField: 'id'});
+    const [postData ] = useDocumentData(pQuery, {idField: 'id'});
     const [comments] = useCollectionData(cQuery, {idField: 'id'});
 
     const containerVariants = {
@@ -28,6 +28,7 @@ const FullPost = (props) => {
             y: 0,
             opacity: 1,
             transition:{
+                delay: 0.2,
                 duration: 0.2,
             }
         },
@@ -52,9 +53,11 @@ const FullPost = (props) => {
                 animate="visible"
                 exit="exit"
                 className="feed">
-                    {postData &&
-                        <Post setShowSignIn={props.setShowSignIn} showRecentComments={false} post={postData}/>
-                    }
+                    <AnimatePresence>
+                        {postData &&
+                            <Post setShowSignIn={props.setShowSignIn} showRecentComments={false} post={postData}/>
+                        }
+                    </AnimatePresence>
                     {comments &&
                         <CommentList comments={comments}/>
                     }

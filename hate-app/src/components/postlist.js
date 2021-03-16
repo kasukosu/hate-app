@@ -59,10 +59,6 @@ const Postlist = (props) => {
 
     return (
         <>
-            {/* {props.showCreateNewPost &&
-                <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit">
-                </motion.div>
-            } */}
 
             {posts &&
                 <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="feed">

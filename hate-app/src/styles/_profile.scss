@@ -3,13 +3,13 @@
     align-self: center;
     justify-self: center;
     padding: 10px 0px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     box-shadow: rgb(29, 30, 34) 0 0 14px;
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
     color: white;
-    gap: 10px;
+    grid-gap: 10px;
     max-width: 500px;
     width: 95%;
     .profile-info{
@@ -29,7 +29,7 @@
         font-weight: 400;
         font-size: 14px;
         padding: 10px 15px;
-
+        line-height: 1.25;
     }
 }
 .profile-top{
@@ -37,7 +37,7 @@
     flex-direction: row;
     min-height: 105px;
     padding: 0px 15px;
-    gap: 20px;
+    grid-gap: 20px;
     .profile-top-grid{
         display: grid;
         width: 90%;
@@ -61,10 +61,10 @@
 
             p{
                 margin: 0;
-                font-size: 14px;
+                font-size: 12px;
                 .count{
                     font-size: 18px;
-                    font-weight: 600;
+                    font-weight: 500;
                 }
             }
         }

@@ -3,7 +3,7 @@ import {motion} from 'framer-motion';
 import { useState } from 'react';
 import { auth, firebase, db, storage } from '../firebase/firebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ImageEditor from './edit-image';
 const innerVariants = {
     hidden: {
@@ -119,21 +119,25 @@ const EditProfile = (props) => {
         {image && <ImageEditor setPreview={setPreview} setCroppedImage={setCroppedImage} setImage={setImage} image={image}/>}
 
             <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal-main">
+                <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setShowEditProfile(false)}>
+                    <FontAwesomeIcon icon={faTimes}/>
+                </motion.div>
                 <div className="modal-grid">
+
+
+                    <form action="">
                     <div className="profile-image"  onClick={triggerImageFilePopup}>
                         <img src={preview} alt="Photo"/>
                         <div className="info">
                             <FontAwesomeIcon icon={faCamera}/>
                         </div>
                     </div>
-                    <form action="">
                         <input name="profilePic" type="file" accept='image/*' ref={imageInputRef} onChange={handleImageAsFile}/>
                         <input value={newUserData.displayName} name="displayName" type="text" onChange={changeHandler}/>
                         <textarea value={newUserData.bio} name="bio" onChange={changeHandler}></textarea>
                         <input type="submit" style={{display: 'none'}}/>
                         <div className="btn-group">
                             <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updateProfile} type="submit" className="save">Save</motion.button>
-                            <motion.button whileHover={{backgroundColor: 'rgb(237, 94, 104)'}} transition={{duration:0.15}} onClick={closeModal} className="discard">Discard</motion.button>
                         </div>
                     </form>
                 </div>
