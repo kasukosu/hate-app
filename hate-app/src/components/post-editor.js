@@ -76,7 +76,7 @@ const PostEditor = (props) => {
                         <textarea value={newPostData.message} name="message" onChange={changeHandler}></textarea>
                         <input type="submit" style={{display: 'none'}}/>
                         <div className="btn-group">
-                            <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updatePost} type="submit" className="save">Submit</motion.button>
+                            <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updatePost} type="submit" className="save">Save</motion.button>
                         </div>
                     </form>
                 </div>

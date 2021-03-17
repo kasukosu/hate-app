@@ -5,7 +5,7 @@ import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV, faArrowLeft, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import {motion, AnimatePresence} from 'framer-motion';
-
+import SignOut from './login/login'
 import DropdownItem from './dropdown-item';
 
 
@@ -84,16 +84,18 @@ const ProfileInfo = (props) => {
         }
     }
 
+    const handleLogOut = () => {
+        auth.signOut();
+        document.location.href="/";
+  
+    }
+
     return (
 
                 <div className="profile-grid">
                     <div className="profile-heading">
-                        <Link to="/">
-                            <motion.div whileHover={{ backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" >
-                                <FontAwesomeIcon icon={faArrowLeft}/>
-                            </motion.div>
-                        </Link>
-                        <p>{data.displayName}</p>
+                        
+                        <p className="heading-username">{data.displayName}</p>
                         <motion.div whileHover={{ backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                             <FontAwesomeIcon icon={faEllipsisH}/>
                         </motion.div>
@@ -104,9 +106,7 @@ const ProfileInfo = (props) => {
                         {openDropdown &&
                             <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
                                 {isOwner ? <ul>
-                                        <DropdownItem>Lorem ipsum</DropdownItem>
-                                        <DropdownItem>Lorem ipsum</DropdownItem>
-                                        <DropdownItem>Lorem ipsum</DropdownItem>
+                                        <DropdownItem onClick={handleLogOut}>Log out</DropdownItem>
                                 </ul> :
                                 <ul>
                                     <DropdownItem>Lorem ipsum no user</DropdownItem>

@@ -1,14 +1,18 @@
 .navbar{
+    position: fixed;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: flex-start;
     margin-bottom: 15px;
+    z-index: 5;
 
     .nav-grid{
         justify-self: center;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(30%, auto));
+        grid-template-columns: repeat(3, minmax(30%, auto));
+        grid-template-areas: 'left middle right';
         flex-direction: row;
         list-style-type: none;
         align-items: center;
@@ -18,10 +22,19 @@
         width: 95%;
         margin: 0;
         border-radius: 0px 0px 10px 10px;
-        background-color: rgba(66, 69, 84, 0.7);
+        background-color: rgb(51, 53, 63);
         padding: 8px 0px;
     }
-
+    svg{
+        color: white;
+    }
+    .btn-container{
+        justify-self: flex-start;
+        padding-left: 15px;
+    }
+    .btn{
+        align-self: flex-start;
+    }
     a{
         display: flex;
         text-decoration: none;
@@ -37,12 +50,21 @@
         outline: none;
         cursor: pointer;
     }
+    .profile-image{
+        grid-area: right;
+    }
     img{
+        
         width: 40px;
         height: 40px;
         border-radius: 10px;
         box-shadow: rgba(29, 30, 34, 0.6) 0 0 16px;
 
+
+    }
+    .logo{
+        grid-area: middle;
+        width: 120px;
     }
 }
 

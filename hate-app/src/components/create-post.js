@@ -51,10 +51,10 @@ const CreatePost = (props) => {
             <form className="creator" onSubmit={addPost}>
                 
                 <div className="input-box">
-                    <textarea placeholder="What do you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
+                    <textarea placeholder="What did you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
                 </div>
 
-                <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} type="submit" className="save">Save</motion.button>
+                <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} type="submit" className="save">Post</motion.button>
             </form>
         </section>
     );

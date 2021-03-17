@@ -5,7 +5,7 @@
   border-radius: 4px;
   font-weight: 500;
   cursor: pointer;
-  background-color: rgb(43, 45, 55);
+  background-color: rgb(55, 57, 70);
   width: 100px;
   align-self: center;
   transition: all ease 0.2s;
@@ -85,20 +85,7 @@
       transition: all 0.2s;
     }
 
-    button{
-      padding: 5px 0px;
-      margin-bottom: 5px;
-      border:none;
-      border-radius: 4px;
-      font-weight: 400;
-      cursor: pointer;
-      color: white;
-      background-color: rgb(55, 57, 70);
-      width: 100px;
-      align-self: center;
-      transition: all ease 0.2s;
-      font-family: inherit;
-    }
+    
     label{
       font-weight: 400;
       color: white;
@@ -151,21 +138,7 @@
       transition: all 0.2s;
     }
 
-    button{
-      padding: 5px 0px;
-      border:none;
-      margin: 10px 0px;
-      border-radius: 4px;
-      font-weight: 400;
-      cursor: pointer;
-      color: white;
-      background-color: rgb(55, 57, 70);
-      width: 100px;
-      align-self: center;
-      transition: all ease 0.2s;
-      font-family: inherit;
-
-    }
+    
     label{
       font-weight: 400;
       color: white;
