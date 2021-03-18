@@ -6,6 +6,7 @@ Social media for hating on stuff
 The Project has now been going on for around a month with most of basic functionalities added,
  
 **Road map to the future**
+- Introduction to hatesome. What is it??
 - Private messaging between users
 - Follower feeds, only see posts for people that you follow + Global feed
 - Actions for Comments such as deleting and editing comments
