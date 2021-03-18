@@ -54,7 +54,7 @@ const CreatePost = (props) => {
                     <textarea placeholder="What did you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
                 </div>
 
-                <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} type="submit" className="save">Post</motion.button>
+                <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} onTap={{scale: 0.9 }} whileTap={{scale: 0.9 }} transition={{duration:0.15}} type="submit" className="save">Post</motion.button>
             </form>
         </section>
     );

@@ -3,7 +3,7 @@ import { useLocation, useHistory, Route, Link, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './App.scss';
-import PostList from "./components/postlist";
+import FeedTabs from "./components/postlist";
 import FullPost from "./components/full-post";
 import Profile from "./components/profile";
 import {SignOut, SignIn} from "./components/login/login";
@@ -174,7 +174,7 @@ console.log(location);
           <ToastContext.Provider value={{ toastValue :[showToast, setShowToast], newPostValue: [newPostData, setNewPostData] }}>
             <AnimatePresence>
               <Switch location={location} key={location.pathname}>
-                  <Route exact path="/" render={(props) => ( <PostList {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
+                  <Route exact path="/" render={(props) => ( <FeedTabs {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
                   <Route path="/post/:id" render={(props) => ( <FullPost {...props} setShowSignIn={setShowSignIn} />)} />
                   <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} setShowSignIn={setShowSignIn} /> )} />
               </Switch>

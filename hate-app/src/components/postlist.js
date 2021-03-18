@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Post from './post';
 import {db} from "../firebase/firebaseConfig";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -17,7 +17,8 @@ const containerVariants = {
         y: 0,
         transition:{
             delay: 0.2,
-            duration:0.3,
+            duration:0.01,
+
         }
     },
     exit:{
@@ -52,25 +53,72 @@ const inputContainerVariants = {
     }
 }
 
-const Postlist = (props) => {
-    const postsRef = db.collection('posts');
-    const query = postsRef.orderBy('createdAt','desc').limit(20);
-    const [posts] = useCollectionData(query, {idField: 'id'});
+const FeedTabs = (props) => {
 
-    return (
-        <>
-
-            {posts &&
-                <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="feed">
-                    <CreatePost setShowSignIn={props.setShowSignIn}/>
-                    {posts && posts.map(post =>
-                        <Post key={post.id} setShowSignIn={props.setShowSignIn} showRecentComments={false} post={post}/>
-                    )}
-                </motion.section>
-            }
-
-        </>
+    const [currentFeed, setCurrentFeed] = useState({
+        tag: 'global',
+        limit: 20,
+    })
+    const handleTabChange = (e) => {
+        console.log(e);
+        setCurrentFeed({
+            tag: e.target.value
+        })
+    }
+    return ( 
+        <motion.div className="feed">
+            <CreatePost setShowSignIn={props.setShowSignIn}/>
+            <div className="tab-selector" onChange={handleTabChange}>
+                <label className="tab-container" htmlFor="">
+                    <input name="currentTab" id="radio1" value="followed" type="radio" defaultChecked/>
+                    <label htmlFor="radio1" className="tab-btn left">Followed</label>
+                </label>
+                <label className="tab-container" htmlFor="">
+                    <input name="currentTab" id="radio2" value="global" type="radio" />
+                    <label htmlFor="radio2" className="tab-btn right">Global</label>
+                </label>
+            </div>
+            <AnimatePresence>
+                
+                    <Postlist {...props} currentFeed={currentFeed}></Postlist>
+                  
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
-export default Postlist;
+
+const Postlist = (props, {currentFeed}) => {
+    const postsRef = db.collection('posts');
+    //fQuery = query, filters posts from people user follows
+    const fQuery = postsRef.where("").orderBy('createdAt','desc').limit(20);
+    //gQuery = query for global feed
+
+    const gQuery = postsRef.orderBy('createdAt','desc').limit(20);
+
+    switch(props.currentFeed.tag) {
+        case 'followed':
+            const [fPosts] = useCollectionData(fQuery, {idField: 'id'});
+
+            return(
+                <div className="post-feed">
+                    {fPosts ? fPosts.map(post => <Post key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> ):null}
+                </div>
+
+            )
+
+        case 'global':
+            const [gPosts] = useCollectionData(gQuery, {idField: 'id'});
+            return(
+                <div className="post-feed">
+                    {gPosts ? gPosts.map(post => <Post key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> ):null}
+                </div>
+
+
+            )
+
+    }
+    
+}
+
+export default FeedTabs;

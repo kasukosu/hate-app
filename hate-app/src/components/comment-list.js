@@ -42,7 +42,7 @@ const CommentList = (props) => {
     return (
         <>
             <AnimatePresence>
-                <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="feed">
+                <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="post-feed">
 
                     {comments && comments.map(comment =>
                         <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/>

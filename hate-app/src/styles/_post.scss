@@ -6,8 +6,17 @@
     justify-content: center;
     width: 100%;
     margin: auto;
-    grid-gap: 20px;
+    grid-gap: 15px;
     padding-top: 70px;
+}
+.post-feed{
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    grid-gap: 15px;
 }
 .profile-image{
     img{
