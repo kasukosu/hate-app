@@ -12,8 +12,6 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
     "firebase": "^8.2.9",
     "framer-motion": "^3.10.2",
     "node-sass": "^4.14.1",
