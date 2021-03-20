@@ -4,10 +4,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import {AnimatePresence, motion} from 'framer-motion';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getTimestamp } from './functions/utility';
-import DropdownItem from './dropdown-item';
-import DropdownSpan from './dropdown-span';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import {Link} from 'react-router-dom';
+
 
 const containerVariants = {
     hidden: {
@@ -42,7 +40,7 @@ const CommentList = (props) => {
     return (
         <>
             <AnimatePresence>
-                <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="feed">
+                <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="post-feed">
 
                     {comments && comments.map(comment =>
                         <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/>
@@ -56,12 +54,30 @@ const CommentList = (props) => {
 
 export default CommentList;
 
+
+const itemVariants = {
+    hidden:{
+        x: -40,
+        opacity: 0,
+    },
+    visible:{
+        x: 0,
+        opacity: 1,
+        transition:{
+            delay: 0.1,
+            duration: 0.2
+        }
+    },
+    exit:{
+        x: -40,
+        opacity:0,
+    }
+
+}
+
 const Comment = (props) => {
     const {author, message, id, photoURL, displayName, votes, createdAt, post_id} = props.comment;
-    console.log(votes);
-
     const [openDropdown, setOpenDropdown] = useState(false);
-
     const [user] = useAuthState(auth);
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const userRef = db.collection('users');
@@ -95,15 +111,19 @@ const Comment = (props) => {
 
 
     return (
-        <>
+        <>            
+        <AnimatePresence>
             {userData &&
-                <div className="comment-container">
+                <motion.div variants={itemVariants} initial="hidden" animate="visible" exit="exit" className="comment-container">
                         <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
-                            <div className="left">
-                                <img src={userData.photoURL} alt="Profile Pic"/>
-                                <span className="username"><a href={`/profile/${author}`}>{userData.displayName}</a></span>
-                                <span className="timestamp">{getTimestamp(createdAt)}</span>
-                            </div>
+                        <div className="left">
+                            <Link className="align-center" to={`/profile/${author}`}>
+                                <img src={userData.photoURL} alt="Profile pic"/>
+                                <span className="username">{userData.displayName}</span>
+                            </Link>
+
+                            <span className="timestamp">{getTimestamp(createdAt)}</span>
+                        </div>
                             {/* <div className="controls">
                                 <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                                     <FontAwesomeIcon icon={faEllipsisV}/>
@@ -146,8 +166,9 @@ const Comment = (props) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             }
+        </AnimatePresence>
     </>
     );
 }

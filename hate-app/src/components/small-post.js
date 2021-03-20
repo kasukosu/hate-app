@@ -2,14 +2,12 @@ import React, { useEffect, useState, useContext }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCommentAlt, faEllipsisV, faUnderline } from '@fortawesome/free-solid-svg-icons';
+import { faCommentAlt, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence }from 'framer-motion';
 import {Link} from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getTimestamp } from './functions/utility';
 import Confirmation from './confirmation';
-import CommentList from './comment-list';
-import CreateComment from './create-comment';
 import PostEditor from './post-editor';
 import DropdownItem from './dropdown-item';
 import DropdownSpan from './dropdown-span';
@@ -55,16 +53,14 @@ const postVariants = {
 
 }
 
-const Post = (props) => {
-    const {author, message, id, photoURL, displayName, createdAt, votes, recentComments, commentCount} = props.post;
+const SmallPost = (props) => {
+    const {author, message, id, createdAt, votes, commentCount} = props.post;
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
     const [isOwner, setIsOwner] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openNewComment, setOpenNewComment] = useState(false);
-    const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
-    const [showComments, setShowComments] = useState(true);
     const [showPostEditor, setShowPostEditor] = useState(false);
 
     const userRef = db.collection('users');
@@ -164,7 +160,7 @@ const Post = (props) => {
             variants={postVariants}
             initial="hidden"
             animate="visible"
-            className={`post ${owner}`} >
+            className={`post small ${owner}`} >
             <AnimatePresence>
                 {openModal &&
                     <motion.div variants={modalVariants} initial="hidden" animate="visible" exit="exit" className="modal" >
@@ -174,7 +170,7 @@ const Post = (props) => {
 
 
             </AnimatePresence>
-            {userData && <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
+            {userData && <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.15)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
                 <div className="left">
                     <span className="copy-id">{window.location.hostname +`/post/${id}`}</span>
                     <Link className="align-center" to={`/profile/${author}`}>
@@ -185,7 +181,7 @@ const Post = (props) => {
                     <span className="timestamp">{getTimestamp(createdAt)}</span>
                 </div>
                 <div className="controls">
-                    <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
+                    <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'Tween', duration:0.25}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </motion.div>
                 </div>
@@ -201,11 +197,11 @@ const Post = (props) => {
                             {isOwner ? <ul>
                                     <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem onClick={handleEditPost} >Edit post</DropdownItem>
-                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} slug={"post"} text={"Share post"} className="menu-item"/>
 
                             </ul> :
                             <ul>
-                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} slug={"post"} text={"Share post"} className="menu-item"/>
                             </ul>
                             }
 
@@ -218,33 +214,20 @@ const Post = (props) => {
                         <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-message"><p>{message}</p></motion.div>
                     </Link>
                     <div className="action-bar">
-                        <div>
-                            <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
+                        <div onClick={() => handleHates(id)}>
+                            <span className={voted.class} >{votes.length-1}</span>
                         </div>
-                        {user ?
-                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> handleOpenNewComment()}>
+                        <Link to={`/post/${id}`}>
+                            <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'Tween', duration:0.25}} className="comment-btn">
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                                 <span className="count">{commentCount ? commentCount : 0 }</span>
                             </motion.div>
+                        </Link>
 
-                            :
-                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
-                                <FontAwesomeIcon icon={faCommentAlt}/>
-                            </motion.div>
-                        }
                     </div>
-                    <AnimatePresence>
-                        {openNewComment &&
-                            <motion.div initial={{height:0}} animate={{height:'auto'}} transition={{duration: 0.1}} exit={{height: 0}}>
-                                <CreateComment {...props} comments={recentComments}  user={user} post_id={id}/>
-                            </motion.div>
-                        }
-                    </AnimatePresence>
+                    
 
-                    { showRecentComments ?
-
-                        <CommentList key={id} comments={recentComments}  user={user} post_id={id} /> : null
-                    }
+                    
             </div>
 
         </motion.div>
@@ -257,5 +240,5 @@ const Post = (props) => {
 
 
 
-export default Post;
+export default SmallPost;
 

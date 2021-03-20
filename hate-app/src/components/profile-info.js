@@ -1,34 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV, faArrowLeft, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import {motion, AnimatePresence} from 'framer-motion';
-import SignOut from './login/login'
 import DropdownItem from './dropdown-item';
+import DropdownSpan from './dropdown-span';
 
-
-
-const imageVariants = {
-    hidden: {
-        opacity: 0,
-
+const followVariants = {
+    hidden:{
     },
     visible:{
-        opacity: 1,
+        backgroundColor: 'rgb(55, 57, 70)',
+        x: 0,
+    },
+    exit:{
+        backgroundColor: 'rgb(4,134,79)',
+
+    }
+}
+const unfollowVariants = {
+    hidden:{
+        backgroundColor: 'rgb(4,134,79)',
+    },
+    visible:{
+        backgroundColor: 'rgb(4,144,79)',
+
 
     },
+    exit:{
+        backgroundColor: 'rgb(55, 57, 70)',
 
+    }
 }
 
 const ProfileInfo = (props) => {
     const {data} = props;
-    const {followers} = props.data.followers;
     const [isOwner, setIsOwner] = useState(false);
     const [user] = useAuthState(auth);
     const [openDropdown, setOpenDropdown] = useState(false);
-    const [imageLoaded, setImageLoaded] = useState(false);
     const [followed, hasFollowed] = useState({
         followsProfile: false,
         class: "follow no",
@@ -37,7 +47,7 @@ const ProfileInfo = (props) => {
         if(user!=null){
             const isOwner = data.user_id === auth.currentUser.uid ? true : false;
             setIsOwner(isOwner);
-            if(data.follows.includes(user.uid)){
+            if(data.followers.includes(user.uid)){
                 hasFollowed({followsProfile: true, class:"follow yes"});
             }else{
                 hasFollowed({followsProfile: false, class:"follow no"});
@@ -96,7 +106,7 @@ const ProfileInfo = (props) => {
                     <div className="profile-heading">
                         
                         <p className="heading-username">{data.displayName}</p>
-                        <motion.div whileHover={{ backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
+                        <motion.div whileHover={{ backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'tween'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                             <FontAwesomeIcon icon={faEllipsisH}/>
                         </motion.div>
 
@@ -107,12 +117,10 @@ const ProfileInfo = (props) => {
                             <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
                                 {isOwner ? <ul>
                                         <DropdownItem onClick={handleLogOut}>Log out</DropdownItem>
+                                        <DropdownSpan setOpenDropdown={setOpenDropdown} id={data.user_id} slug={"profile"} text={"Share profile"} className="menu-item"/>
                                 </ul> :
                                 <ul>
-                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
-                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
-                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
-
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={data.user_id} slug={"profile"} text={"Share profile"} className="menu-item"/>
                                 </ul>
                                 }
                             </motion.div>
@@ -120,7 +128,7 @@ const ProfileInfo = (props) => {
                     </AnimatePresence>
 
                     <div className="profile-top">
-                            <motion.img whileHover={{}} src={data.photoURL} alt="Photo"/>
+                            <motion.img src={data.photoURL} alt="Photo"/>
                         <div className="profile-top-grid">
                             
                             <div className="profile-stats">
@@ -129,17 +137,35 @@ const ProfileInfo = (props) => {
                                 <p><span className="count">{data.follows.length}</span> Following</p>
 
                             </div>
-
-                            {isOwner ?
-                                <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={()=>{props.setShowEditProfile(true)}} className="settings-btn">
-                                    Modify
-                                </motion.div>
+                            <div className="follow-container">
+                                {isOwner ?
+                                    <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={()=>{props.setShowEditProfile(true)}} className="settings-btn">
+                                        Modify
+                                    </motion.div>
                                 : null }
-                                
+                            </div>
+
                             {user && !isOwner ? 
-                                <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={() => {handleFollow(data.user_id)}} className="settings-btn">
-                                    Follow
-                                </motion.div> 
+                                <div className="follow-container">
+                                    <AnimatePresence>
+                                    { followed.followsProfile ? 
+                                        <motion.div whileHover={{opacity: 0.8}} onClick={() => {handleFollow(data.user_id)}} 
+                                        variants={unfollowVariants}
+                                        initial="hidden" 
+                                        animate="visible" 
+                                        exit="exit" 
+                                        className={followed.class}>Followed</motion.div> 
+                                    :
+                                        <motion.div whileHover={{opacity: 0.8}} onClick={() => {handleFollow(data.user_id)}}
+                                        variants={followVariants}
+                                        initial="hidden" 
+                                        animate="visible" 
+                                        exit="exit" 
+                                        className={followed.class}>Follow</motion.div> 
+                                    }
+                                    </AnimatePresence>
+                                </div>
+                                
                                 : null }    
                             
                         </div>

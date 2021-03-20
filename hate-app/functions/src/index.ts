@@ -1,5 +1,9 @@
 import * as functions from "firebase-functions";
 import admin = require( "firebase-admin");
+
+
+exports.countUserPosts = require("./countUserPosts");
+
 admin.initializeApp(functions.config().firebase);
 
 

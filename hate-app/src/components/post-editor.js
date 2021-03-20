@@ -1,10 +1,10 @@
 import React  from 'react';
 import {motion} from 'framer-motion';
 import { useState } from 'react';
-import { auth, firebase, db, storage } from '../firebase/firebaseConfig';
+import { auth, firebase, db } from '../firebase/firebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
-import ImageEditor from './edit-image';
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+
 const innerVariants = {
     hidden: {
         scale: 0.9,
@@ -67,16 +67,15 @@ const PostEditor = (props) => {
     return (
         <>
             <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal-main">
-                <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setNewPostData(false)}>
+                <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'tween'}} className="close-btn" onClick={()=> props.setNewPostData(false)}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </motion.div>
                 <div className="modal-grid">
                     <h1>Edit your post</h1>
                     <form action="">
-                        <textarea value={newPostData.message} name="message" onChange={changeHandler}></textarea>
-                        <input type="submit" style={{display: 'none'}}/>
-                        <div className="btn-group">
-                            <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updatePost} type="submit" className="save">Save</motion.button>
+                        <div className="input-box">
+                            <textarea value={newPostData.message} name="message" onChange={changeHandler}></textarea>
+                            <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updatePost} type="submit" className="send">Save <FontAwesomeIcon icon={faCheck}/></motion.button>
                         </div>
                     </form>
                 </div>
