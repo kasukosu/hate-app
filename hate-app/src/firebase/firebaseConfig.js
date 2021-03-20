@@ -7,7 +7,7 @@ import 'firebase/storage';
 // Initialize Firebase
 let config = {
   apiKey: "AIzaSyA9mG7xdL1hRlxqaktyjEnDF2Xmz7sUPOk",
-  authDomain: "hatesome-app.firebaseapp.com",
+  authDomain: "hatesome.com",
   projectId: "hatesome-app",
   storageBucket: "hatesome-app.appspot.com",
   messagingSenderId: "312379445507",
