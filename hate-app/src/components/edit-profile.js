@@ -41,8 +41,6 @@ const EditProfile = (props) => {
     const triggerImageFilePopup = () => imageInputRef.current.click();
     let newImage = imageUrl;
 
-
-
     const updateProfile = async(e) => {
         e.preventDefault();
         const user = auth.currentUser;
@@ -137,8 +135,8 @@ const EditProfile = (props) => {
                         </div>
                     </div>
                         <input name="profilePic" type="file" accept='image/*' ref={imageInputRef} onChange={handleImageAsFile}/>
-                        <input value={newUserData.displayName} name="displayName" type="text" onChange={changeHandler}/>
-                        <textarea value={newUserData.bio} name="bio" onChange={changeHandler}></textarea>
+                        <input value={newUserData.displayName} className="editor" name="displayName" type="text" onChange={changeHandler}/>
+                        <textarea value={newUserData.bio} className="editor" name="bio" onChange={changeHandler}></textarea>
                         <input type="submit" style={{display: 'none'}}/>
                         <div className="btn-group">
                             <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updateProfile} type="submit" className="save">Save</motion.button>

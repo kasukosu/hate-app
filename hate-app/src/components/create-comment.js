@@ -1,5 +1,6 @@
 import React from 'react';
-import {SignIn} from './login/login';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { auth, firebase, db } from '../firebase/firebaseConfig';
 import {motion} from 'framer-motion';
@@ -26,7 +27,8 @@ const CommentCreator = (props) => {
     const addComment = async(e) => {
         e.preventDefault();
         const user = auth.currentUser;
-        if(user!=null){
+        if(user!=null&&comment.message.length>0){
+            
             const {uid, photoURL, displayName} = user;
             await postsRef.add({
                 author: uid,
@@ -58,10 +60,11 @@ const CommentCreator = (props) => {
         <section className="create-comment">
             <motion.form  id="createcomment" onSubmit={addComment}>
                 <div className="input-box">
-                    <textarea placeholder="I hate this so much.." type="text" name="message" required value={comment.message} onChange={changeHandler}/>
+                    <textarea placeholder="I hate this" type="text" name="message" required value={comment.message} onChange={changeHandler}/>
+                    <motion.button whileHover={{backgroundColor: 'rgb(32,105,224)'  }} whileTap={{ scale: 0.9 }} onClick={addComment} type="submit" className="send">
+                        Comment  <FontAwesomeIcon icon={faPaperPlane}/>
+                    </motion.button>
                 </div>
-                <input type="submit" style={{display: 'none'}}/>
-                <button onClick={addComment} type="submit">Submit</button>
             </motion.form>
         </section>
     );

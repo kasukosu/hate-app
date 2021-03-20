@@ -2,7 +2,7 @@
  button{
   padding: 10px 4px;
   border:none;
-  border-radius: 4px;
+  border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
   background-color: rgb(55, 57, 70);
@@ -12,6 +12,18 @@
   font-family: inherit;
   color: #f2f2f2;
   outline: none;
+  white-space: nowrap;
+  &.send{
+    align-self: flex-end;
+    padding: 8px 8px;
+    // height: 30px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    svg{
+      margin-left: 2px;
+      font-weight: 200;
+    }
+  }
 }
 .create-post{
   align-self: center;
@@ -36,52 +48,44 @@
    
   }
   form{
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    grid-gap: 8px;
     gap: 8px;
-    box-shadow: rgb(29, 30, 34) 0 0 14px;
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
-    padding: 10px 0px;
-
+    
     &.creator{
-      width: 100%;
+      width: 500px;
     }
     .input-box{
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      padding: 0px 0px;
+      justify-content: center;
       label{
         display: block;
         padding: 10px 15px;
       }
     }
-    input,textarea{
-      margin: 8px 0px;
-      padding: 5px 0px;
+    textarea{
       border:none;
-      border-radius: 4px;
       background-color: rgba(35, 36, 42, 1);
-      border-top: rgb(49, 49, 49) 1px solid;
-      border-bottom: rgb(49, 49, 49) 1px solid;
-      -webkit-appearance: none;
-
-
+      width: 95%;
       color: white;
       resize: none;
+      height: 60px;
+      padding: 15px 15px;
+      font-size: 18px;
+      font-family: inherit;
+      border-radius: 10px;
       &:focus{
         outline:none;
       }
     }
-    textarea{
-      height: 60px;
-      padding: 15px;
-      font-size: 18px;
-      font-family: inherit;
-
-
-    }
+   
     input:focus, textarea:focus{
       transition: all 0.2s;
     }
@@ -96,45 +100,46 @@
 }
 .create-comment{
   form{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    grid-gap: 8px;
     gap: 8px;
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
-    padding-bottom: 10px;
+    
     &.creator{
       width: 500px;
     }
     .input-box{
+      width: 100%;
+      border-top: rgb(49, 49, 49) 1px solid;
       display: flex;
-      flex-direction: column;
-      padding: 0px 0px;
+      justify-content: center;
       label{
         display: block;
         padding: 10px 15px;
       }
     }
-    input,textarea{
-      padding: 5px 0px;
+    textarea{
       border:none;
-      border-radius: 4px;
       background-color: rgba(35, 36, 42, 1);
-      border-top: rgb(49, 49, 49) 1px solid;
-      border-bottom: rgb(49, 49, 49) 1px solid;
-
-
+      
+      width: 95%;
       color: white;
       resize: none;
+      height: 60px;
+      padding: 15px 15px;
+      font-size: 18px;
+      font-family: inherit;
+      border-radius: 10px;
       &:focus{
         outline:none;
       }
     }
-    textarea{
-      height: 60px;
-      padding: 15px;
-      font-size: 18px;
-      font-family: inherit;
-    }
+   
     input:focus, textarea:focus{
       transition: all 0.2s;
     }

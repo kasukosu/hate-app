@@ -30,7 +30,7 @@ const Confirmation = ({ handleDelete, children, id, uid }) => {
 
     return (
 
-            <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal" className="modal-main">
+            <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal modal-main">
                 <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> handleDelete(false, id, uid)}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </motion.div>

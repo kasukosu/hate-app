@@ -4,7 +4,6 @@ import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import {motion, AnimatePresence} from 'framer-motion';
-import useFollowHook from './functions/useFollowHook';
 
 
 const itemVariants = {
@@ -27,7 +26,6 @@ const itemVariants = {
 
 }
 const FollowerList = (props) => {
-    console.log(props);
     console.log(props.userData.followers);    
     return ( 
 

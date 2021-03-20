@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCommentAlt, faEllipsisV, faUnderline } from '@fortawesome/free-solid-svg-icons';
+import { faCommentAlt, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence }from 'framer-motion';
 import {Link} from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
@@ -55,8 +55,8 @@ const postVariants = {
 
 }
 
-const Post = (props) => {
-    const {author, message, id, photoURL, displayName, createdAt, votes, recentComments, commentCount} = props.post;
+const LargePost = (props) => {
+    const {author, message, id, createdAt, votes, recentComments, commentCount} = props.post;
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
     const [isOwner, setIsOwner] = useState(false);
@@ -64,7 +64,6 @@ const Post = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [openNewComment, setOpenNewComment] = useState(false);
     const [showRecentComments, setShowRecentComments] = useState(props.showRecentComments);
-    const [showComments, setShowComments] = useState(true);
     const [showPostEditor, setShowPostEditor] = useState(false);
 
     const userRef = db.collection('users');
@@ -178,14 +177,14 @@ const Post = (props) => {
                 <div className="left">
                     <span className="copy-id">{window.location.hostname +`/post/${id}`}</span>
                     <Link className="align-center" to={`/profile/${author}`}>
-                        <img src={userData.photoURL}/>
+                        <img src={userData.photoURL} alt="Profile pic"/>
                         <span className="username">{userData.displayName}</span>
                     </Link>
 
                     <span className="timestamp">{getTimestamp(createdAt)}</span>
                 </div>
                 <div className="controls">
-                    <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
+                    <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
                         <FontAwesomeIcon icon={faEllipsisV}/>
                     </motion.div>
                 </div>
@@ -222,13 +221,13 @@ const Post = (props) => {
                             <span className={voted.class} onClick={() => handleHates(id)}>{votes.length-1}</span>
                         </div>
                         {user ?
-                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> handleOpenNewComment()}>
+                            <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> handleOpenNewComment()}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                                 <span className="count">{commentCount ? commentCount : 0 }</span>
                             </motion.div>
 
                             :
-                            <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
+                            <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)', opacity:0.9}} transition={{type:'spring'}} className="comment-btn" onClick={()=> props.setShowSignIn(true)}>
                                 <FontAwesomeIcon icon={faCommentAlt}/>
                             </motion.div>
                         }
@@ -257,5 +256,5 @@ const Post = (props) => {
 
 
 
-export default Post;
+export default LargePost;
 

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { auth, firebase, db } from '../firebase/firebaseConfig';
 import {motion} from 'framer-motion';
 const CreatePost = (props) => {
@@ -44,17 +46,17 @@ const CreatePost = (props) => {
             {user ? null : 
                     <div onClick={()=>{props.setShowSignIn(true)}} className="loginFirst">
                         <p>😈 Login to start hating! 😈</p>
-                        <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.1}} className="login" type="submit">Login</motion.button>
-
                     </div>
                 }
             <form className="creator" onSubmit={addPost}>
                 
                 <div className="input-box">
                     <textarea placeholder="What did you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
+                    <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}}  whileTap={{scale: 0.9 }} transition={{duration:0.15}} type="submit" className="send">
+                        Post  <FontAwesomeIcon icon={faPaperPlane}/>
+                    </motion.button>
                 </div>
 
-                <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} onTap={{scale: 0.9 }} whileTap={{scale: 0.9 }} transition={{duration:0.15}} type="submit" className="save">Post</motion.button>
             </form>
         </section>
     );
