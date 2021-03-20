@@ -25,7 +25,7 @@ const loaderAnimation = {
 
 const FeedTabs = (props) => {
     const [currentFeed, setCurrentFeed] = useState({
-        tag: 'active',
+        tag: 'newest',
         limit: 20,
     })
     const handleTabChange = (e) => {
@@ -39,12 +39,12 @@ const FeedTabs = (props) => {
             <CreatePost setShowSignIn={props.setShowSignIn}/>
             <div className="tab-selector" onChange={handleTabChange}>
                 <label className="tab-container" htmlFor="">
-                    <input name="currentTab" id="radio1" value="active" type="radio" defaultChecked/>
-                    <label htmlFor="radio1" className="tab-btn left">Most Active</label>
+                    <input name="currentTab" id="radio1" value="newest" type="radio" defaultChecked/>
+                    <label htmlFor="radio1" className="tab-btn left-alt">Newest</label>
                 </label>
                 <label className="tab-container" htmlFor="">
-                    <input name="currentTab" id="radio2" value="newest" type="radio" />
-                    <label htmlFor="radio2" className="tab-btn right">Newest</label>
+                    <input name="currentTab" id="radio2" value="active" type="radio" />
+                    <label htmlFor="radio2" className="tab-btn right-alt">Most Active</label>
                 </label>
             </div>
             <AnimatePresence>

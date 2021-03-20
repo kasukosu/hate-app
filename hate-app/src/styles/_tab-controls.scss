@@ -63,6 +63,15 @@ input[type=radio]{
     &:hover{
         background-color: rgba(78, 81, 94, 0.3);
     }
+    &.left-alt{
+        border-radius: 10px 0px 0px 10px;
+    }
+    &.right-alt{
+        border-radius: 0px 10px 10px 0px;
+        border-left: rgb(49, 49, 49) 1px solid;
+
+
+    }
 }
 
 [type="radio"]:checked + .tab-btn {

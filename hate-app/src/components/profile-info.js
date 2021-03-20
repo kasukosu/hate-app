@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import {motion, AnimatePresence} from 'framer-motion';
 import DropdownItem from './dropdown-item';
+import DropdownSpan from './dropdown-span';
 
 const followVariants = {
     hidden:{
@@ -14,16 +15,16 @@ const followVariants = {
         x: 0,
     },
     exit:{
-        backgroundColor: 'rgba(0, 255, 0, 0.672)',
+        backgroundColor: 'rgb(4,134,79)',
 
     }
 }
 const unfollowVariants = {
     hidden:{
-        backgroundColor: 'rgba(0, 255, 0, 0.672)',
+        backgroundColor: 'rgb(4,134,79)',
     },
     visible:{
-        backgroundColor: 'rgba(0, 255, 0, 0.672)',
+        backgroundColor: 'rgb(4,144,79)',
 
 
     },
@@ -116,12 +117,10 @@ const ProfileInfo = (props) => {
                             <motion.div initial={{height: 0, opacity:0}} animate={{height: 'auto', opacity: 1}} transition={{duration:0.1}} exit={{height: 0, opacity: 0}} className="control-dropdown">
                                 {isOwner ? <ul>
                                         <DropdownItem onClick={handleLogOut}>Log out</DropdownItem>
+                                        <DropdownSpan setOpenDropdown={setOpenDropdown} id={data.user_id} slug={"profile"} text={"Share profile"} className="menu-item"/>
                                 </ul> :
                                 <ul>
-                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
-                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
-                                    <DropdownItem>Lorem ipsum no user</DropdownItem>
-
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={data.user_id} slug={"profile"} text={"Share profile"} className="menu-item"/>
                                 </ul>
                                 }
                             </motion.div>

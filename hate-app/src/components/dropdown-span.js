@@ -29,7 +29,7 @@ const DropdownSpan = (props) => {
     return (
         <motion.a whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{duration:0.1}} href="#" className="menu-item">
             <span className="icon-button">{props.leftIcon}</span>
-            <CopyToClipboard text={`${window.location.origin}/post/${props.id}`} onCopy={handleCopy}><span>Share post</span></CopyToClipboard>
+            <CopyToClipboard text={`${window.location.origin}/${props.slug}/${props.id}`} onCopy={handleCopy}><span>{props.text}</span></CopyToClipboard>
             <span className="icon-right">{props.rightIcon}</span>
 
         </motion.a>

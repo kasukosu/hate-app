@@ -175,7 +175,6 @@ const LargePost = (props) => {
             </AnimatePresence>
             {userData && <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="post-heading">
                 <div className="left">
-                    <span className="copy-id">{window.location.hostname +`/post/${id}`}</span>
                     <Link className="align-center" to={`/profile/${author}`}>
                         <img src={userData.photoURL} alt="Profile pic"/>
                         <span className="username">{userData.displayName}</span>
@@ -200,11 +199,11 @@ const LargePost = (props) => {
                             {isOwner ? <ul>
                                     <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem onClick={handleEditPost} >Edit post</DropdownItem>
-                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} text={"Share post"} className="menu-item"/>
 
                             </ul> :
                             <ul>
-                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} text={"Share post"} className="menu-item"/>
                             </ul>
                             }
 

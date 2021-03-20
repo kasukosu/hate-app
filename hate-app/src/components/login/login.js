@@ -50,6 +50,7 @@ function SignIn(props) {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         private: false,
         posts: [],
+        postcount: [],
         votes: [],
         shares: [],
         comments: [],

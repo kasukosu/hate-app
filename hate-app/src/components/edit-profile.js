@@ -123,7 +123,7 @@ const EditProfile = (props) => {
             {image && <ImageEditor setPreview={setPreview} setCroppedImage={setCroppedImage} setImage={setImage} image={image}/>}
         </AnimatePresence>
             <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal-main">
-                <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setShowEditProfile(false)}>
+                <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'tween'}} className="close-btn" onClick={()=> props.setShowEditProfile(false)}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </motion.div>
                 <div className="modal-grid">

@@ -16,6 +16,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    // max-width: 500px;
     grid-gap: 16px;
 }
 .profile-image{
@@ -105,7 +106,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        padding: 10px 15px;
+        padding: 12px 12px;
         border-bottom: rgb(49, 49, 49) 1px solid;
         overflow: hidden;
         border-radius: 10px 10px 0px 0px;
@@ -290,8 +291,8 @@
     }
 
     .comment-heading{
-        border-radius: 8px 8px 0px 0px;
-        padding: 6px 10px;
+        border-radius: 10px 10px 0px 0px;
+        padding: 12px 12px;
         .left{
             display: flex;
             flex-direction: row;
@@ -299,7 +300,7 @@
             gap: 10px;
             grid-gap: 10px;
             .username{
-                font-size: 12px;
+                font-size: 14px;
             }
             .timestamp{
                 font-weight: 200;
@@ -315,6 +316,15 @@
                 box-shadow: rgba(29, 30, 34, 0.6) 0 0 16px;
 
             }
+            .align-center{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-right: 10px;
+                img{
+                    margin-right: 10px;
+                }
+            }
         }
 
         // justify-content: ;
@@ -329,7 +339,7 @@
 
         }
         .action-bar{
-            height: 20px;
+            height: 25px;
 
         }
     }

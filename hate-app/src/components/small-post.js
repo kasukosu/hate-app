@@ -197,11 +197,11 @@ const SmallPost = (props) => {
                             {isOwner ? <ul>
                                     <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
                                     <DropdownItem onClick={handleEditPost} >Edit post</DropdownItem>
-                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} slug={"post"} text={"Share post"} className="menu-item"/>
 
                             </ul> :
                             <ul>
-                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
+                                    <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} slug={"post"} text={"Share post"} className="menu-item"/>
                             </ul>
                             }
 

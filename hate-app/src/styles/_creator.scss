@@ -58,9 +58,6 @@
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
     
-    &.creator{
-      width: 500px;
-    }
     .input-box{
       width: 100%;
       display: flex;
@@ -78,7 +75,7 @@
       resize: none;
       height: 60px;
       padding: 15px 15px;
-      font-size: 18px;
+      font-size: 16px;
       font-family: inherit;
       border-radius: 10px;
       &:focus{
@@ -110,9 +107,7 @@
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
     
-    &.creator{
-      width: 500px;
-    }
+    
     .input-box{
       width: 100%;
       border-top: rgb(49, 49, 49) 1px solid;
@@ -132,7 +127,7 @@
       resize: none;
       height: 60px;
       padding: 15px 15px;
-      font-size: 18px;
+      font-size: 16px;
       font-family: inherit;
       border-radius: 10px;
       &:focus{
