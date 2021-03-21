@@ -60,24 +60,22 @@ const Postlist = (props) => {
     const {tag} = props.currentFeed
 
     const postsRef = db.collection('posts');
-    let [lastDoc, setLastDoc] = useState(null);
-    const [pageSize, setPageSize] = useState(6);
+    const [lastDoc, setLastDoc] = useState(null);
+    const [pageSize, setPageSize] = useState(8);
     const [listOfPosts, setListOfPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(true);
-    const aQuery = postsRef.orderBy('commentCount','desc').startAfter(lastDoc).limit(pageSize);
-    const nQuery = postsRef.orderBy('createdAt','desc').startAfter(lastDoc).limit(pageSize);
     
-    console.log(listOfPosts.length)
     const observer = useRef()
     const lastPostRef = useCallback(node => {
-        console.log(observer.current)
+        console.log(node)
         if(loading){
             return
         }
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
+                setLoading(true);
                 getMorePosts();
             }
         })
@@ -85,14 +83,29 @@ const Postlist = (props) => {
 
     }, [loading, hasMore])
 
-    useEffect(() => {
-        getFirstPosts();
-    }, [0, props.currentFeed]);
+    const otherPostRef  = useCallback(node => {
+        console.log(node)
+        if(loading){
+            return
+        }
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setLoading(true);
+                getMorePosts();
+            }
+        })
+        if (node) observer.current.observe(node);
 
+    }, [loading, hasMore])
     useEffect(() => {
         setListOfPosts([]);
+        getFirstPosts();
         setLoading(true);
-    }, [tag]);
+        setHasMore(true);
+        setLastDoc(null);
+        console.log("fired")
+    }, [props.currentFeed]);
 
     const getFirstPosts = () => {
         console.log(tag)
@@ -115,10 +128,12 @@ const Postlist = (props) => {
                 setLoading(false);
             })
         }
+
         
     }
 
     const getMorePosts = () => {
+        console.log("before query: " + lastDoc.id)
         if(tag==="newest"){
             postsRef
             .orderBy('createdAt','desc')
@@ -127,6 +142,8 @@ const Postlist = (props) => {
             .get()
             .then((collections) => {
                 updateState(collections);
+                setLoading(false);
+
             })
         }else if(tag==="active"){
             postsRef
@@ -136,23 +153,37 @@ const Postlist = (props) => {
             .get()
             .then((collections) => {
                 updateState(collections);
+                setLoading(false);
+
             })
         }
     }
 
     const updateState = (collections) => {
-        const isCollectionEmpty = collections.size === 0;
-        if(!isCollectionEmpty){
-            const posts = collections.docs.map((post)=> post.data());
-            const lastDoc = collections.docs[collections.docs.length-1];
-            setListOfPosts(listOfPosts => [...listOfPosts, ...posts]);
-            console.log(lastDoc);
-            setLastDoc(lastDoc);
+        if(collections.size>1){
+            console.log(collections.size)
+
+            const newposts = [];
+            collections.docs.map((post)=> {
+                let currentID = post.id;
+                let postObj = { ...post.data(), ['id']: currentID };
+                newposts.push(postObj);
+            });
+
+            let newLastDoc = collections.docs[collections.docs.length - 1]; 
+            console.log("New doc: "+newLastDoc.id)
+            setLastDoc(newLastDoc);
+
+            setListOfPosts((listOfPosts) => [...listOfPosts, ...newposts]);
+            //TÄÄ EI TOIMI LASTDOC AINA SAMA
+
+            
         }else{
             setHasMore(false);
-            
+            console.log(hasMore)
+
+
         }
-        setLoading(false);
 
 
     }
@@ -163,6 +194,7 @@ const Postlist = (props) => {
             return(
                 <div id="post-feed" className="post-feed">
                 {listOfPosts && listOfPosts.map((post, index) => {
+                    console.log(post)
                     if(listOfPosts.length === (index+1)){
                         return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
                     }else{
@@ -184,7 +216,11 @@ const Postlist = (props) => {
                         <h2 className="empty">It's quite empty here 🌼</h2>
                     </div>
                 : null
-                
+                }
+                { !hasMore && 
+                    <div className="post">
+                        <h2 className="empty">You reached the the eternal peace 🌼</h2>
+                    </div>
                 }
             </div>
 
@@ -194,8 +230,10 @@ const Postlist = (props) => {
             return(
                     <div className="post-feed">
                     {listOfPosts && listOfPosts.map((post, index) => {
+                                            console.log(post)
+
                         if(listOfPosts.length === (index+1)){
-                            return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
+                            return <SmallPost ref={otherPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
                         }else{
                             return <SmallPost key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
                         }
@@ -215,6 +253,11 @@ const Postlist = (props) => {
                         </div>
                      : null
                     }
+                    { !hasMore && 
+                    <div className="post">
+                        <h2 className="empty">You reached the the eternal peace 🌼</h2>
+                    </div>
+                }
                 </div>
 
 
