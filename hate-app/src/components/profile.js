@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
-import { auth, db } from '../firebase/firebaseConfig';
+import { db } from '../firebase/firebaseConfig';
 import { useParams } from 'react-router-dom';
-import { useCollectionData, useDocumentData, useDocumentOnce } from 'react-firebase-hooks/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 
 import ProfileInfo from './profile-info';
 import ProfileTabs from './profile-tabs';
@@ -59,25 +59,9 @@ const Profile = (props) => {
     const uQuery = userRef.doc(id);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
     const [showEditProfile, setShowEditProfile] = useState(false);
-    const postsRef = db.collection('posts');
-    const pQuery = postsRef.where("author", "==", id);
-    const [posts] = useCollectionData(pQuery, {idField: 'id'});
-    const hQuery = postsRef.where("votes", "array-contains", id);
-    const [hatedPosts] = useCollectionData(hQuery, {idField: 'id'});
-    const [postCount, setPostCount] = useState();
-
-    useEffect(() =>{
-        console.log(posts)
-        if(posts){
-            let count = posts.length;
-            setPostCount(count)
-        }
-        
-    },[posts]);
-
+    const [postCount, setPostCount] = useState(2);
 
     return (
-
             <motion.div variants={containerVariants} initial="hidden" animate="visible"  exit="exit" className="feed">
                 <AnimatePresence>
                 {showEditProfile &&
@@ -89,7 +73,7 @@ const Profile = (props) => {
                 {userData &&
                     <ProfileInfo postCount={postCount} setShowEditProfile={setShowEditProfile} data={userData}/>
                 }
-                {posts && hatedPosts && userData ? <ProfileTabs posts={posts} setShowSignIn={props.setShowSignIn} hatedPosts={hatedPosts} userData={userData}></ProfileTabs> : null}
+                <ProfileTabs setShowSignIn={props.setShowSignIn} userData={userData}/> 
             </motion.div>
 
     );

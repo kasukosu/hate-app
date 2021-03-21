@@ -1,5 +1,5 @@
 import React from 'react';
-import Post from './post';
+import LargePost from './large-post';
 import {db} from "../firebase/firebaseConfig";
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
 import CommentList from './comment-list';
@@ -55,7 +55,7 @@ const FullPost = (props) => {
                 className="feed">
                     <AnimatePresence>
                         {postData &&
-                            <Post setShowSignIn={props.setShowSignIn} showRecentComments={false} post={postData}/>
+                            <LargePost setShowSignIn={props.setShowSignIn} showRecentComments={false} post={postData}/>
                         }
                     </AnimatePresence>
                     {comments &&

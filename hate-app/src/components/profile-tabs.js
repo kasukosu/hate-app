@@ -1,18 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db, firebase } from '../firebase/firebaseConfig';
+import React, {useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
-
-import Post from './post';
+import {db} from "../firebase/firebaseConfig";
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import SmallPost from './small-post';
 import FollowerList from './follower-list';
 
 
-
 const ProfileTabs = (props) => {
-    console.log(props);
-    const {posts, hatedPosts} = props;
     const [currentTab, setCurrentTab] = useState('posts')
-    
 
     const handleTabChange = (e) => {
         setCurrentTab(
@@ -25,7 +20,7 @@ const ProfileTabs = (props) => {
         <>
             <div className="tab-selector" onChange={handleTabChange}>
                 <label className="tab-container" htmlFor="">
-                    <input name="currentTab" id="radio1" value="posts" type="radio"/>
+                    <input name="currentTab" id="radio1" value="posts" defaultChecked type="radio"/>
                     <label htmlFor="radio1" className="tab-btn left">Posts</label>
                 </label>
                 <label className="tab-container" htmlFor="">
@@ -39,55 +34,77 @@ const ProfileTabs = (props) => {
                 
             </div>
             <AnimatePresence>
-               {props.posts && props.hatedPosts ? 
-                    <TabItem {...props} hatedPosts={hatedPosts} posts={posts} currentTab={currentTab}></TabItem>
+               {props.userData ? 
+                    <TabItem {...props} currentTab={currentTab}></TabItem>
                  : null }   
             </AnimatePresence>
         </>
     );
 }
- 
-const postVariants = {
-    hidden:{
-        x: -80,
-        opacity: 0,
-    },
-    visible:{
-        x: 0,
-        opacity: 1,
-        transition:{
-            duration: 0.3
-        }
-    },
-    exit:{
-        x: 100,
-        opacity: 0,
-    }
 
+const loaderAnimation = {
+    animationOne: {
+        x: [-40, 0, 40 ],
+        y: [0, 20, 0],
+        transition: {
+            x: {
+                repeat: Infinity,
+                duration: 1
+            },
+            y: {
+                repeat: Infinity,
+                duration: 0.5
+            }
+        },
+
+    }
 }
 const TabItem = (props) => {
+    const postsRef = db.collection('posts');
 
-    console.log(props)
     switch(props.currentTab) {
         case 'posts':
-            console.log(props.posts)
-
+            const pQuery = postsRef.where("author", "==", props.userData.id);
+            const [posts, loadingPosts] = useCollectionData(pQuery, {idField: 'id'});
             return(
                 <>
-                    {props.posts ? props.posts.map(post => <Post key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> ):null}
+                    {posts && posts.map(post => <SmallPost key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> )}
+                    {loadingPosts && 
+                        <motion.div
+                            variants={loaderAnimation}
+                            animate="animationOne"
+                            className="loader"
+                        >
+                            
+                        </motion.div>
+                    }
+                    {!loadingPosts && posts.length===0 ? 
+                        <h2>It's quite empty here 🌼</h2> : null
+                    }
                 </>
 
             )
 
         case 'hates':
-            console.log(props.hatedPosts)
+            const hQuery = postsRef.where("votes", "array-contains", props.userData.id);
+            const [hatedPosts, loadingHPosts] = useCollectionData(hQuery, {idField: 'id'});
             return(
                 <>
-                    {props.hatedPosts ? props.hatedPosts.map(post => <Post key={post.id} post={post} setShowSignIn={props.setShowSignIn}/> ): <h2>You dont hate on anything 🌼</h2>}
+                    {hatedPosts && hatedPosts.map(post => <SmallPost key={post.id} post={post} setShowSignIn={props.setShowSignIn}/>)}
+                    {loadingHPosts && 
+                        <motion.div
+                            variants={loaderAnimation}
+                            animate="animationOne"
+                            className="loader"
+                        >
+                        </motion.div>
+                    }
+                    {!loadingHPosts && hatedPosts.length===0 ? 
+                        <h2>It's quite empty here 🌼</h2> : null
+                    }
                 </>
-
-
             )
+
         case 'followers':
             return(
                 <>

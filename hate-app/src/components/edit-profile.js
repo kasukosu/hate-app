@@ -41,8 +41,6 @@ const EditProfile = (props) => {
     const triggerImageFilePopup = () => imageInputRef.current.click();
     let newImage = imageUrl;
 
-
-
     const updateProfile = async(e) => {
         e.preventDefault();
         const user = auth.currentUser;
@@ -125,7 +123,7 @@ const EditProfile = (props) => {
             {image && <ImageEditor setPreview={setPreview} setCroppedImage={setCroppedImage} setImage={setImage} image={image}/>}
         </AnimatePresence>
             <motion.section variants={innerVariants} initial="hidden" animate="visible" exit="exit" className="modal-main">
-                <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="close-btn" onClick={()=> props.setShowEditProfile(false)}>
+                <motion.div whileHover={{scale: 1.1, backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'tween'}} className="close-btn" onClick={()=> props.setShowEditProfile(false)}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </motion.div>
                 <div className="modal-grid">
@@ -137,8 +135,8 @@ const EditProfile = (props) => {
                         </div>
                     </div>
                         <input name="profilePic" type="file" accept='image/*' ref={imageInputRef} onChange={handleImageAsFile}/>
-                        <input value={newUserData.displayName} name="displayName" type="text" onChange={changeHandler}/>
-                        <textarea value={newUserData.bio} name="bio" onChange={changeHandler}></textarea>
+                        <input value={newUserData.displayName} className="editor" name="displayName" type="text" onChange={changeHandler}/>
+                        <textarea value={newUserData.bio} className="editor" name="bio" onChange={changeHandler}></textarea>
                         <input type="submit" style={{display: 'none'}}/>
                         <div className="btn-group">
                             <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.15}} onClick={updateProfile} type="submit" className="save">Save</motion.button>

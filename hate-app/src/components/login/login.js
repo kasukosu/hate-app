@@ -50,6 +50,7 @@ function SignIn(props) {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         private: false,
         posts: [],
+        postcount: [],
         votes: [],
         shares: [],
         comments: [],
@@ -71,9 +72,9 @@ function SignIn(props) {
               <FontAwesomeIcon icon={faTimes}/>
             </motion.div>
             <h1>Login to hatesome!</h1>
-            <p>Login with your Google account to start hating!</p>
+            <p>Login with your Google account to start hating! 😈</p>
             <div className="btn-group">
-              <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.1}} className="login" type="submit"  onClick={signInWithGoogle}>Sign in</motion.button>
+              <motion.button whileHover={{backgroundColor: 'rgb(4,174,79)'}} whileTap={{scale: 0.9}} transition={{duration:0.1}} className="login" type="submit"  onClick={signInWithGoogle}>Sign in</motion.button>
             </div>
           </section>
       </motion.div>

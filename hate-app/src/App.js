@@ -2,19 +2,18 @@ import React, {useState, useEffect} from 'react';
 import { useLocation, useHistory, Route, Link, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import './App.scss';
-import PostList from "./components/postlist";
-import FullPost from "./components/full-post";
-import Profile from "./components/profile";
-import {SignOut, SignIn} from "./components/login/login";
 import { auth, db } from './firebase/firebaseConfig';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import {motion, AnimatePresence} from 'framer-motion';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import Toast from './components/toast';
 import { ToastContext } from './components/ToastContext';
+import './App.scss';
+import FeedTabs from "./components/postlist";
+import FullPost from "./components/full-post";
+import Profile from "./components/profile";
+import {SignOut, SignIn} from "./components/login/login";
+import Toast from './components/toast';
 import PostEditor from './components/post-editor';
-
 
 const navVariants = {
   hidden : {
@@ -75,9 +74,8 @@ function App() {
   const [photoURL, setPhotoURL] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  const [showCreatePost, setShowCreatePost] = useState(false);
   const [newPostData, setNewPostData] = useState(null);
-
-  console.log(newPostData)
   const location = useLocation();
   const history = useHistory();
   useEffect(() =>{
@@ -102,8 +100,6 @@ function App() {
     history.push(location.pathname);
   }
 
-
-console.log(location);
   return (
       <div className="App">
 
@@ -134,11 +130,11 @@ console.log(location);
                       </Link>
                     </div>
                   {photoURL &&
-                    <div className="profile-image">
+                    <motion.div whileTap={{scale:0.9}} className="profile-image">
                       <Link to={`/profile/${user.uid}`}>
                           <img src={photoURL} alt="Profile Pic"/>
                       </Link>
-                    </div>
+                    </motion.div>
 
                 }
                 </motion.div> :
@@ -161,6 +157,11 @@ console.log(location);
                         </svg>
                       </Link>
                   </div>
+                  <div className="login-btn" onClick={()=>{setShowSignIn(true)}}>
+                      <motion.button initial={{backgroundColor: '#23242B'}} whileHover={{backgroundColor: 'rgb(4,174,79)'}} transition={{duration:0.1}} className="login" type="submit">Login</motion.button>
+                  </div>
+                  
+
                 </motion.div>
               }
 
@@ -174,7 +175,7 @@ console.log(location);
           <ToastContext.Provider value={{ toastValue :[showToast, setShowToast], newPostValue: [newPostData, setNewPostData] }}>
             <AnimatePresence>
               <Switch location={location} key={location.pathname}>
-                  <Route exact path="/" render={(props) => ( <PostList {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
+                  <Route exact path="/" render={(props) => ( <FeedTabs {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
                   <Route path="/post/:id" render={(props) => ( <FullPost {...props} setShowSignIn={setShowSignIn} />)} />
                   <Route path="/profile/:id" render={(props) =>( <Profile {...props} user={user} setShowSignIn={setShowSignIn} /> )} />
               </Switch>
@@ -193,6 +194,14 @@ console.log(location);
             </motion.div>
           }
         </AnimatePresence>
+        {/* <AnimatePresence>
+          {showCreatePost &&
+            <motion.div variants={modalVariants} initial="hidden" animate="visible" exit="exit" className="modal" >
+              <CreatePost setShowSignIn={setShowSignIn}/>
+            </motion.div>
+          }
+        </AnimatePresence> */}
+
 
       </div>
   );

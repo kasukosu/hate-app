@@ -66,5 +66,13 @@
         grid-area: middle;
         width: 120px;
     }
+    .login-btn{
+        grid-area: right;
+        .login{
+            padding: 8px 12px;
+            width: unset;
+        }
+        
+    }
 }
 
