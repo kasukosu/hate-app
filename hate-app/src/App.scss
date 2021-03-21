@@ -10,12 +10,17 @@
 body{
   margin: 0;
 }
-.App {
+.App{
+  overflow: hidden;
+}
+.container {
   font-family: 'Raleway', sans-serif;
   // background-image: radial-gradient(circle, #0e0e11, #0c0b0d, #090709, #050304, #000000);
   background-color: #1B1C22;
   padding-bottom: 40px;
-  min-height: 150vh;
+  min-height: 100vh;
+  height: auto;
+  overflow: hidden;
   scroll-behavior: smooth;
 }
 #root{

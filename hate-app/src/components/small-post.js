@@ -53,7 +53,7 @@ const postVariants = {
 
 }
 
-const SmallPost = (props) => {
+const SmallPost = React.forwardRef((props, ref) => {
     const {author, message, id, createdAt, votes, commentCount} = props.post;
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
@@ -157,6 +157,7 @@ const SmallPost = (props) => {
         <>
         {userData && props.post ?
             <motion.div
+            ref={ref}
             variants={postVariants}
             initial="hidden"
             animate="visible"
@@ -236,7 +237,7 @@ const SmallPost = (props) => {
 
         </>
     );
-}
+})
 
 
 

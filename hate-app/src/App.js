@@ -3,7 +3,6 @@ import { useLocation, useHistory, Route, Link, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from './firebase/firebaseConfig';
-import { useDocumentData } from 'react-firebase-hooks/firestore';
 import {motion, AnimatePresence} from 'framer-motion';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ToastContext } from './components/ToastContext';
@@ -11,7 +10,7 @@ import './App.scss';
 import FeedTabs from "./components/postlist";
 import FullPost from "./components/full-post";
 import Profile from "./components/profile";
-import {SignOut, SignIn} from "./components/login/login";
+import {SignIn} from "./components/login/login";
 import Toast from './components/toast';
 import PostEditor from './components/post-editor';
 

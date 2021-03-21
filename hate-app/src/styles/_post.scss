@@ -8,6 +8,10 @@
     margin: auto;
     grid-gap: 12px;
     padding-top: 68px;
+    height: auto;
+    &::-webkit-scrollbar{
+        display: none;
+    } 
 }
 .post-feed{
     display: grid;
@@ -99,6 +103,11 @@
     h4,p,h2,h1{
         color: #CFCFCF;
         margin: 0;
+    }
+    .empty{
+        text-align: center;
+        padding: 10px 0px;
+        
     }
     .post-heading{
         display: flex;
