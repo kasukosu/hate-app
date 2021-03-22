@@ -95,6 +95,10 @@ const Postlist = (props) => {
         getFirstPosts();
         setLoading(true);
         setHasMore(true);
+        setIsEmpty(null)
+        if (observer.current){
+            observer.current.disconnect();
+        } 
     }, [props.currentFeed]);
 
     useEffect(() => {
