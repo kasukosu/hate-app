@@ -61,52 +61,47 @@ const Postlist = (props) => {
 
     const postsRef = db.collection('posts');
     const [lastDoc, setLastDoc] = useState(null);
-    const [pageSize, setPageSize] = useState(8);
+    const [pageSize, setPageSize] = useState(6);
     const [listOfPosts, setListOfPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(true);
-    
-    const observer = useRef()
+    const [isEmpty, setIsEmpty] = useState(null);
+
+    console.log(listOfPosts.length)
+    const observer = useRef();
     const lastPostRef = useCallback(node => {
-        console.log(node)
         if(loading){
             return
         }
-        if (observer.current) observer.current.disconnect();
+        if (observer.current){
+            observer.current.disconnect();
+        } 
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setLoading(true);
+            console.log(hasMore)
+            if (entries[0].isIntersecting && ! isEmpty) {
                 getMorePosts();
+
             }
         })
         if (node) observer.current.observe(node);
 
-    }, [loading, hasMore])
+    }, [loading, hasMore, isEmpty])
 
-    const otherPostRef  = useCallback(node => {
-        console.log(node)
-        if(loading){
-            return
-        }
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setLoading(true);
-                getMorePosts();
-            }
-        })
-        if (node) observer.current.observe(node);
+    
 
-    }, [loading, hasMore])
     useEffect(() => {
+        console.log("UEF fired")
         setListOfPosts([]);
         getFirstPosts();
         setLoading(true);
         setHasMore(true);
-        setLastDoc(null);
-        console.log("fired")
     }, [props.currentFeed]);
 
+    useEffect(() => {
+        if(hasMore===false){
+            setIsEmpty(true);
+        }
+    }, [hasMore]);
     const getFirstPosts = () => {
         console.log(tag)
         if(tag==="newest"){
@@ -133,7 +128,8 @@ const Postlist = (props) => {
     }
 
     const getMorePosts = () => {
-        console.log("before query: " + lastDoc.id)
+        setLoading(true);
+
         if(tag==="newest"){
             postsRef
             .orderBy('createdAt','desc')
@@ -142,10 +138,9 @@ const Postlist = (props) => {
             .get()
             .then((collections) => {
                 updateState(collections);
-                setLoading(false);
 
             })
-        }else if(tag==="active"){
+        }else{
             postsRef
             .orderBy('commentCount','desc')
             .startAfter(lastDoc)
@@ -153,16 +148,15 @@ const Postlist = (props) => {
             .get()
             .then((collections) => {
                 updateState(collections);
-                setLoading(false);
 
             })
+
         }
+
     }
 
     const updateState = (collections) => {
-        if(collections.size>1){
-            console.log(collections.size)
-
+        if(collections.size>0){
             const newposts = [];
             collections.docs.map((post)=> {
                 let currentID = post.id;
@@ -171,30 +165,63 @@ const Postlist = (props) => {
             });
 
             let newLastDoc = collections.docs[collections.docs.length - 1]; 
-            console.log("New doc: "+newLastDoc.id)
             setLastDoc(newLastDoc);
-
-            setListOfPosts((listOfPosts) => [...listOfPosts, ...newposts]);
-            //TÄÄ EI TOIMI LASTDOC AINA SAMA
-
+            setListOfPosts(listOfPosts => [...listOfPosts, ...newposts]);
             
         }else{
             setHasMore(false);
-            console.log(hasMore)
 
 
         }
+        setLoading(false);
 
 
     }
 
 
     switch(props.currentFeed.tag) {
+
+
+        case 'newest':
+            return(
+                    <div className="post-feed">
+                    {listOfPosts && listOfPosts.map((post, index) => {
+
+                        if(listOfPosts.length === (index+1)){
+                            return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
+                        }else{
+                            return <SmallPost key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
+                        }
+                    })
+                    }
+                    {loading && 
+                        <motion.div
+                            variants={loaderAnimation}
+                            animate="animationOne"
+                            className="loader"
+                        >
+                        </motion.div>
+                    }
+                    {!loading && listOfPosts.length===0 ? 
+                        <div className="post">
+                            <h2 className="empty">It's quite empty here 🌼</h2>
+                        </div>
+                     : null
+                    }
+                    { !hasMore && 
+                    <div className="post">
+                        <h2 className="empty">You reached the the eternal peace 🌼</h2>
+                    </div>
+                }
+                </div>
+
+
+            )
+
         case 'active':
             return(
                 <div id="post-feed" className="post-feed">
                 {listOfPosts && listOfPosts.map((post, index) => {
-                    console.log(post)
                     if(listOfPosts.length === (index+1)){
                         return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
                     }else{
@@ -226,42 +253,7 @@ const Postlist = (props) => {
 
             )
 
-        case 'newest':
-            return(
-                    <div className="post-feed">
-                    {listOfPosts && listOfPosts.map((post, index) => {
-                                            console.log(post)
-
-                        if(listOfPosts.length === (index+1)){
-                            return <SmallPost ref={otherPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
-                        }else{
-                            return <SmallPost key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
-                        }
-                    })
-                    }
-                    {loading && 
-                        <motion.div
-                            variants={loaderAnimation}
-                            animate="animationOne"
-                            className="loader"
-                        >
-                        </motion.div>
-                    }
-                    {!loading && listOfPosts.length===0 ? 
-                        <div className="post">
-                            <h2 className="empty">It's quite empty here 🌼</h2>
-                        </div>
-                     : null
-                    }
-                    { !hasMore && 
-                    <div className="post">
-                        <h2 className="empty">You reached the the eternal peace 🌼</h2>
-                    </div>
-                }
-                </div>
-
-
-            )
+        
         default:
 
     }
