@@ -65,10 +65,8 @@ const Postlist = (props) => {
     const [listOfPosts, setListOfPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(true);
-    const [isEmpty, setIsEmpty] = useState(null);
-
-    console.log(listOfPosts.length)
     const observer = useRef();
+
     const lastPostRef = useCallback(node => {
         if(loading){
             return
@@ -78,14 +76,13 @@ const Postlist = (props) => {
         } 
         observer.current = new IntersectionObserver(entries => {
             console.log(hasMore)
-            if (entries[0].isIntersecting && ! isEmpty) {
+            if (entries[0].isIntersecting && hasMore) {
                 getMorePosts();
-
             }
         })
         if (node) observer.current.observe(node);
 
-    }, [loading, hasMore, isEmpty])
+    }, [loading, hasMore])
 
     
 
@@ -95,17 +92,11 @@ const Postlist = (props) => {
         getFirstPosts();
         setLoading(true);
         setHasMore(true);
-        setIsEmpty(null)
         if (observer.current){
             observer.current.disconnect();
         } 
     }, [props.currentFeed]);
 
-    useEffect(() => {
-        if(hasMore===false){
-            setIsEmpty(true);
-        }
-    }, [hasMore]);
     const getFirstPosts = () => {
         console.log(tag)
         if(tag==="newest"){
@@ -154,9 +145,7 @@ const Postlist = (props) => {
                 updateState(collections);
 
             })
-
         }
-
     }
 
     const updateState = (collections) => {
@@ -175,11 +164,8 @@ const Postlist = (props) => {
         }else{
             setHasMore(false);
 
-
         }
         setLoading(false);
-
-
     }
 
 
@@ -198,6 +184,7 @@ const Postlist = (props) => {
                         }
                     })
                     }
+                    <div></div>
                     {loading && 
                         <motion.div
                             variants={loaderAnimation}

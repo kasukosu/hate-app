@@ -55,6 +55,7 @@ const postVariants = {
 
 const SmallPost = React.forwardRef((props, ref) => {
     const {author, message, id, createdAt, votes, commentCount} = props.post;
+    const [votesNumber, setVotesNumber] = useState(votes.length);
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const [user] = useAuthState(auth);
     const [isOwner, setIsOwner] = useState(false);
@@ -88,8 +89,6 @@ const SmallPost = React.forwardRef((props, ref) => {
         }
 
     },[votes]);
-
-
 
     const startDeletePost = (e) => {
         setOpenModal(true);
@@ -132,20 +131,27 @@ const SmallPost = React.forwardRef((props, ref) => {
 
     const handleHates = async(id) => {
         const postRef = db.collection('posts').doc(id);
+        console.log("handle hate")
         if(user!=null){
             const currentUser = user.uid;
-            if(!votes.includes(currentUser)){
+            if(!voted.voted){
                 await postRef.update(
                     {
                         votes : firebase.firestore.FieldValue.arrayUnion(currentUser)
                     }
                 );
+                setVoted({voted: true, class:"votes yes"})
+                setVotesNumber(votesNumber+1);
+
             }else{
                 await postRef.update(
                     {
                         votes : firebase.firestore.FieldValue.arrayRemove(currentUser)
                     }
                 );
+                setVoted({voted: false, class:"votes no"})
+                setVotesNumber(votesNumber-1);
+
             }
         }else{
             //show modal to login
@@ -216,7 +222,7 @@ const SmallPost = React.forwardRef((props, ref) => {
                     </Link>
                     <div className="action-bar">
                         <div onClick={() => handleHates(id)}>
-                            <span className={voted.class} >{votes.length-1}</span>
+                            <span className={voted.class} >{votesNumber-1}</span>
                         </div>
                         <Link to={`/post/${id}`}>
                             <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.35)'}} transition={{type:'Tween', duration:0.25}} className="comment-btn">
