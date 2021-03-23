@@ -185,13 +185,13 @@ const Postlist = (props) => {
                     })
                     }
                     <div></div>
-                    {loading && 
+                    {loading && hasMore ?
                         <motion.div
                             variants={loaderAnimation}
                             animate="animationOne"
                             className="loader"
                         >
-                        </motion.div>
+                        </motion.div> : null
                     }
                     {!loading && listOfPosts.length===0 ? 
                         <div className="post">
