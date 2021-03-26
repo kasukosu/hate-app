@@ -37,15 +37,12 @@ const ImageEditor = (props) => {
 
 
     const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
-        console.log(croppedAreaPercentage, croppedAreaPixels);
         setCroppedArea(croppedAreaPixels);
     }
 
     const onImageSave = () => {
-        console.log(image);
         getCroppedFile(image, croppedArea, rotation).then((file) => {
             const imgFile = file.toDataURL("image/jpeg");
-            console.log(imgFile);
             props.setCroppedImage(imgFile);
             props.setPreview(imgFile);
             props.setImage(null);

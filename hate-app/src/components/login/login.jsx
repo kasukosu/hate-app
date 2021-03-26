@@ -16,14 +16,12 @@ function SignIn(props) {
           checkUserExist(user).then((user) => {
             if(user.exists){
               //continue if user already exists
-              console.log("User Exists:", user.data());
               props.setShowSignIn(false)
               return;
     
             }
             else{
               //create profile ifit doesnt exist
-              console.log("User doesn't exist:", user.data());
               addUser().then((event)=>{
                 window.location.reload();
                 props.setShowSignIn(false)
@@ -32,7 +30,6 @@ function SignIn(props) {
               return;
             }
           })
-          console.log(user);
         }
       }));
   }
@@ -40,7 +37,6 @@ function SignIn(props) {
   const addUser = async(e) => {
     const userRef = db.collection('users');
     const {uid, photoURL, displayName} = auth.currentUser;
-    console.log("Adding new user")
     await userRef.doc(uid).set({
         user_id: uid,
         photoURL: photoURL,

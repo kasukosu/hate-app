@@ -97,7 +97,6 @@ const SmallPost = React.forwardRef((props, ref) => {
 
     const confirmDeletePost = async(choice, id, uid) => {
         const postsRef = db.collection('posts');
-        console.log(id);
         if(choice===true){
             if(uid === user.uid ){
                 await postsRef.doc(id).delete();
@@ -105,13 +104,10 @@ const SmallPost = React.forwardRef((props, ref) => {
 
             }
             else{
-                console.log("No permission to delete post");
-                console.log(uid + " != " + user.uid);
                 setOpenModal(false);
             }
 
         }else{
-            console.log(choice);
             setOpenModal(false);
         }
     }
@@ -131,7 +127,6 @@ const SmallPost = React.forwardRef((props, ref) => {
 
     const handleHates = async(id) => {
         const postRef = db.collection('posts').doc(id);
-        console.log("handle hate")
         if(user!=null){
             const currentUser = user.uid;
             if(!voted.voted){

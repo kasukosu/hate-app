@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect  } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { auth, firebase, db } from '../firebase/firebaseConfig';
@@ -30,12 +30,9 @@ const CreatePost = (props) => {
     const addPost = async(e) => {
         e.preventDefault();
         let now = Math.floor(Date.now() / 1000)
-        console.log(now)
-        console.log(lastMessageTime)
 
         if(user!=null && blogpost.message.length>0){
             const {uid, photoURL, displayName} = user;
-            console.log(now)
 
             if(lastMessageTime+5<now){
                 await postsRef.add({

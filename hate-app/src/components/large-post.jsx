@@ -101,7 +101,6 @@ const LargePost = (props) => {
 
     const confirmDeletePost = async(choice, id, uid) => {
         const postsRef = db.collection('posts');
-        console.log(id);
         if(choice===true){
             if(uid === user.uid ){
                 await postsRef.doc(id).delete();
@@ -110,12 +109,10 @@ const LargePost = (props) => {
             }
             else{
                 console.log("No permission to delete post");
-                console.log(uid + " != " + user.uid);
                 setOpenModal(false);
             }
 
         }else{
-            console.log(choice);
             setOpenModal(false);
         }
     }

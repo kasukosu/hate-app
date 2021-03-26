@@ -11,7 +11,6 @@ exports.aggregateComments = functions.firestore
     .document("posts/{postId}/comments/{commentId}")
     .onWrite((change, context) => {
       const postId = context.params.postId;
-      console.log(context.params);
       const docRef = admin.firestore().collection("posts").doc(postId);
 
       return docRef.collection("comments").orderBy("createdAt", "desc")

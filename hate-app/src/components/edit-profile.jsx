@@ -47,14 +47,12 @@ const EditProfile = (props) => {
         if(user!=null){
             const {uid} = user;
             const userRef = db.collection('users').doc(uid);
-            console.log(croppedImage);
             if(croppedImage === null){
                 console.error(`not an image, the image file is a ${typeof(croppedImage)}`)
                 setImageUrl(newUserData.photoURL);
             }
             else{
                let getPhotoUrl = new Promise((resolve, reject) => {
-                    console.log(croppedImage);
                     const metadata = {
                         name: "profile_pic",
                         contentType: "image/jpeg",
@@ -65,7 +63,6 @@ const EditProfile = (props) => {
                             .ref(`photos/${uid}/${croppedImage.name}`)
                             .getDownloadURL()
                             .then(url => {
-                                console.log(url);
                                 newImage = url;
                                 resolve("Done");
                             })
@@ -79,7 +76,6 @@ const EditProfile = (props) => {
                 await getPhotoUrl;
 
             }
-            console.log(imageUrl);
 
             await userRef.update({
                 photoURL: newImage,

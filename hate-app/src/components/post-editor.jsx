@@ -29,7 +29,6 @@ const innerVariants = {
 }
 
 const PostEditor = (props) => {
-    console.log(props.postData)
     const [newPostData, setNewPostData] = useState({
         message:props.postData.post.message,
     });
@@ -47,7 +46,6 @@ const PostEditor = (props) => {
                     message: newPostData.message,
                     lastActivity: firebase.firestore.FieldValue.serverTimestamp(),
                 })
-                // console.log("Post:"+post.id+"edited");
             }else{
                 console.log("No rights to edit other peoples posts");
 

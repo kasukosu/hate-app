@@ -157,9 +157,9 @@ const ProfileInfo = (props) => {
                         <div className="profile-top-grid">
                             
                             <div className="profile-stats">
-                                <p><span className="count">{props.postCount}</span> Posts</p>
-                                <p><span className="count">{data.followers.length}</span> Followers</p>
-                                <p><span className="count">{data.follows.length}</span> Following</p>
+                                <p><span className="count">{props.postCount}</span> <span>Posts</span></p>
+                                <p><span className="count">{data.followers.length}</span><span>Followers</span></p>
+                                <p><span className="count">{data.follows.length}</span><span>Following</span></p>
 
                             </div>
                             <div className="follow-container">

@@ -26,7 +26,6 @@ const itemVariants = {
 
 }
 const FollowerList = (props) => {
-    console.log(props.userData.followers);    
     return ( 
 
         <motion.div className="follower-list">
@@ -44,8 +43,6 @@ const FollowerList = (props) => {
 const Follower = (props) => {
 
     const followerId = props.follower;
-    console.log(props);
-    console.log(followerId);
     const userRef = db.collection('users');
     const uQuery = userRef.doc(followerId);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});

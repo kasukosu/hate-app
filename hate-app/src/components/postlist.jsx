@@ -104,7 +104,6 @@ const Postlist = (props) => {
             observer.current.disconnect();
         } 
         observer.current = new IntersectionObserver(entries => {
-            console.log(hasMore)
             if (entries[0].isIntersecting && hasMore) {
                 getMorePosts();
             }
@@ -116,7 +115,6 @@ const Postlist = (props) => {
     
 
     useEffect(() => {
-        console.log("UEF fired")
         setListOfPosts([]);
         getFirstPosts();
         setLoading(true);
@@ -127,7 +125,6 @@ const Postlist = (props) => {
     }, [props.currentFeed]);
 
     const getFirstPosts = () => {
-        console.log(tag)
         if(tag==="newest"){
             postsRef
             .orderBy('createdAt','desc')
@@ -196,57 +193,15 @@ const Postlist = (props) => {
         setLoading(false);
     }
 
-
-    switch(props.currentFeed.tag) {
-
-
-        case 'newest':
-            return(
-                <motion.div className="post-feed">
-                    {listOfPosts && listOfPosts.map((post, index) => {
-
-                        if(listOfPosts.length === (index+1)){
-                            return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
-                        }else{
-                            return <SmallPost key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
-                        }
-                    })
-                    }
-                    <div></div>
-                    {loading && hasMore ?
-                        <motion.div
-                            variants={loaderAnimation}
-                            animate="animationOne"
-                            className="loader"
-                        >
-                        </motion.div> : null
-                    }
-                    {!loading && listOfPosts.length===0 ? 
-                        <div className="post">
-                            <h2 className="empty">It's quite empty here 🌼</h2>
-                        </div>
-                     : null
-                    }
-                    { !hasMore && 
-                    <div className="post">
-                        <h2 className="empty">You reached the the eternal peace 🌼</h2>
-                    </div>
-                }
-                </motion.div>
-
-
-            )
-
-        case 'active':
-            return(
-                <motion.div 
-                    variants={feedVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit" 
-                    id="post-feed" 
-                    className="post-feed">
+        return(
+            <motion.div
+                variants={feedVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="post-feed">
                 {listOfPosts && listOfPosts.map((post, index) => {
+
                     if(listOfPosts.length === (index+1)){
                         return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
                     }else{
@@ -254,34 +209,32 @@ const Postlist = (props) => {
                     }
                 })
                 }
-                {loading && 
+                <div></div>
+                {loading && hasMore ?
                     <motion.div
                         variants={loaderAnimation}
                         animate="animationOne"
                         className="loader"
                     >
-                        
-                    </motion.div>
+                    </motion.div> : null
                 }
                 {!loading && listOfPosts.length===0 ? 
                     <div className="post">
                         <h2 className="empty">It's quite empty here 🌼</h2>
                     </div>
-                : null
+                    : null
                 }
                 { !hasMore && 
-                    <div className="post">
-                        <h2 className="empty">You reached the the eternal peace 🌼</h2>
-                    </div>
-                }
+                <div className="post">
+                    <h2 className="empty">You reached the eternal peace 🌼</h2>
+                </div>
+            }
             </motion.div>
 
-            )
+
+        )
 
         
-        default:
-
-    }
     
 }
 

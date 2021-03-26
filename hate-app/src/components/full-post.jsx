@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import LargePost from './large-post';
 import {db} from "../firebase/firebaseConfig";
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
@@ -45,7 +45,7 @@ const FullPost = (props) => {
     }
 
     return (
-        <>
+        <Suspense fallback={<div>Loading</div>}>
             {postData &&
                 <motion.section
                 variants={containerVariants}
@@ -64,7 +64,7 @@ const FullPost = (props) => {
 
                 </motion.section>
             }
-        </>
+        </Suspense>
     );
 }
 
