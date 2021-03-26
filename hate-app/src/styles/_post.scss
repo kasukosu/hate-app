@@ -49,43 +49,24 @@
         border-radius: 25px;
         cursor: pointer;
         .count{
-            margin-left: 8px;
+            position: absolute;
+            left: -18px;
+            top: 6px;
+            margin-right: 16px;
+            
         }
     }
-    .votes{
-        position: relative;
-        font-size: 20px;
-        width: 10px;
-        margin-left: 45px;
-        &.no{
-            // position: absolute;
-            &::before{
-                position: absolute;
-                right: 25px;
-                font-size: 18px;
-                text-align: center;
-                cursor: pointer;
-                content: "😠";
-            }
-        }
-        &.yes{
-            &::before{
-                position: absolute;
-                right: 25px;
-                font-size: 18px;
-                text-align: center;
-                cursor: pointer;
-                content: "😡";
-            }
-        }
-
-
-    }
+    
 }
 .username{
     font-size: 14px;
     font-weight: 500;
 
+}
+p{
+    width: 90%;
+    line-height: 1.3;
+    letter-spacing: 0.15px;
 }
 .post{
     align-self: center;
@@ -105,6 +86,7 @@
         color: #CFCFCF;
         margin: 0;
     }
+    
     .empty{
         text-align: center;
         padding: 10px 0px;
@@ -150,7 +132,7 @@
     }
     .post-content{
         .post-message{
-            padding: 15px;
+            padding: 12px;
             min-height: 60px;
         }
 
@@ -200,10 +182,10 @@
         }
         .post-content{
             .post-message{
-                padding: 10px 0px 25px 15px;
+                padding: 15px 0px 20px 15px;
                 min-height: 25px;
+                
             }
-    
         }
         .action-bar{
             position: relative;
@@ -211,50 +193,25 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-evenly;
-            height: 20px;
+            height: 24px;
             padding: 8px 10px;
             border-top: rgb(49, 49, 49) 1px solid;
         
             .comment-btn{
                 position: relative;
                 right: 10px;
-                font-size: 12px;
-                padding: 8px 9px;
+                font-size: 16px;
+                padding: 6px 9px;
                 border-radius: 25px;
                 cursor: pointer;
                 .count{
-                    margin-left: 8px;
+                    position: absolute;
+                    vertical-align: middle;
+                    left: -16px;
+                    top: 5px;
                 }
             }
-            .votes{
-                position: relative;
-                font-size: 14px;
-                width: 10px;
-                margin-left: 45px;
-                &.no{
-                    // position: absolute;
-                    &::before{
-                        position: absolute;
-                        right: 25px;
-                        font-size: 14px;
-                        text-align: center;
-                        cursor: pointer;
-                        content: "😠";
-                    }
-                }
-                &.yes{
-                    &::before{
-                        position: absolute;
-                        right: 25px;
-                        font-size: 14px;
-                        text-align: center;
-                        cursor: pointer;
-                        content: "😡";
-                    }
-                }
-        
-        
-            }
+            
         }
     }
 
@@ -270,10 +227,7 @@
     width: 35px;
     height: 35px;
     cursor: pointer;
-    // padding: 8px 15px;
-    .svg-inline--fa{
-        // height: 12px;
-    }
+    
 }
 
 .comment-feed{
@@ -344,7 +298,7 @@
         border-top: rgb(49, 49, 49) 1px solid;
         font-size: 16px;
         .comment-message{
-            padding: 10px 15px;
+            padding: 10px 12px;
             min-height: 20px;
 
         }

@@ -14,7 +14,7 @@ import FeedTabs from "./components/postlist";
 // import Profile from "./components/profile";
 import {SignIn} from "./components/login/login";
 import Toast from './components/toast';
-import PostEditor from './components/post-editor';
+import PostEditor from './components/edit-post';
 const FullPost = loadable(() => import ("./components/full-post"));
 const Profile = loadable(()=> import ("./components/profile"));
 const navVariants = {

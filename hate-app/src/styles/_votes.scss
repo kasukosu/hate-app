@@ -2,7 +2,10 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    
+    .count{
+        vertical-align: middle;
+
+    }
     span{
         position: absolute;
         left: -14px;
