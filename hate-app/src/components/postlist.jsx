@@ -23,6 +23,30 @@ const loaderAnimation = {
     }
 }
 
+const feedVariants = {
+    hidden:{
+        y: -100,
+        opacity: 0,
+        scale: 0.9,
+    },
+    visible:{
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        transition:{
+            when: "beforeChildren",
+            duration: 0.4
+            
+        }
+    },
+    exit:{
+        y: 100,
+        scale: 0.8,
+        opacity: 0,
+    }
+
+}
+
 const FeedTabs = (props) => {
     const [currentFeed, setCurrentFeed] = useState({
         tag: 'newest',
@@ -34,31 +58,36 @@ const FeedTabs = (props) => {
         })
     }
     return ( 
-        <motion.div className="feed">
-            <CreatePost setShowSignIn={props.setShowSignIn}/>
-            <div className="tab-selector" onChange={handleTabChange}>
-                <label className="tab-container" htmlFor="">
-                    <input name="currentTab" id="radio1" value="newest" type="radio" defaultChecked/>
-                    <label htmlFor="radio1" className="tab-btn left-alt">Newest</label>
-                </label>
-                <label className="tab-container" htmlFor="">
-                    <input name="currentTab" id="radio2" value="active" type="radio" />
-                    <label htmlFor="radio2" className="tab-btn right-alt">Most Active</label>
-                </label>
-            </div>
-            <AnimatePresence>
-                <Postlist {...props} currentFeed={currentFeed}></Postlist>
-            </AnimatePresence>
-        </motion.div>
+        <AnimatePresence exitBeforeEnter>
+            <motion.div variants={feedVariants} 
+                initial="hidden" 
+                animate="visible" 
+                exit="exit" 
+                className="feed">
+                <AnimatePresence>
+                    <CreatePost setShowSignIn={props.setShowSignIn}/>
+                </AnimatePresence>
+                <div className="tab-selector" onChange={handleTabChange}>
+                    <label className="tab-container" htmlFor="">
+                        <input name="currentTab" id="radio1" value="newest" type="radio" defaultChecked/>
+                        <label htmlFor="radio1" className="tab-btn left-alt">Newest</label>
+                    </label>
+                    <label className="tab-container" htmlFor="">
+                        <input name="currentTab" id="radio2" value="active" type="radio" />
+                        <label htmlFor="radio2" className="tab-btn right-alt">Most Active</label>
+                    </label>
+                </div>
+                <AnimatePresence exitBeforeEnter>
+                    <Postlist {...props} currentFeed={currentFeed}></Postlist>
+                </AnimatePresence>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 
 
 const Postlist = (props) => {
-    //fQuery = query, filters posts from people user follows
-    //gQuery = query for global feed
     const {tag} = props.currentFeed
-
     const postsRef = db.collection('posts');
     const [lastDoc, setLastDoc] = useState(null);
     const [pageSize, setPageSize] = useState(6);
@@ -124,7 +153,6 @@ const Postlist = (props) => {
 
     const getMorePosts = () => {
         setLoading(true);
-
         if(tag==="newest"){
             postsRef
             .orderBy('createdAt','desc')
@@ -174,7 +202,7 @@ const Postlist = (props) => {
 
         case 'newest':
             return(
-                    <div className="post-feed">
+                <motion.div className="post-feed">
                     {listOfPosts && listOfPosts.map((post, index) => {
 
                         if(listOfPosts.length === (index+1)){
@@ -204,14 +232,20 @@ const Postlist = (props) => {
                         <h2 className="empty">You reached the the eternal peace 🌼</h2>
                     </div>
                 }
-                </div>
+                </motion.div>
 
 
             )
 
         case 'active':
             return(
-                <div id="post-feed" className="post-feed">
+                <motion.div 
+                    variants={feedVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit" 
+                    id="post-feed" 
+                    className="post-feed">
                 {listOfPosts && listOfPosts.map((post, index) => {
                     if(listOfPosts.length === (index+1)){
                         return <SmallPost ref={lastPostRef} key={index} post={post} setShowSignIn={props.setShowSignIn}/> 
@@ -240,7 +274,7 @@ const Postlist = (props) => {
                         <h2 className="empty">You reached the the eternal peace 🌼</h2>
                     </div>
                 }
-            </div>
+            </motion.div>
 
             )
 

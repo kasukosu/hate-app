@@ -34,6 +34,27 @@ const unfollowVariants = {
     }
 }
 
+const profileVariants = {
+    hidden:{
+        y: -100,
+        opacity: 0,
+        scale: 0.9,
+    },
+    visible:{
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        transition:{
+            duration: 0.3
+        }
+    },
+    exit:{
+        y: 40,
+        opacity: 0,
+    }
+
+}
+
 const ProfileInfo = (props) => {
     const {data} = props;
     const [isOwner, setIsOwner] = useState(false);
@@ -102,7 +123,11 @@ const ProfileInfo = (props) => {
 
     return (
 
-                <div className="profile-grid">
+                <motion.div variants={profileVariants} 
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit" 
+                    className="profile-grid">
                     <div className="profile-heading">
                         
                         <p className="heading-username">{data.displayName}</p>
@@ -174,7 +199,7 @@ const ProfileInfo = (props) => {
                     <div className="bio-text">
                         <p>{data.bio}</p>
                     </div>
-                </div>
+                </motion.div>
 
      );
 }

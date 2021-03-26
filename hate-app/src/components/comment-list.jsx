@@ -57,11 +57,11 @@ export default CommentList;
 
 const itemVariants = {
     hidden:{
-        x: -40,
+        y: -40,
         opacity: 0,
     },
     visible:{
-        x: 0,
+        y: 0,
         opacity: 1,
         transition:{
             delay: 0.1,
@@ -69,7 +69,7 @@ const itemVariants = {
         }
     },
     exit:{
-        x: -40,
+        y: 40,
         opacity:0,
     }
 

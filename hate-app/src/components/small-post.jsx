@@ -167,6 +167,7 @@ const SmallPost = React.forwardRef((props, ref) => {
             variants={postVariants}
             initial="hidden"
             animate="visible"
+            exit="exit"
             className={`post small ${owner}`} >
             <AnimatePresence>
                 {openModal &&
