@@ -25,12 +25,9 @@ const unfollowVariants = {
     },
     visible:{
         backgroundColor: 'rgb(4,144,79)',
-
-
     },
     exit:{
         backgroundColor: 'rgb(55, 57, 70)',
-
     }
 }
 

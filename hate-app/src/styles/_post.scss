@@ -52,35 +52,7 @@
             margin-left: 8px;
         }
     }
-    .votes{
-        position: relative;
-        font-size: 20px;
-        width: 10px;
-        margin-left: 45px;
-        &.no{
-            // position: absolute;
-            &::before{
-                position: absolute;
-                right: 25px;
-                font-size: 18px;
-                text-align: center;
-                cursor: pointer;
-                content: "😠";
-            }
-        }
-        &.yes{
-            &::before{
-                position: absolute;
-                right: 25px;
-                font-size: 18px;
-                text-align: center;
-                cursor: pointer;
-                content: "😡";
-            }
-        }
-
-
-    }
+    
 }
 .username{
     font-size: 14px;
@@ -155,6 +127,36 @@
         }
 
     }
+    .action-bar{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        height: 30px;
+        padding: 8px 10px;
+        border-top: rgb(49, 49, 49) 1px solid;
+    
+        .comment-btn{
+            position: relative;
+            right: 10px;
+            font-size: 12px;
+            padding: 8px 9px;
+            border-radius: 25px;
+            cursor: pointer;
+            svg{
+                width: 16px;
+                height: 16px;
+            }
+            .count{
+                position: absolute;
+                left: -24px;
+                top: 5px;
+                font-size: 16px;
+                // margin-left: 8px;
+            }
+        }
+        
+    }
     .controls{
         align-self: flex-end;
         position: relative;
@@ -166,7 +168,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            padding: 4px 18px;
+            padding: 8px 12px;
             border-bottom: rgb(49, 49, 49) 1px solid;
             overflow: hidden;
             border-radius: 8px 8px 0px 0px;
@@ -180,8 +182,8 @@
                 }
             }
             img{
-                width: 25px;
-                height: 25px;
+                width: 32px;
+                height: 32px;
                 border-radius: 3px;
             }
             a{
@@ -222,39 +224,19 @@
                 padding: 8px 9px;
                 border-radius: 25px;
                 cursor: pointer;
+                svg{
+                    width: 16px;
+                    height: 16px;
+                }
                 .count{
-                    margin-left: 8px;
+                    position: absolute;
+                    left: -24px;
+                    top: 5px;
+                    font-size: 16px;
+                    // margin-left: 8px;
                 }
             }
-            .votes{
-                position: relative;
-                font-size: 14px;
-                width: 10px;
-                margin-left: 45px;
-                &.no{
-                    // position: absolute;
-                    &::before{
-                        position: absolute;
-                        right: 25px;
-                        font-size: 14px;
-                        text-align: center;
-                        cursor: pointer;
-                        content: "😠";
-                    }
-                }
-                &.yes{
-                    &::before{
-                        position: absolute;
-                        right: 25px;
-                        font-size: 14px;
-                        text-align: center;
-                        cursor: pointer;
-                        content: "😡";
-                    }
-                }
-        
-        
-            }
+            
         }
     }
 

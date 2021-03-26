@@ -12,7 +12,7 @@ import FullPost from "./components/full-post";
 import Profile from "./components/profile";
 import {SignIn} from "./components/login/login";
 import Toast from './components/toast';
-import PostEditor from './components/post-editor';
+import PostEditor from './components/edit-post';
 
 const navVariants = {
   hidden : {
@@ -113,7 +113,7 @@ function App() {
                   <AnimatePresence>
                     {location.pathname !== '/' ? 
                       <div className="btn-container" onClick={() => history.goBack()}>
-                          <motion.div variants={iconVariants} initial="hidden" animate="visible" exit="exit" whileHover={{ backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" >
+                          <motion.div variants={iconVariants} initial="hidden" animate="visible" exit="exit" whileHover={{ backgroundColor: 'rgba(66, 69, 84, 0.35)', opacity:0.9}} transition={{type:'spring'}} className="btn" >
                               <FontAwesomeIcon icon={faArrowLeft}/>
                           </motion.div>
                       </div> : null 
