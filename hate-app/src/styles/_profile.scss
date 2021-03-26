@@ -30,8 +30,10 @@
         font-size: 14px;
         padding: 10px 15px;
         line-height: 1.25;
+
     }
 }
+
 .profile-top{
     display: flex;
     flex-direction: row;
@@ -56,6 +58,7 @@
             justify-self: right;
             grid-area: right-top;
             padding-right: 5px;
+            
         }
         .follow{
             justify-self: right;
@@ -116,20 +119,7 @@
     }
 }
 
-.settings-btn{
-    grid-area: right;
-    display: flex;
-    place-content: center center;
-    width: 80px;
-    font-size: 14px;
-    border-radius: 10px;
-    text-align: center;
-    background-color: rgb(55, 57, 70);
-    padding: 5px 0px;
-    font-weight: 500;
-    cursor: pointer;
 
-}
 
 .follower-list{
     align-self: center;
@@ -155,7 +145,7 @@
         }
         .item-container{
             width: 95%;
-            padding: 8px 15px;
+            padding: 10px 12px;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -165,8 +155,10 @@
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                gap: 15px;
                 font-size: 14px;
+                p{
+                    margin-left: 15px;
+                }
             }
             p{
                 color: #f2f2f2;
