@@ -1,0 +1,41 @@
+.votes{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    
+    span{
+        position: absolute;
+        left: -14px;
+        top: -1px;
+        font-size: 16px;
+    }
+    svg{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        margin-left: 8px;
+    }
+    &.yes{
+        
+        .skin{
+            transition: all 0.2s;
+            fill: #F03A17;
+        }
+        .text{
+            transition: all 0.4s;
+            opacity: 1;
+        }
+        
+    }
+    &.no{
+
+        .skin{
+            transition: all 0.2s;
+            fill: #FFCD42;
+        }
+        .text{
+            transition: all 0.4s;
+            opacity: 0;
+        }
+    }
+}

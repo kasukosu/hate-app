@@ -38,13 +38,36 @@ const FollowerList = (props) => {
      );
 }
  
+const followVariants = {
+    hidden:{
+    },
+    visible:{
+        backgroundColor: 'rgb(55, 57, 70)',
+        x: 0,
+    },
+    exit:{
+        backgroundColor: 'rgb(4,134,79)',
 
+    }
+}
+const unfollowVariants = {
+    hidden:{
+        backgroundColor: 'rgb(4,134,79)',
+    },
+    visible:{
+        backgroundColor: 'rgb(4,144,79)',
+    },
+    exit:{
+        backgroundColor: 'rgb(55, 57, 70)',
+    }
+}
 
 const Follower = (props) => {
 
     const followerId = props.follower;
     const userRef = db.collection('users');
     const uQuery = userRef.doc(followerId);
+    const [isOwner, setIsOwner] = useState(false);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
     const [user] = useAuthState(auth);
     const [followed, hasFollowed] = useState({
@@ -55,13 +78,12 @@ const Follower = (props) => {
     useEffect(() =>{
         if(userData!=null){
             if(userData.follows.includes(user.uid)){
-                hasFollowed({followsProfile: true, class:"follow yes"});
+                hasFollowed({followsProfile: true, class:"follow_btn follow yes"});
             }else{
-                hasFollowed({followsProfile: false, class:"follow no"});
+                hasFollowed({followsProfile: false, class:"follow_btn follow no"});
 
             }
         }
-
     },[userData]);
 
 
@@ -86,7 +108,7 @@ const Follower = (props) => {
                             follows : firebase.firestore.FieldValue.arrayUnion(target_id)
                         }
                     );
-                    hasFollowed({followsProfile: true, class:"follow yes"});
+                    hasFollowed({followsProfile: true, class:"follow_btn yes"});
 
                 }else{
                     //Remove id from targetusers followers list
@@ -101,7 +123,7 @@ const Follower = (props) => {
                             follows : firebase.firestore.FieldValue.arrayRemove(target_id)
                         }
                     );
-                    hasFollowed({followsProfile: false, class:"follow no"});
+                    hasFollowed({followsProfile: false, class:"follow_btn no"});
 
                 }
             }else{
@@ -121,9 +143,31 @@ const Follower = (props) => {
                                     <p>{userData.displayName}</p>
                                 </div>                        
                             </Link>
-                            <motion.div whileHover={{backgroundColor: 'rgba(55, 57, 70, .6)'}} onClick={() => {handleFollow(props.follower)}} className="settings-btn">
-                                Follow
-                            </motion.div>
+                            
+                            {user ? 
+                                <div className="follow-container">
+                                    <AnimatePresence>
+                                    { followed.followsProfile ? 
+                                        <motion.div whileHover={{opacity: 0.8}} onClick={() => {handleFollow(userData.user_id)}} 
+                                            variants={unfollowVariants}
+                                            initial="hidden" 
+                                            animate="visible" 
+                                            exit="exit" 
+                                            className={followed.class}>Followed
+                                        </motion.div> 
+                                    :
+                                        <motion.div whileHover={{opacity: 0.8}} onClick={() => {handleFollow(userData.user_id)}}
+                                            variants={followVariants}
+                                            initial="hidden" 
+                                            animate="visible" 
+                                            exit="exit" 
+                                            className={followed.class}>Follow
+                                        </motion.div> 
+                                    }
+                                    </AnimatePresence>
+                                </div>
+                                
+                                : null }   
                         </div>
                     </motion.div>
                 }

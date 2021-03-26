@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import { auth, db, firebase } from '../firebase/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {AnimatePresence, motion} from 'framer-motion';
@@ -41,7 +41,6 @@ const CommentList = (props) => {
         <>
             <AnimatePresence>
                 <motion.section variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="post-feed">
-
                     {comments && comments.map(comment =>
                         <Comment key={comment.id} comment={comment} user={user} post_id={post_id} getTimestamp={getTimestamp}/>
                     )}
@@ -76,15 +75,13 @@ const itemVariants = {
 }
 
 const Comment = (props) => {
-    const {author, message, id, photoURL, displayName, votes, createdAt, post_id} = props.comment;
+    const {author, message, id, votes, createdAt, post_id} = props.comment;
     const [openDropdown, setOpenDropdown] = useState(false);
     const [user] = useAuthState(auth);
     const [voted, setVoted] = useState({voted:false, class:"votes no"});
     const userRef = db.collection('users');
     const uQuery = userRef.doc(author);
     const [userData] = useDocumentData(uQuery, {idField: 'id'});
-
-
 
     const handleHates = async(id) => {
         const cRef = db.collection('posts').doc(post_id).collection("comments").doc(id);
@@ -108,14 +105,23 @@ const Comment = (props) => {
         }
     }
 
+    useEffect(() =>{
+        if(user!=null){
+            if(votes.includes(user.uid)){
+                setVoted({voted: true, class:"votes yes"});
+            }else{
+                setVoted({voted: false, class:"votes no"});
+            }
+        }
 
+    },[votes]);
 
     return (
         <>            
         <AnimatePresence>
             {userData &&
                 <motion.div variants={itemVariants} initial="hidden" animate="visible" exit="exit" className="comment-container">
-                        <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
+                    <motion.div whileHover={{backgroundColor: 'rgba(66, 69, 84, 0.25)'}} transition={{type:'Tween', duration:0.25}} className="comment-heading">
                         <div className="left">
                             <Link className="align-center" to={`/profile/${author}`}>
                                 <img src={userData.photoURL} alt="Profile pic"/>
@@ -124,37 +130,7 @@ const Comment = (props) => {
 
                             <span className="timestamp">{getTimestamp(createdAt)}</span>
                         </div>
-                            {/* <div className="controls">
-                                <motion.div whileHover={{backgroundColor: 'rgb(104,84,134)', opacity:0.9}} transition={{type:'spring'}} className="btn" onClick={()=> setOpenDropdown(!openDropdown)}>
-                                    <FontAwesomeIcon icon={faEllipsisV}/>
-                                </motion.div>
-                            </div> */}
-                        </motion.div>
-
-                        {/* <AnimatePresence>
-
-                            {openDropdown &&
-                                    <motion.div
-                                    initial={{height: 0, opacity:0}}
-                                    animate={{height: 'auto', opacity: 1}}
-                                    transition={{duration:0.1}}
-                                    exit={{height: 0, opacity: 0}}
-                                    className="control-dropdown">
-                                        {isOwner ? <ul>
-                                                <DropdownItem onClick={startDeletePost}>Remove post</DropdownItem>
-                                                <DropdownItem onClick={handleEditPost} >Edit post</DropdownItem>
-                                                <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
-
-                                        </ul> :
-                                        <ul>
-                                                <DropdownSpan setOpenDropdown={setOpenDropdown} id={id} className="menu-item">Share post</DropdownSpan>
-                                        </ul>
-                                        }
-
-                                    </motion.div>
-                                }
-                        </AnimatePresence> */}
-
+                    </motion.div>
 
                     <div className="comment-content">
                         <div className="comment-message">
