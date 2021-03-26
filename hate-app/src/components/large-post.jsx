@@ -48,7 +48,7 @@ const postVariants = {
         }
     },
     exit:{
-        y: 100,
+        y: -100,
         scale: 0.8,
         opacity: 0,
     }

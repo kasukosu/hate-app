@@ -172,7 +172,7 @@ function App() {
             {showSignIn && <SignIn setShowSignIn={setShowSignIn}/>}
           </AnimatePresence>
           <ToastContext.Provider value={{ toastValue :[showToast, setShowToast], newPostValue: [newPostData, setNewPostData] }}>
-            <AnimatePresence>
+            <AnimatePresence exitBeforeEnter>
               <Switch location={location} key={location.pathname}>
                   <Route exact path="/" render={(props) => ( <FeedTabs {...props} showCreateNewPost={showCreateNewPost} setShowSignIn={setShowSignIn} />)} />
                   <Route path="/post/:id" render={(props) => ( <FullPost {...props} setShowSignIn={setShowSignIn} />)} />
@@ -193,15 +193,6 @@ function App() {
             </motion.div>
           }
         </AnimatePresence>
-        {/* <AnimatePresence>
-          {showCreatePost &&
-            <motion.div variants={modalVariants} initial="hidden" animate="visible" exit="exit" className="modal" >
-              <CreatePost setShowSignIn={setShowSignIn}/>
-            </motion.div>
-          }
-        </AnimatePresence> */}
-
-
       </div>
   );
 }

@@ -9,6 +9,7 @@
     grid-gap: 12px;
     padding-top: 68px;
     height: auto;
+    // min-height: 100vh;
     &::-webkit-scrollbar{
         display: none;
     } 
@@ -165,7 +166,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            padding: 4px 15px;
+            padding: 4px 18px;
             border-bottom: rgb(49, 49, 49) 1px solid;
             overflow: hidden;
             border-radius: 8px 8px 0px 0px;
