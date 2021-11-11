@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 95%;
     margin: auto;
     grid-gap: 12px;
     padding-top: 68px;
@@ -12,7 +12,10 @@
     // min-height: 100vh;
     &::-webkit-scrollbar{
         display: none;
-    } 
+    }
+    h2{
+        text-align: center;
+    }
 }
 .post-feed{
     display: grid;
@@ -76,7 +79,6 @@ p{
     box-shadow: rgb(29, 30, 34) 0 0 14px;
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
-    max-width: 500px;
 
     width: 95%;
     div{
@@ -244,7 +246,6 @@ p{
     background-color: rgba(35, 36, 42, 1);
     border-radius: 10px;
     width: 95%;
-    max-width: 500px;
 
     div{
         color: #CFCFCF;

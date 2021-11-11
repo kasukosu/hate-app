@@ -11,9 +11,12 @@ const CreatePost = (props) => {
     })
     const [lastMessageTime, setLastMessageTime] = useState(0);
     const user = auth.currentUser;
-
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState();
     const {toastValue} = useContext(ToastContext);
     const [showToast, setShowToast] = toastValue;
+    const imageInputRef = React.useRef();
+    const triggerImageFilePopup = () => imageInputRef.current.click();
 
     useEffect(()=> {
         setTimeout(()=>{
@@ -58,6 +61,18 @@ const CreatePost = (props) => {
         }
 
     }
+    const handleImageAsFile = (e) => {
+        if(e.target.files[0]){
+
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0])
+            reader.addEventListener("load", () => {
+                setImage(reader.result);
+
+            })
+        }
+
+    }
 
     const changeHandler = (e) => {
         const value = e.target.value;
@@ -70,21 +85,26 @@ const CreatePost = (props) => {
 
     return (
         <section className="create-post">
-            {user ? null : 
-                    <div onClick={()=>{props.setShowSignIn(true)}} className="loginFirst">
-                        <p>😈 Login to start hating! 😈</p>
+            {user ?
+                <form className="creator" onSubmit={addPost}>    
+                    <div className="input-box">
+                        <textarea placeholder="What did you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
+                        <motion.button whileHover={{backgroundColor: 'rgb(4,144,79)'}}  whileTap={{scale: 0.9 }} transition={{duration:0.15}} type="submit" className="send" onClick={addPost}>
+                            Post  <FontAwesomeIcon icon={faPaperPlane}/>
+                        </motion.button>
+                        <input name="profilePic" type="file" accept='image/*' ref={imageInputRef} onChange={handleImageAsFile}/>
                     </div>
-                }
-            <form className="creator" onSubmit={addPost}>
-                
-                <div className="input-box">
-                    <textarea placeholder="What did you hate today?" type="text" name="message" required value={blogpost.message} onChange={changeHandler}/>
-                    <motion.button whileHover={{backgroundColor: 'rgb(4,144,79)'}}  whileTap={{scale: 0.9 }} transition={{duration:0.15}} type="submit" className="send" onClick={addPost}>
-                        Post  <FontAwesomeIcon icon={faPaperPlane}/>
-                    </motion.button>
+                    <div className="profile-image"  onClick={triggerImageFilePopup}>
+                        <img src={preview} alt="Photo"/>
+                        <div className="info">
+                        </div>
+                    </div>
+                </form> : 
+                <div onClick={()=>{props.setShowSignIn(true)}} className="loginFirst">
+                    <p>😈 Login to start hating! 😈</p>
                 </div>
-
-            </form>
+                }
+            
         </section>
     );
 

@@ -10,7 +10,6 @@
     border-radius: 10px;
     color: white;
     grid-gap: 10px;
-    max-width: 500px;
     width: 95%;
     .profile-info{
         display: flex;
@@ -113,13 +112,15 @@
     justify-items: center;
     font-weight: 600;
     letter-spacing: 0.5px;
+    
+    // width: 100%;
     .btn{
         grid-area: right;
         justify-self: flex-end;
     }
     .heading-username{
         grid-area: middle;
-
+        text-align: center;
     }
 }
 
@@ -130,7 +131,6 @@
     justify-self: center;
     display: flex;
     flex-direction: column;
-    max-width: 500px;
     width: 95%;
     h2{
         text-align: center;

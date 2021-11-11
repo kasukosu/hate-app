@@ -76,7 +76,7 @@ const Follower = (props) => {
     })
     // const followed = useFollowHook(user.user_id)
     useEffect(() =>{
-        if(userData!=null){
+        if(userData!=null && user){
             if(userData.follows.includes(user.uid)){
                 hasFollowed({followsProfile: true, class:"follow_btn follow yes"});
             }else{
